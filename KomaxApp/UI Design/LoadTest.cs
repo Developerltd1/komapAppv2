@@ -299,7 +299,7 @@ namespace KomaxApp.UI_Design
                     RequestLoadTestModel.Response response = new InsertBL().InsertRecordNoLoadPointBL(testModel);
                     if (response.LabelStatus == "Completed")
                     {
-                        Display display = new Display();
+                        Display display = new Display(null,null,null,null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();

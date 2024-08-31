@@ -83,13 +83,23 @@ namespace KomaxApp.UI_Design
         {
             if (display == null)
             {
-                display = new Display();
+                display = new Display(
+                                    ConfigurationForm.ddPowerMeter,  // Access static field using the class name
+                                    ConfigurationForm.ddTorqueMeter, // Access static field using the class name
+                                    ConfigurationForm.ddRPM,         // Access static field using the class name
+                                    ConfigurationForm.ddTemperature  // Access static field using the class name
+                                   );
+
                 display.MdiParent = this;
                 display.Dock = DockStyle.Fill;
                 display.Show();
             }
             else
             {
+                display._powerMeter = ConfigurationForm.ddPowerMeter;
+                display._torqueMeter = ConfigurationForm.ddTorqueMeter;
+                display._rpm = ConfigurationForm.ddRPM;
+                display._temperature = ConfigurationForm.ddTemperature;
                 display.displayGridView();
                 display.Activate();
             }

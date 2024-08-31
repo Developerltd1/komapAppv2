@@ -79,7 +79,6 @@ namespace KomaxApp.UI_Design
 
         private bool isPollingEnabled = false;
         public static bool isPollSelected = false;
-        public ConfigurationForm _configurationForm;
 
         public string _powerMeter;
         public string _torqueMeter;

@@ -19,9 +19,18 @@ namespace KomaxApp.UI_Design
 {
     public partial class Display : BaseForm//Form
     {
-        public Display()
+        public string _powerMeter;
+        public string _torqueMeter;
+        public string _rpm;
+        public string _temperature;
+        public Display(string powerMeter, string torqueMeter, string rpm, string temperature)
         {
             InitializeComponent();
+            _powerMeter = powerMeter;
+            _torqueMeter = torqueMeter;
+            _rpm = rpm;
+            _temperature = temperature;
+
         }
 
         private void Display_Load(object sender, EventArgs e)
@@ -54,7 +63,7 @@ namespace KomaxApp.UI_Design
                 {
                     string ReportNo = row.Cells["ReportNo"].Value.ToString();
                     // Create and show TestForm with the collected data
-                    LoadTest testForm = new LoadTest(ReportNo);
+                    LoadTest testForm = new LoadTest(ReportNo,null,null,null,null);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed
                     testForm.Dock = DockStyle.Fill; // Adjust docking as needed
                     testForm.Show();

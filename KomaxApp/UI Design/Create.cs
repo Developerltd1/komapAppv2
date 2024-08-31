@@ -276,7 +276,7 @@ namespace KomaxApp.UI_Design
                     if (buttonSave.Text == "Edit")
                     {
                         JIMessageBox.InformationMessage("Record Updates Successfully!");
-                        Display display = new Display();
+                        Display display = new Display(null,null,null,null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();
@@ -284,7 +284,7 @@ namespace KomaxApp.UI_Design
                     else
                     {
                         JIMessageBox.InformationMessage("Record Saved Successfully!");
-                        Display display = new Display();
+                        Display display = new Display(null, null, null, null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();
