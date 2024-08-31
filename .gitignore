@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/KomaxApp/bin/Debug
+/KomaxApp/.vs
+/.vs/KomaxApp
+/KomaxApp/obj/Debug
+/komaxApp.BusinessLayer/.vs
+/komaxApp.BusinessLayer/bin
+/komaxApp.BusinessLayer/obj
+/komaxApp.DatabaseLayer/.vs
+/komaxApp.DatabaseLayer/bin
+/komaxApp.DatabaseLayer/obj
+/KomaxApp.Model/.vs
+/KomaxApp.Model/bin
+/KomaxApp.Model/obj
+/Utility/.vs
+/Utility/bin
+/Utility/obj

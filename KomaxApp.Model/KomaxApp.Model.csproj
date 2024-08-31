@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2EF6EC41-CBCE-4DF5-9D8F-3E1922A609C0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KomaxApp.Model</RootNamespace>
+    <AssemblyName>KomaxApp.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonModel.cs" />
+    <Compile Include="Create\ImageObj.cs" />
+    <Compile Include="Create\CosObj.cs" />
+    <Compile Include="Create\CreateModel.cs" />
+    <Compile Include="Create\CurrentInAmpsObj.cs" />
+    <Compile Include="Create\EfficiencyObj.cs" />
+    <Compile Include="Create\GetList.cs" />
+    <Compile Include="Create\ShaftPowerObj.cs" />
+    <Compile Include="Create\SpeedInRPMObj.cs" />
+    <Compile Include="Dashboard\DashboardModel.cs" />
+    <Compile Include="Display\DisplayModel.cs" />
+    <Compile Include="DummyData.cs" />
+    <Compile Include="LoadTest\RequestLoadTestModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\Model\Page1\Page1ModelFinilize.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\CosInPercentage.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\CurrentInAmps.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\EfficiencyInPercentagge.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\ShaftPowerP2inK.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\SlipInPU.cs" />
+    <Compile Include="Reporting\Model\Page1\StructureMulti\SpeedInRPM.cs" />
+    <Compile Include="Reporting\Model\Page2\Entity\tblEntity.cs" />
+    <Compile Include="Reporting\Model\Page2\Page2Model.cs" />
+    <Compile Include="Reporting\Model\Page2\Page2ModelFinilize.cs" />
+    <Compile Include="Reporting\Model\Page2\tblLoadTest.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Charts\Chart1Model.cs" />
+    <Compile Include="Reporting\Model\Page3\Entity\tblLoadTest.cs" />
+    <Compile Include="Reporting\Model\Page3\Entity\tblMotorModify.cs" />
+    <Compile Include="Reporting\Model\Page3\Page3Model.cs" />
+    <Compile Include="Reporting\Model\Page3\Page3ModelFinilize.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\BaseClass.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\tblCos.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\tblCurrentAmps.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\tblEfficiency.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\tblShaftPawer.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Entity\tblSpeedRPM.cs" />
+    <Compile Include="Reporting\Model\Page4And5\Page4And5ModelFinilize.cs" />
+    <Compile Include="Reporting\ReportingModel.cs" />
+    <Compile Include="Reporting\ReportModel.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblCos.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblCurrentAmps.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblEfficiency.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblImages.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblMotor.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblShaftPawer.cs" />
+    <Compile Include="Reporting\Model\Page1\Entity\tblSpeedRPM.cs" />
+    <Compile Include="Reporting\Model\Page1\Page1Model.cs" />
+    <Compile Include="Reporting\ViewModel\Page2Model.cs" />
+    <Compile Include="ViewModel\VmCreateMotor.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
