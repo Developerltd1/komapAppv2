@@ -4,6 +4,7 @@ using KomaxApp.GenericCode;
 using KomaxApp.Model;
 using KomaxApp.Model.Dashboard;
 using KomaxApp.Model.LoadTest;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -285,25 +286,79 @@ namespace KomaxApp.UI_Design
             }
 
             string cleanedData = Regex.Replace(data, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();
+
+            // Split the string by commas
             var dataParts = cleanedData.Split(',');
 
             var dataResponse = new DashboardModel.Manupulation
             {
                 labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
-                // Other properties...
+                labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A",
+                labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A",
+                labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A",
+                labelA1 = dataParts.ElementAtOrDefault(8) ?? "N/A",
+                labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A",
+                labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A",
+                labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A",
+                labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A",
+                labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A",
+                labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A",
+                labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A",
+                labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A",
+                labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A",
+                labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A",
+                labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A",
+                labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A",
+
+
             };
+            // Convert the class to JSON
+            string jsonResult = JsonConvert.SerializeObject(dataResponse, Newtonsoft.Json.Formatting.Indented);
+            // Deserialize the JSON string into a class instance
+            var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
 
-            // Update UI
-            UpdateLabels(dataResponse);
+
+            try
+            {
+                // Update the labels on the UI thread
+                this.Invoke((MethodInvoker)delegate
+                {
+                    labelV1.Text = deserializedResponse.labelV1;
+                    labelV2.Text = deserializedResponse.labelV2;
+                    labelV3.Text = deserializedResponse.labelV3;
+                    labelV0.Text = deserializedResponse.labelV0;
+                    labelA1.Text = deserializedResponse.labelA1;
+                    labelA2.Text = deserializedResponse.labelA2;
+                    labelA3.Text = deserializedResponse.labelA3;
+                    labelA0.Text = deserializedResponse.labelA0;
+                    labelPf1.Text = deserializedResponse.labelPf1;
+                    labelPf2.Text = deserializedResponse.labelPf2;
+                    labelPf3.Text = deserializedResponse.labelPf3;
+                    labelPf0.Text = deserializedResponse.labelPf0;
+                    labelHertz.Text = deserializedResponse.labelHertz;
+                    labelPower1.Text = deserializedResponse.labelPower1;
+                    labelPower2.Text = deserializedResponse.labelPower2;
+                    labelPower3.Text = deserializedResponse.labelPower3;
+                    labelPower0.Text = deserializedResponse.labelPower0;
+                });
+
+                // Optionally append the raw response to the RichTextBox
+                richTextBox1.Invoke((MethodInvoker)delegate
+                {
+                    richTextBox1.AppendText(data + Environment.NewLine);
+                });
+            }
+            catch (Exception ex)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                });
+            }
+
         }
 
 
-
-        private void UpdateLabels(DashboardModel.Manupulation response)
-        {
-            labelV1.Text = response.labelV1;
-            // Update other labels...
-        }
 
 
         private void InitializeMultipleSerialPorts(List<string> comPorts)
