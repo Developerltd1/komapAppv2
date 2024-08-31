@@ -780,6 +780,10 @@ namespace KomaxApp.UI_Design
             CloseAllSerialPorts();  // Close all ports when the form is closing
         }
 
+        private void btnStartReadng_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

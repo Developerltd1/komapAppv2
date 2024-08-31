@@ -1,6 +1,8 @@
 ﻿using komaxApp.BusinessLayer;
 using komaxApp.Utility.ExtensionMethod;
+using KomaxApp.GenericCode;
 using KomaxApp.Model;
+using KomaxApp.Model.Dashboard;
 using KomaxApp.Model.LoadTest;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,14 +19,95 @@ namespace KomaxApp.UI_Design
 {
     public partial class LoadTest : BaseForm
     {
+        private SerialPortManager serialPortManager;
+
+
+
         private string ReportNo;
         public LoadTest(string ReportNo)
         {
             InitializeComponent();
             this.ReportNo = ReportNo;
             LoadData();
+
+
+
+
+            serialPortManager = new SerialPortManager();
+            serialPortManager.DataReceived += SerialPortManager_DataReceived;
+            serialPortManager.ErrorOccurred += SerialPortManager_ErrorOccurred;
+        }
+        #region SerialPortManagerClass
+
+        private void SerialPortManager_DataReceived(object sender, string data)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => ParseResponse(data)));
+            }
+            else
+            {
+                ParseResponse(data);
+            }
         }
 
+        private void SerialPortManager_ErrorOccurred(object sender, string errorMessage)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => richTextBox1.AppendText(errorMessage + Environment.NewLine)));
+            }
+            else
+            {
+                richTextBox1.AppendText(errorMessage + Environment.NewLine);
+            }
+        }
+
+
+        private void ParseResponse(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                richTextBox1.AppendText("No data received." + Environment.NewLine);
+                return;
+            }
+
+            string cleanedData = Regex.Replace(data, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();
+            var dataParts = cleanedData.Split(',');
+
+            var dataResponse = new DashboardModel.Manupulation
+            {
+                labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
+                // Other properties...
+            };
+
+            // Update UI
+            UpdateLabels(dataResponse);
+        }
+
+
+
+        private void UpdateLabels(DashboardModel.Manupulation response)
+        {
+            labelV1.Text = response.labelV1;
+            // Update other labels...
+        }
+
+
+        private void InitializeMultipleSerialPorts(List<string> comPorts)
+        {
+            foreach (var comPort in comPorts)
+            {
+                serialPortManager.InitializeSerialPort(comPort);
+            }
+        }
+
+        private void CloseAllSerialPorts()
+        {
+            serialPortManager.CloseSerialPort();
+        }
+
+        #endregion
         private void LoadData()
         {
             RequestLoadTestModel.LabelCountModel mdoelCheckLbl = new GetListBL().CheckLoadTestRecordExistBL(ReportNo);
@@ -32,15 +116,9 @@ namespace KomaxApp.UI_Design
                 label1Count.Text = mdoelCheckLbl.LabelCount.ToString() + "%";
                 label1Count.Visible = true;
             }
-                //object lstDisplayModel = new GetListBL().GetDataFromDbUsingReportNoBL(ReportNo);
+        }
 
-                //// Example: setting values to text boxes
-                //if (data.Count > 0) tbSerialNo.Text = data[0];
-                //if (data.Count > 1) tbReportNo.Text = data[1];
-                //if (data.Count > 2) tbTestDate.Text = data[2];
-            }
-
-            private void textBoxSpeedRPM_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxSpeedRPM_KeyPress(object sender, KeyPressEventArgs e)
         {
 
         }
@@ -81,7 +159,7 @@ namespace KomaxApp.UI_Design
             //testModel.label1Count = null; 
             #endregion
             #region Value From DummyData
-            testModel.ReportNo =Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();
+            testModel.ReportNo = Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();
             testModel.TorqueNm = DummyData.btnRecordNoLoadPoint_Click.GetTorqueNm();
             testModel.SpeedRPM = DummyData.btnRecordNoLoadPoint_Click.GetSpeedRPM();
             testModel.ShaftPowerkW = DummyData.btnRecordNoLoadPoint_Click.GetShaftPowerKw();
@@ -110,10 +188,8 @@ namespace KomaxApp.UI_Design
             testModel.MotorTemperature = DummyData.btnRecordNoLoadPoint_Click.GetMotorTemperature();
             testModel.EstimitedEfficiency = DummyData.btnRecordNoLoadPoint_Click.GetEstimitedEfficiency();
             #endregion
-
-
             #region PopUpWindow
-            
+
 
             using (var popup = new PopUp(testModel))
             {
@@ -139,13 +215,10 @@ namespace KomaxApp.UI_Design
                 }
                 else if (result == DialogResult.No)
                 {
-                  
+
                 }
             }
             #endregion
-
-           
-
         }
     }
 }

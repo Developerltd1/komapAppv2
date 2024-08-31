@@ -30,7 +30,6 @@
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -50,6 +49,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbUtbOffset = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
@@ -155,14 +155,6 @@
             this.panel5.Size = new System.Drawing.Size(216, 103);
             this.panel5.TabIndex = 39;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(600, 100);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(160, 68);
-            this.richTextBox1.TabIndex = 55;
-            this.richTextBox1.Text = "";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -171,7 +163,7 @@
             this.label9.ForeColor = System.Drawing.Color.ForestGreen;
             this.label9.Location = new System.Drawing.Point(31, 72);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(191, 23);
+            this.label9.Size = new System.Drawing.Size(148, 17);
             this.label9.TabIndex = 36;
             this.label9.Text = "From Motor Rated Data";
             // 
@@ -181,7 +173,7 @@
             this.textBox4.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.Location = new System.Drawing.Point(9, 35);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(193, 42);
+            this.textBox4.Size = new System.Drawing.Size(193, 35);
             this.textBox4.TabIndex = 35;
             // 
             // label10
@@ -192,7 +184,7 @@
             this.label10.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label10.Location = new System.Drawing.Point(46, 11);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(150, 28);
+            this.label10.Size = new System.Drawing.Size(119, 21);
             this.label10.TabIndex = 13;
             this.label10.Text = "Motor Size (HP)";
             // 
@@ -216,7 +208,7 @@
             this.label7.ForeColor = System.Drawing.Color.ForestGreen;
             this.label7.Location = new System.Drawing.Point(77, 72);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 23);
+            this.label7.Size = new System.Drawing.Size(58, 17);
             this.label7.TabIndex = 36;
             this.label7.Text = "See Eq.2";
             // 
@@ -226,7 +218,7 @@
             this.textBox3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.Location = new System.Drawing.Point(10, 34);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(193, 42);
+            this.textBox3.Size = new System.Drawing.Size(193, 35);
             this.textBox3.TabIndex = 35;
             // 
             // label8
@@ -237,7 +229,7 @@
             this.label8.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label8.Location = new System.Drawing.Point(37, 11);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(175, 28);
+            this.label8.Size = new System.Drawing.Size(139, 21);
             this.label8.TabIndex = 13;
             this.label8.Text = "Loading Factor (%)";
             // 
@@ -261,7 +253,7 @@
             this.label5.ForeColor = System.Drawing.Color.ForestGreen;
             this.label5.Location = new System.Drawing.Point(79, 72);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 23);
+            this.label5.Size = new System.Drawing.Size(58, 17);
             this.label5.TabIndex = 36;
             this.label5.Text = "See Eq.1";
             // 
@@ -271,7 +263,7 @@
             this.textBox2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.Location = new System.Drawing.Point(12, 34);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(193, 42);
+            this.textBox2.Size = new System.Drawing.Size(193, 35);
             this.textBox2.TabIndex = 35;
             // 
             // label6
@@ -282,7 +274,7 @@
             this.label6.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label6.Location = new System.Drawing.Point(43, 11);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(161, 28);
+            this.label6.Size = new System.Drawing.Size(130, 21);
             this.label6.TabIndex = 13;
             this.label6.Text = "Shaft Power (kW)";
             // 
@@ -306,7 +298,7 @@
             this.label2.ForeColor = System.Drawing.Color.ForestGreen;
             this.label2.Location = new System.Drawing.Point(51, 73);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(145, 23);
+            this.label2.Size = new System.Drawing.Size(113, 17);
             this.label2.TabIndex = 36;
             this.label2.Text = "From RPM Sensor";
             // 
@@ -316,7 +308,7 @@
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(11, 34);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(193, 42);
+            this.textBox1.Size = new System.Drawing.Size(193, 35);
             this.textBox1.TabIndex = 35;
             // 
             // label4
@@ -327,7 +319,7 @@
             this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label4.Location = new System.Drawing.Point(57, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(125, 28);
+            this.label4.Size = new System.Drawing.Size(100, 21);
             this.label4.TabIndex = 13;
             this.label4.Text = "Speed (RPM)";
             // 
@@ -351,7 +343,7 @@
             this.label1.ForeColor = System.Drawing.Color.ForestGreen;
             this.label1.Location = new System.Drawing.Point(44, 73);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(162, 23);
+            this.label1.Size = new System.Drawing.Size(127, 17);
             this.label1.TabIndex = 36;
             this.label1.Text = "From Torque Sensor";
             // 
@@ -361,7 +353,7 @@
             this.tbUtbOffset.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbUtbOffset.Location = new System.Drawing.Point(11, 34);
             this.tbUtbOffset.Name = "tbUtbOffset";
-            this.tbUtbOffset.Size = new System.Drawing.Size(193, 42);
+            this.tbUtbOffset.Size = new System.Drawing.Size(193, 35);
             this.tbUtbOffset.TabIndex = 35;
             // 
             // label3
@@ -372,9 +364,17 @@
             this.label3.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label3.Location = new System.Drawing.Point(57, 10);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 28);
+            this.label3.Size = new System.Drawing.Size(100, 21);
             this.label3.TabIndex = 13;
             this.label3.Text = "Torque (N.m)";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(600, 100);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(160, 68);
+            this.richTextBox1.TabIndex = 55;
+            this.richTextBox1.Text = "";
             // 
             // groupBox1
             // 
@@ -423,7 +423,7 @@
             this.label19.ForeColor = System.Drawing.Color.ForestGreen;
             this.label19.Location = new System.Drawing.Point(871, 9);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(180, 23);
+            this.label19.Size = new System.Drawing.Size(139, 17);
             this.label19.TabIndex = 37;
             this.label19.Text = "From Power Analyzer";
             // 
@@ -436,7 +436,7 @@
             this.labelHertz.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelHertz.Location = new System.Drawing.Point(260, 4);
             this.labelHertz.Name = "labelHertz";
-            this.labelHertz.Size = new System.Drawing.Size(23, 28);
+            this.labelHertz.Size = new System.Drawing.Size(19, 21);
             this.labelHertz.TabIndex = 14;
             this.labelHertz.Text = "0";
             // 
@@ -448,7 +448,7 @@
             this.label43.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label43.Location = new System.Drawing.Point(17, 4);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(156, 28);
+            this.label43.Size = new System.Drawing.Size(127, 21);
             this.label43.TabIndex = 13;
             this.label43.Text = "Frequency (HZ)";
             // 
@@ -475,7 +475,7 @@
             this.labelPower3.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPower3.Location = new System.Drawing.Point(864, 4);
             this.labelPower3.Name = "labelPower3";
-            this.labelPower3.Size = new System.Drawing.Size(23, 28);
+            this.labelPower3.Size = new System.Drawing.Size(19, 21);
             this.labelPower3.TabIndex = 17;
             this.labelPower3.Text = "0";
             // 
@@ -487,7 +487,7 @@
             this.labelPower2.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPower2.Location = new System.Drawing.Point(666, 4);
             this.labelPower2.Name = "labelPower2";
-            this.labelPower2.Size = new System.Drawing.Size(23, 28);
+            this.labelPower2.Size = new System.Drawing.Size(19, 21);
             this.labelPower2.TabIndex = 16;
             this.labelPower2.Text = "0";
             // 
@@ -500,7 +500,7 @@
             this.labelPower1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPower1.Location = new System.Drawing.Point(458, 4);
             this.labelPower1.Name = "labelPower1";
-            this.labelPower1.Size = new System.Drawing.Size(23, 28);
+            this.labelPower1.Size = new System.Drawing.Size(19, 21);
             this.labelPower1.TabIndex = 15;
             this.labelPower1.Text = "0";
             // 
@@ -513,7 +513,7 @@
             this.labelPower0.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPower0.Location = new System.Drawing.Point(260, 4);
             this.labelPower0.Name = "labelPower0";
-            this.labelPower0.Size = new System.Drawing.Size(23, 28);
+            this.labelPower0.Size = new System.Drawing.Size(19, 21);
             this.labelPower0.TabIndex = 14;
             this.labelPower0.Text = "0";
             // 
@@ -525,7 +525,7 @@
             this.label39.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label39.Location = new System.Drawing.Point(17, 4);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(187, 28);
+            this.label39.Size = new System.Drawing.Size(151, 21);
             this.label39.TabIndex = 13;
             this.label39.Text = "Active Power (kW)";
             // 
@@ -552,7 +552,7 @@
             this.labelPf3.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPf3.Location = new System.Drawing.Point(864, 4);
             this.labelPf3.Name = "labelPf3";
-            this.labelPf3.Size = new System.Drawing.Size(23, 28);
+            this.labelPf3.Size = new System.Drawing.Size(19, 21);
             this.labelPf3.TabIndex = 17;
             this.labelPf3.Text = "0";
             // 
@@ -564,7 +564,7 @@
             this.labelPf2.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPf2.Location = new System.Drawing.Point(666, 4);
             this.labelPf2.Name = "labelPf2";
-            this.labelPf2.Size = new System.Drawing.Size(23, 28);
+            this.labelPf2.Size = new System.Drawing.Size(19, 21);
             this.labelPf2.TabIndex = 16;
             this.labelPf2.Text = "0";
             // 
@@ -577,7 +577,7 @@
             this.labelPf1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPf1.Location = new System.Drawing.Point(458, 4);
             this.labelPf1.Name = "labelPf1";
-            this.labelPf1.Size = new System.Drawing.Size(23, 28);
+            this.labelPf1.Size = new System.Drawing.Size(19, 21);
             this.labelPf1.TabIndex = 15;
             this.labelPf1.Text = "0";
             // 
@@ -590,7 +590,7 @@
             this.labelPf0.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelPf0.Location = new System.Drawing.Point(260, 4);
             this.labelPf0.Name = "labelPf0";
-            this.labelPf0.Size = new System.Drawing.Size(23, 28);
+            this.labelPf0.Size = new System.Drawing.Size(19, 21);
             this.labelPf0.TabIndex = 14;
             this.labelPf0.Text = "0";
             // 
@@ -602,7 +602,7 @@
             this.label34.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label34.Location = new System.Drawing.Point(17, 4);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(36, 28);
+            this.label34.Size = new System.Drawing.Size(30, 21);
             this.label34.TabIndex = 13;
             this.label34.Text = "P.F";
             // 
@@ -629,7 +629,7 @@
             this.labelA3.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelA3.Location = new System.Drawing.Point(864, 4);
             this.labelA3.Name = "labelA3";
-            this.labelA3.Size = new System.Drawing.Size(23, 28);
+            this.labelA3.Size = new System.Drawing.Size(19, 21);
             this.labelA3.TabIndex = 17;
             this.labelA3.Text = "0";
             // 
@@ -641,7 +641,7 @@
             this.labelA2.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelA2.Location = new System.Drawing.Point(666, 4);
             this.labelA2.Name = "labelA2";
-            this.labelA2.Size = new System.Drawing.Size(23, 28);
+            this.labelA2.Size = new System.Drawing.Size(19, 21);
             this.labelA2.TabIndex = 16;
             this.labelA2.Text = "0";
             // 
@@ -654,7 +654,7 @@
             this.labelA1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelA1.Location = new System.Drawing.Point(458, 4);
             this.labelA1.Name = "labelA1";
-            this.labelA1.Size = new System.Drawing.Size(23, 28);
+            this.labelA1.Size = new System.Drawing.Size(19, 21);
             this.labelA1.TabIndex = 15;
             this.labelA1.Text = "0";
             // 
@@ -667,7 +667,7 @@
             this.labelA0.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelA0.Location = new System.Drawing.Point(260, 4);
             this.labelA0.Name = "labelA0";
-            this.labelA0.Size = new System.Drawing.Size(23, 28);
+            this.labelA0.Size = new System.Drawing.Size(19, 21);
             this.labelA0.TabIndex = 14;
             this.labelA0.Text = "0";
             this.labelA0.Click += new System.EventHandler(this.labelA0_Click);
@@ -680,7 +680,7 @@
             this.label30.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label30.Location = new System.Drawing.Point(17, 4);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(117, 28);
+            this.label30.Size = new System.Drawing.Size(94, 21);
             this.label30.TabIndex = 13;
             this.label30.Text = "Current (A)";
             // 
@@ -693,7 +693,7 @@
             this.label18.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label18.Location = new System.Drawing.Point(902, 41);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(95, 28);
+            this.label18.Size = new System.Drawing.Size(74, 21);
             this.label18.TabIndex = 47;
             this.label18.Text = "L3/L3-L1";
             // 
@@ -706,7 +706,7 @@
             this.label17.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label17.Location = new System.Drawing.Point(700, 41);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(95, 28);
+            this.label17.Size = new System.Drawing.Size(74, 21);
             this.label17.TabIndex = 46;
             this.label17.Text = "L2/L2-L3";
             // 
@@ -719,7 +719,7 @@
             this.label16.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label16.Location = new System.Drawing.Point(498, 41);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(95, 28);
+            this.label16.Size = new System.Drawing.Size(74, 21);
             this.label16.TabIndex = 45;
             this.label16.Text = "L1/L1-L2";
             // 
@@ -732,7 +732,7 @@
             this.label15.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label15.Location = new System.Drawing.Point(280, 41);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(146, 28);
+            this.label15.Size = new System.Drawing.Size(118, 21);
             this.label15.TabIndex = 44;
             this.label15.Text = "Average/Total";
             // 
@@ -768,7 +768,7 @@
             this.labelV3.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelV3.Location = new System.Drawing.Point(864, 4);
             this.labelV3.Name = "labelV3";
-            this.labelV3.Size = new System.Drawing.Size(23, 28);
+            this.labelV3.Size = new System.Drawing.Size(19, 21);
             this.labelV3.TabIndex = 17;
             this.labelV3.Text = "0";
             // 
@@ -780,7 +780,7 @@
             this.labelV2.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelV2.Location = new System.Drawing.Point(666, 4);
             this.labelV2.Name = "labelV2";
-            this.labelV2.Size = new System.Drawing.Size(23, 28);
+            this.labelV2.Size = new System.Drawing.Size(19, 21);
             this.labelV2.TabIndex = 16;
             this.labelV2.Text = "0";
             // 
@@ -793,7 +793,7 @@
             this.labelV1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelV1.Location = new System.Drawing.Point(458, 4);
             this.labelV1.Name = "labelV1";
-            this.labelV1.Size = new System.Drawing.Size(23, 28);
+            this.labelV1.Size = new System.Drawing.Size(19, 21);
             this.labelV1.TabIndex = 15;
             this.labelV1.Text = "0";
             // 
@@ -806,7 +806,7 @@
             this.labelV0.ForeColor = System.Drawing.SystemColors.Desktop;
             this.labelV0.Location = new System.Drawing.Point(260, 4);
             this.labelV0.Name = "labelV0";
-            this.labelV0.Size = new System.Drawing.Size(23, 28);
+            this.labelV0.Size = new System.Drawing.Size(19, 21);
             this.labelV0.TabIndex = 14;
             this.labelV0.Text = "0";
             // 
@@ -818,7 +818,7 @@
             this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label20.Location = new System.Drawing.Point(17, 4);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(117, 28);
+            this.label20.Size = new System.Drawing.Size(96, 21);
             this.label20.TabIndex = 13;
             this.label20.Text = "Voltage (V)";
             // 
@@ -849,7 +849,7 @@
             this.label22.ForeColor = System.Drawing.Color.ForestGreen;
             this.label22.Location = new System.Drawing.Point(422, 70);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(100, 23);
+            this.label22.Size = new System.Drawing.Size(77, 17);
             this.label22.TabIndex = 39;
             this.label22.Text = "From PT100";
             // 
@@ -862,7 +862,7 @@
             this.label21.ForeColor = System.Drawing.Color.ForestGreen;
             this.label21.Location = new System.Drawing.Point(137, 70);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(100, 23);
+            this.label21.Size = new System.Drawing.Size(77, 17);
             this.label21.TabIndex = 38;
             this.label21.Text = "From PT100";
             // 
@@ -873,7 +873,7 @@
             this.textBox23.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox23.Location = new System.Drawing.Point(324, 32);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(273, 42);
+            this.textBox23.Size = new System.Drawing.Size(273, 35);
             this.textBox23.TabIndex = 37;
             // 
             // textBox21
@@ -883,7 +883,7 @@
             this.textBox21.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox21.Location = new System.Drawing.Point(39, 32);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(273, 42);
+            this.textBox21.Size = new System.Drawing.Size(273, 35);
             this.textBox21.TabIndex = 36;
             // 
             // groupBox4
@@ -911,7 +911,7 @@
             this.label13.ForeColor = System.Drawing.Color.ForestGreen;
             this.label13.Location = new System.Drawing.Point(144, 70);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(74, 23);
+            this.label13.Size = new System.Drawing.Size(58, 17);
             this.label13.TabIndex = 39;
             this.label13.Text = "See Eq.3";
             // 
@@ -922,7 +922,7 @@
             this.textBox24.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox24.Location = new System.Drawing.Point(32, 32);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(324, 42);
+            this.textBox24.Size = new System.Drawing.Size(324, 35);
             this.textBox24.TabIndex = 38;
             // 
             // label14
@@ -934,7 +934,7 @@
             this.label14.ForeColor = System.Drawing.Color.Black;
             this.label14.Location = new System.Drawing.Point(37, 154);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(532, 23);
+            this.label14.Size = new System.Drawing.Size(412, 17);
             this.label14.TabIndex = 49;
             this.label14.Text = "Shaft Power (kW) =Torque(N.m) x Speed RPM  x  0.001286  ............ (3)";
             // 
@@ -947,7 +947,7 @@
             this.label40.ForeColor = System.Drawing.Color.Black;
             this.label40.Location = new System.Drawing.Point(37, 130);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(532, 23);
+            this.label40.Size = new System.Drawing.Size(412, 17);
             this.label40.TabIndex = 48;
             this.label40.Text = "Shaft Power (kW) =Torque(N.m) x Speed RPM  x  0.001286  ............ (2)";
             // 
@@ -960,7 +960,7 @@
             this.label41.ForeColor = System.Drawing.Color.Black;
             this.label41.Location = new System.Drawing.Point(37, 110);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(532, 23);
+            this.label41.Size = new System.Drawing.Size(412, 17);
             this.label41.TabIndex = 47;
             this.label41.Text = "Shaft Power (kW) =Torque(N.m) x Speed RPM  x  0.001286  ............ (1)";
             // 
@@ -977,6 +977,7 @@
             this.btnStartReadng.TabIndex = 50;
             this.btnStartReadng.Text = "Start Reading";
             this.btnStartReadng.UseVisualStyleBackColor = false;
+            this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
             // panel12
             // 
@@ -1073,7 +1074,7 @@
             this.labelInfo.BackColor = System.Drawing.Color.Transparent;
             this.labelInfo.Location = new System.Drawing.Point(10, 604);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(0, 15);
+            this.labelInfo.Size = new System.Drawing.Size(0, 13);
             this.labelInfo.TabIndex = 69;
             // 
             // infoMessages
