@@ -957,6 +957,7 @@
             this.Controls.Add(this.groupBox2);
             this.Name = "LoadTest";
             this.Text = "LoadTest";
+            this.Load += new System.EventHandler(this.LoadTest_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
