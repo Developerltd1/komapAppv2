@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,7 +29,7 @@ namespace KomaxApp.UI_Design
         public string _temperature;
         private bool isPollingEnabled = false;
         public static bool isPollSelected = false;
-
+        private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
 
         private string ReportNo;
 
@@ -70,10 +71,123 @@ namespace KomaxApp.UI_Design
 
             this.Load += LoadTest_Load;
 
-            serialPortManager = new SerialPortManager();
-            serialPortManager.DataReceived += SerialPortManager_DataReceived;
-            serialPortManager.ErrorOccurred += SerialPortManager_ErrorOccurred;
+           
         }
+
+        #region InitilizeSerialPortNew
+        // Method to initialize a single serial port
+        private void InitializeSerialPort(string comPort)
+        {
+            try
+            {
+                if (!serialPorts.ContainsKey(comPort))
+                {
+                    SerialPort serialPort = new SerialPort
+                    {
+                        PortName = comPort,  // Set the COM port name
+                        BaudRate = 9600,
+                        Parity = Parity.None,
+                        DataBits = 8,
+                        StopBits = StopBits.One,
+                        Handshake = Handshake.None,
+                        ReadTimeout = 90000  // Optional timeout
+                    };
+
+                    try
+                    {
+                        serialPort.Open();  // Attempt to open the serial port
+                    }
+                    catch (Exception ex)
+                    {
+                        labelInfo.Text = $"Error opening serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                        labelInfo.ForeColor = System.Drawing.Color.Red;
+                        return;  // Exit if the port couldn't be opened
+                    }
+
+                    // Set up the DataReceived event handler and send an initial command
+                    serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                    byte[] commandBytes = Encoding.ASCII.GetBytes(":MEAS?" + "\r\n");  // Add CRLF
+                    serialPort.Write(commandBytes, 0, commandBytes.Length);
+
+                    // Add the initialized port to the dictionary
+                    serialPorts[comPort] = serialPort;
+                }
+            }
+            catch (Exception ex)
+            {
+                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                labelInfo.ForeColor = System.Drawing.Color.Red;
+
+                // Close and remove the port from the dictionary if initialization fails
+                if (serialPorts.ContainsKey(comPort))
+                {
+                    serialPorts[comPort].Close();
+                    //serialPorts.Remove(comPort);
+                }
+            }
+        }
+
+
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                SerialPort sp = (SerialPort)sender;
+                var PortName = sp.PortName;
+                string inData = sp.ReadLine();
+                if (!string.IsNullOrEmpty(inData))
+                {
+                    // Check if we need to use Invoke
+                    if (richTextBox1.InvokeRequired)
+                    {
+                        // Create a delegate to handle the invocation
+                        richTextBox1.Invoke(new Action(() =>
+                        {
+                            richTextBox1.AppendText(inData);
+                        }));
+                    }
+                    else
+                    {
+                        // Directly update the control if on the UI thread
+                        richTextBox1.AppendText(inData);
+                    }
+                    ParseResponse(inData);  // You can call ParseResponse to handle the data
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                });
+            }
+            finally
+            {
+                string comPort = ((SerialPort)sender).PortName;
+                CloseSerialPort(comPort);
+            }
+        }
+
+        // Method to close and remove a serial port
+        private void CloseSerialPort(string comPort)
+        {
+            if (serialPorts.ContainsKey(comPort))
+            {
+                SerialPort port = serialPorts[comPort];
+                if (port.IsOpen)
+                {
+                    port.Close(); // Close the port if it's open
+                }
+                serialPorts.Remove(comPort); // Remove it from the dictionary
+            }
+        }
+
+        #endregion
+
+
+
+
+
         #region PoolingCode
         public void PollingTimer_Tick(object sender, EventArgs e)
         {
@@ -194,10 +308,14 @@ namespace KomaxApp.UI_Design
 
         private void InitializeMultipleSerialPorts(List<string> comPorts)
         {
-            foreach (var comPort in comPorts)
-            {
-                serialPortManager.InitializeSerialPort(comPort);
-            }
+            InitializeSerialPort(comPorts[0]);
+            InitializeSerialPort(comPorts[1]);
+            InitializeSerialPort(comPorts[2]);
+            InitializeSerialPort(comPorts[3]);
+            //foreach (var comPort in comPorts)
+            //{
+            //    serialPortManager.InitializeSerialPort(comPort);
+            //}
         }
 
         private void CloseAllSerialPorts()

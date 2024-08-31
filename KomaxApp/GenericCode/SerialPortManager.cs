@@ -40,7 +40,9 @@ namespace KomaxApp.GenericCode
         {
             try
             {
-                string inData = serialPort.ReadLine();
+                SerialPort sp = (SerialPort)sender;
+                var PortName = sp.PortName;
+                string inData = sp.ReadLine();
                 if (!string.IsNullOrEmpty(inData))
                 {
                     OnDataReceived(inData);
