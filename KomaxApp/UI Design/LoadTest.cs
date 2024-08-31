@@ -37,18 +37,18 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                isPollingEnabled = !isPollingEnabled;
-                if (isPollingEnabled)
-                {
+                //isPollingEnabled = !isPollingEnabled;
+                //if (isPollingEnabled)
+                //{
                     isPollSelected = true;
                     InitializePollingTimer();
                     StartPolling();
-                }
-                else
-                {
-                    isPollSelected = false;
-                    StopPolling();
-                }
+                //}
+                //else
+                //{
+                //    isPollSelected = false;
+                //    StopPolling();
+                //}
             }
             catch (Exception ex)
             {

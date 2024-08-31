@@ -63,7 +63,7 @@ namespace KomaxApp.UI_Design
                 {
                     string ReportNo = row.Cells["ReportNo"].Value.ToString();
                     // Create and show TestForm with the collected data
-                    LoadTest testForm = new LoadTest(ReportNo,null,null,null,null);
+                    LoadTest testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed
                     testForm.Dock = DockStyle.Fill; // Adjust docking as needed
                     testForm.Show();
