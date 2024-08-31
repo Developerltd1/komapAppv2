@@ -399,65 +399,64 @@ namespace KomaxApp.UI_Design
             RequestLoadTestModel.Request testModel = new RequestLoadTestModel.Request();
 
             #region Actual Value From Sensor
+            testModel.ReportNo = Convert.ToInt32(ReportNo);
+            testModel.TorqueNm = textBoxTorqueNm.Text.ToDouble();
+            testModel.SpeedRPM = textBoxSpeedRPM.Text.ToDouble();
+            testModel.ShaftPowerkW = textBoxShaftPawerKw.Text.ToDouble();
+            testModel.LoadingFactor = textBoxLoadingFactor.Text.ToDouble();
+            testModel.MotorSize = textBoxMotorSizeHP.Text.ToDouble();
 
-            //testModel.TorqueNm = textBoxTorqueNm.Text.ToDouble();
-            //testModel.SpeedRPM = textBoxSpeedRPM.Text.ToDouble();
-            //testModel.ShaftPawerKw = textBoxShaftPawerKw.Text.ToDouble();
-            //testModel.LoadingFactor = textBoxLoadingFactor.Text.ToDouble();
-            //testModel.MotorSizeHP = textBoxMotorSizeHP.Text.ToDouble();
+            testModel.VoltageV_Value1 = labelV0.Text.ToDouble();
+            testModel.VoltageV_Value2 = labelV1.Text.ToDouble();
+            testModel.VoltageV_Value3 = labelV2.Text.ToDouble();
+            testModel.VoltageV_Value4 = labelV3.Text.ToDouble();
+            testModel.CurrentA_Value1 = labelA0.Text.ToDouble();
+            testModel.CurrentA_Value2 = labelA1.Text.ToDouble();
+            testModel.CurrentA_Value3 = labelA2.Text.ToDouble();
+            testModel.CurrentA_Value4 = labelA3.Text.ToDouble();
+            testModel.Frequency_Value1 = labelPf0.Text.ToDouble();
+            testModel.Frequency_Value2 = labelPf1.Text.ToDouble();
+            testModel.Frequency_Value3 = labelPf2.Text.ToDouble();
+            testModel.Frequency_Value4 = labelPf3.Text.ToDouble();
+            testModel.ActivePower_Value1 = labelPower0.Text.ToDouble();
+            testModel.ActivePower_Value2 = labelPower1.Text.ToDouble();
+            testModel.ActivePower_Value3 = labelPower2.Text.ToDouble();
+            testModel.ActivePower_Value4 = labelPower3.Text.ToDouble();
+            testModel.FrequencyHZ = labelHertz.Text.ToDouble();
 
-            //testModel.VoltageV1 = textBoxVoltageV1.Text.ToDouble();
-            //testModel.VoltageV2 = textBoxVoltageV2.Text.ToDouble();
-            //testModel.VoltageV3 = textBoxVoltageV3.Text.ToDouble();
-            //testModel.VoltageV4 = textBoxVoltageV4.Text.ToDouble();
-            //testModel.CurrentA1 = textBoxCurrentA1.Text.ToDouble();
-            //testModel.CurrentA2 = textBoxCurrentA2.Text.ToDouble();
-            //testModel.CurrentA3 = textBoxCurrentA3.Text.ToDouble();
-            //testModel.CurrentA4 = textBoxCurrentA4.Text.ToDouble();
-            //testModel.PF1 = textBoxPF1.Text.ToDouble();
-            //testModel.PF2 = textBoxPF2.Text.ToDouble();
-            //testModel.PF3 = textBoxPF3.Text.ToDouble();
-            //testModel.PF4 = textBoxPF4.Text.ToDouble();
-            //testModel.ActivePower1 = textBoxActivePower1.Text.ToDouble();
-            //testModel.ActivePower2 = textBoxActivePower2.Text.ToDouble();
-            //testModel.ActivePower3 = textBoxActivePower3.Text.ToDouble();
-            //testModel.ActivePower4 = textBoxActivePower4.Text.ToDouble();
-            //testModel.FrequencyHZ = textBoxFrequencyHZ.Text.ToDouble();
-
-            //testModel.AmbientTempC = textBoxAmbientTempC.Text.ToDouble();
-            //testModel.motorTempC = textBoxmotorTempC.Text.ToDouble();
-            //testModel.EstimitedEfficency = textBoxEstimitedEfficency.Text.ToDouble();
-            //testModel.label1Count = null; 
+            testModel.AmbientTemperature = textBoxAmbientTempC.Text.ToDouble();
+            testModel.MotorTemperature = textBoxmotorTempC.Text.ToDouble();
+            testModel.EstimitedEfficiency = textBoxEstimitedEfficency.Text.ToDouble();
             #endregion
             #region Value From DummyData
-            testModel.ReportNo = Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();
-            testModel.TorqueNm = DummyData.btnRecordNoLoadPoint_Click.GetTorqueNm();
-            testModel.SpeedRPM = DummyData.btnRecordNoLoadPoint_Click.GetSpeedRPM();
-            testModel.ShaftPowerkW = DummyData.btnRecordNoLoadPoint_Click.GetShaftPowerKw();
-            testModel.LoadingFactor = DummyData.btnRecordNoLoadPoint_Click.GetLoadingFactor();
-            testModel.MotorSize = DummyData.btnRecordNoLoadPoint_Click.GetMotorSize();
+            //testModel.ReportNo = Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();
+            //testModel.TorqueNm = DummyData.btnRecordNoLoadPoint_Click.GetTorqueNm();
+            //testModel.SpeedRPM = DummyData.btnRecordNoLoadPoint_Click.GetSpeedRPM();
+            //testModel.ShaftPowerkW = DummyData.btnRecordNoLoadPoint_Click.GetShaftPowerKw();
+            //testModel.LoadingFactor = DummyData.btnRecordNoLoadPoint_Click.GetLoadingFactor();
+            //testModel.MotorSize = DummyData.btnRecordNoLoadPoint_Click.GetMotorSize();
 
-            testModel.VoltageV_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV1();
-            testModel.VoltageV_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV2();
-            testModel.VoltageV_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV3();
-            testModel.VoltageV_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV4();
-            testModel.CurrentA_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA1();
-            testModel.CurrentA_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA2();
-            testModel.CurrentA_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA3();
-            testModel.CurrentA_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA4();
-            testModel.FrequencyHZ = DummyData.btnRecordNoLoadPoint_Click.GetFrequencyHZ();
-            testModel.Frequency_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value1();
-            testModel.Frequency_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value2();
-            testModel.Frequency_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value3();
-            testModel.Frequency_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value4();
-            testModel.ActivePower_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower1();
-            testModel.ActivePower_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower2();
-            testModel.ActivePower_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower3();
-            testModel.ActivePower_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower4();
+            //testModel.VoltageV_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV1();
+            //testModel.VoltageV_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV2();
+            //testModel.VoltageV_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV3();
+            //testModel.VoltageV_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetVoltageV4();
+            //testModel.CurrentA_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA1();
+            //testModel.CurrentA_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA2();
+            //testModel.CurrentA_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA3();
+            //testModel.CurrentA_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetCurrentA4();
+            //testModel.FrequencyHZ = DummyData.btnRecordNoLoadPoint_Click.GetFrequencyHZ();
+            //testModel.Frequency_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value1();
+            //testModel.Frequency_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value2();
+            //testModel.Frequency_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value3();
+            //testModel.Frequency_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetFrequency_Value4();
+            //testModel.ActivePower_Value1 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower1();
+            //testModel.ActivePower_Value2 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower2();
+            //testModel.ActivePower_Value3 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower3();
+            //testModel.ActivePower_Value4 = DummyData.btnRecordNoLoadPoint_Click.GetActivePower4();
 
-            testModel.AmbientTemperature = DummyData.btnRecordNoLoadPoint_Click.GetAmbientTemperature();
-            testModel.MotorTemperature = DummyData.btnRecordNoLoadPoint_Click.GetMotorTemperature();
-            testModel.EstimitedEfficiency = DummyData.btnRecordNoLoadPoint_Click.GetEstimitedEfficiency();
+            //testModel.AmbientTemperature = DummyData.btnRecordNoLoadPoint_Click.GetAmbientTemperature();
+            //testModel.MotorTemperature = DummyData.btnRecordNoLoadPoint_Click.GetMotorTemperature();
+            //testModel.EstimitedEfficiency = DummyData.btnRecordNoLoadPoint_Click.GetEstimitedEfficiency();
             #endregion
             #region PopUpWindow
 
