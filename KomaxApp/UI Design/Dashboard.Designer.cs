@@ -670,7 +670,7 @@
             this.labelA0.Size = new System.Drawing.Size(19, 21);
             this.labelA0.TabIndex = 14;
             this.labelA0.Text = "0";
-            this.labelA0.Click += new System.EventHandler(this.labelA0_Click);
+         //   this.labelA0.Click += new System.EventHandler(this.labelA0_Click);
             // 
             // label30
             // 
@@ -977,7 +977,7 @@
             this.btnStartReadng.TabIndex = 50;
             this.btnStartReadng.Text = "Start Reading";
             this.btnStartReadng.UseVisualStyleBackColor = false;
-            this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
+         //   this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
             // panel12
             // 
@@ -1023,7 +1023,7 @@
             this.button1.TabIndex = 56;
             this.button1.Text = "Serial Test";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+        //    this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // comPorts
             // 
