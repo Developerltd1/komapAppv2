@@ -183,13 +183,12 @@ namespace KomaxApp.UI_Design
                     null                               // No command for _temperature (COM7)
                 };
 
-                // Loop through each port and initialize
-                for (int i = 0; i < comPorts.Count; i++)
-                {
-                    InitializeSerialPort(comPorts[i], commands[i]);
-                }
-                //InitializeMultipleSerialPorts(comPorts);
-                //InitializeSerialPort(_temperature);
+                // Initialize any ports that haven't been initialized yet
+                InitializeMultipleSerialPorts(comPorts);
+
+                // Execute commands on already initialized ports
+                ExecuteCommandsOnInitializedPorts(comPorts, commands);
+
             }
             catch (Exception ex)
             {
@@ -198,31 +197,31 @@ namespace KomaxApp.UI_Design
             #endregion
         }
 
-        // Method to initialize multiple serial ports
-        ////private void InitializeMultipleSerialPorts(List<string> comPorts)
-        ////{
-        ////    InitializeSerialPort(comPorts[0], ":MEAS?");   //COM6 _powerMeter
-        ////    InitializeSerialPort(comPorts[1], "0x23, 0x30, 0x30, 0x30, 0x0d");  //COM5  _torqueMeter
-        ////    InitializeSerialPort(comPorts[2], "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA");  //COM4  _rpm
-        ////    InitializeSerialPort(comPorts[3], null);   //COM7  _temperature
-        ////    //foreach (var comPort in comPorts)
-        ////    //{
-        ////    //    InitializeSerialPort(comPort);
-        ////    //}
-        ////}
 
         #region InitilizeSerialPortNew
+        
         private void InitializeMultipleSerialPorts(List<string> comPorts)
         {
-            for (int i = 0; i < comPorts.Count; i++)
+            foreach (string comPort in comPorts)
             {
-                if (!serialPorts.ContainsKey(comPorts[i]))
+                if (!serialPorts.ContainsKey(comPort))
                 {
-                    InitializeSerialPort(comPorts[i], commands[i]);
+                    InitializeSerialPort(comPort, GetCommandForPort(comPort));
                 }
             }
         }
-
+        private string GetCommandForPort(string comPort)
+        {
+            // Define the command based on the port
+            switch (comPort)
+            {
+                case var port when port == _powerMeter: return ":MEAS?";
+                case var port when port == _torqueMeter: return "0x23,0x30,0x30,0x30,0x0d";
+                case var port when port == _rpm: return "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA";
+                case var port when port == _temperature: return null;
+                default: return null;
+            }
+        }
         private void ExecuteCommandsOnInitializedPorts(List<string> comPorts, List<string> commands)
         {
             for (int i = 0; i < comPorts.Count; i++)
@@ -233,9 +232,24 @@ namespace KomaxApp.UI_Design
                 }
             }
         }
+        private void SendCommandToPort(SerialPort serialPort, string command)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(command))
+                {
+                    byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
+                    serialPort.Write(commandBytes, 0, commandBytes.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error sending command to port {serialPort.PortName}: {ex.Message}");
+            }
+        }
+        
 
 
-        // Method to initialize a single serial port
         private void InitializeSerialPort(string comPort, string CommandName)
         {
             try
@@ -256,6 +270,7 @@ namespace KomaxApp.UI_Design
                     try
                     {
                         serialPort.Open();  // Attempt to open the serial port
+                        serialPorts[comPort] = serialPort; // Add to dictionary after successful open
                     }
                     catch (Exception ex)
                     {
@@ -264,17 +279,12 @@ namespace KomaxApp.UI_Design
                         return;  // Exit if the port couldn't be opened
                     }
 
-                    // Create a model to store the SerialPort and CommandName
                     var model = new SerialPortCommandModel(serialPort, CommandName);
-
-
-                    //  serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                     serialPort.DataReceived += (sender, e) => DataReceivedHandler(model, e);
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(CommandName + "\r\n");  // Add CRLF
-                    serialPort.Write(commandBytes, 0, commandBytes.Length);
-
-                    // Add the initialized port to the dictionary
-                    serialPorts[comPort] = serialPort;
+                    if (CommandName != null)
+                    {
+                        SendCommandToPort(serialPort, CommandName);
+                    }
                 }
             }
             catch (Exception ex)
@@ -282,57 +292,26 @@ namespace KomaxApp.UI_Design
                 labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
                 labelInfo.ForeColor = System.Drawing.Color.Red;
 
-                // Close and remove the port from the dictionary if initialization fails
-                if (serialPorts.ContainsKey(comPort))
-                {
-                    serialPorts[comPort].Close();
-                    //serialPorts.Remove(comPort);
-                }
+                CloseSerialPort(comPort);
             }
         }
         #endregion
-        #region InitializeSerialPort
-        //private void InitializeSerialPort(string ComPort)
-        //{
-        //    try
-        //    {
-        //        if (serialPort == null)
-        //        {
-        //            serialPort = new SerialPort();
-        //        }
-        //        serialPort.PortName = ComPort;// comPorts.Text;  // Set your port name
-        //        serialPort.BaudRate = 9600;
-        //        serialPort.Parity = Parity.None;
-        //        serialPort.DataBits = 8;
-        //        serialPort.StopBits = StopBits.One;
-        //        serialPort.Handshake = Handshake.None;
-        //        serialPort.ReadTimeout = 2000;  // Optional timeout
-        //        try
-        //        {
-        //            serialPort.Open();
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            throw;
-        //        }
-
-        //        serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-        //        byte[] commandBytes = Encoding.ASCII.GetBytes(":MEAS?" + "\r\n"); // Adding CRLF
-        //        serialPort.Write(commandBytes, 0, commandBytes.Length);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        labelInfo.Text = "Error initializing serial port: " + ex.Message + Environment.NewLine;
-        //        labelInfo.ForeColor = Color.Red;
-        //        serialPort.Close();
-        //    }
-
-        //}
+        
+        private void AppendTextToRichTextBox(string text)
+        {
+            // Assuming you have a RichTextBox control named richTextBox1
+            if (richTextBox1.InvokeRequired)
+            {
+                richTextBox1.Invoke(new Action(() => richTextBox1.AppendText(text)));
+            }
+            else
+            {
+                richTextBox1.AppendText(text);
+            }
+        }
 
 
-        #endregion
-        //private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+
         private void DataReceivedHandler(SerialPortCommandModel model, SerialDataReceivedEventArgs e)
         {
             try
@@ -344,20 +323,7 @@ namespace KomaxApp.UI_Design
                 string inData = sp.ReadLine();
                 if (!string.IsNullOrEmpty(inData))
                 {
-                    // Check if we need to use Invoke
-                    if (richTextBox1.InvokeRequired)
-                    {
-                        // Create a delegate to handle the invocation
-                        richTextBox1.Invoke(new Action(() =>
-                        {
-                            richTextBox1.AppendText(inData);
-                        }));
-                    }
-                    else
-                    {
-                        // Directly update the control if on the UI thread
-                        richTextBox1.AppendText(inData);
-                    }
+                    AppendTextToRichTextBox(inData);
                     ParseResponse(inData, commandName);  // You can call ParseResponse to handle the data
                 }
             }
@@ -370,135 +336,9 @@ namespace KomaxApp.UI_Design
             }
             finally
             {
-                //string comPort = ((SerialPort)sender).PortName;
                 CloseSerialPort(model.SerialPort.PortName);
-                //CloseSerialPort(comPort);
             }
         }
-
-        // Method to close and remove a serial port
-        private void CloseSerialPort(string comPort)
-        {
-            if (serialPorts.ContainsKey(comPort))
-            {
-                SerialPort port = serialPorts[comPort];
-                if (port.IsOpen)
-                {
-                    port.Close(); // Close the port if it's open
-                }
-                serialPorts.Remove(comPort); // Remove it from the dictionary
-            }
-        }
-
-
-
-        public void CaptureWindow(Form form)
-        {
-            // Get the form's bounds on the screen (including borders and title bar)
-            Rectangle formBounds = form.Bounds;
-
-            // Create a bitmap with the size of the form
-            using (Bitmap bitmap = new Bitmap(formBounds.Width, formBounds.Height))
-            {
-                // Create a graphics object from the bitmap
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    // Copy the form's content into the bitmap
-                    g.CopyFromScreen(formBounds.Location, Point.Empty, formBounds.Size);
-                }
-
-                // Create and configure the SaveFileDialog
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                {
-                    // Set default file name with date and time
-                    saveFileDialog.FileName = $"screenshot_{DateTime.Now:yyyy_MM_dd_HH_mm_ss_tt}.jpg";
-                    saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png";
-                    saveFileDialog.Title = "Save Screenshot";
-
-                    // Show the dialog and check if the user clicked "Save"
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        // Save the bitmap to the selected file path
-                        string filePath = saveFileDialog.FileName;
-                        bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    }
-                }
-            }
-        }
-
-        public void CaptureMdiChildForm(Form mdiChildForm)
-        {
-            if (mdiChildForm != null && mdiChildForm.Visible)
-            {
-                // Get the bounds of the MDI child form
-                Rectangle formBounds = mdiChildForm.Bounds;
-
-                // Create a bitmap with the size of the form's client area
-                using (Bitmap bitmap = new Bitmap(formBounds.Width, formBounds.Height))
-                {
-                    // Create a graphics object from the bitmap
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        // Capture only the form's content (not including borders)
-                        Point formLocation = mdiChildForm.PointToScreen(Point.Empty);
-                        g.CopyFromScreen(formLocation, Point.Empty, formBounds.Size);
-                    }
-
-                    // Create and configure the SaveFileDialog
-                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                    {
-                        // Set default file name with date and time
-                        saveFileDialog.FileName = $"screenshot_{DateTime.Now:yyyy_MM_dd_HH_mm_ss_tt}.jpg";
-                        saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png";
-                        saveFileDialog.Title = "Save Screenshot";
-
-                        // Show the dialog and check if the user clicked "Save"
-                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            // Save the bitmap to the selected file path
-                            string filePath = saveFileDialog.FileName;
-                            bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("The MDI child form is not visible.", "Capture Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-        private void InitializeModbusClient()
-        {
-            try
-            {
-                //Logger.Info("MainParamaterForm/InitializeModbusClient| comPorts: " + comPorts.Text);
-                modbusClient = new ModbusClient("COM3")
-                {
-                    Baudrate = 9600,//Convert.ToInt32(cbBaudRate1.SelectedItem),
-                    Parity = System.IO.Ports.Parity.None,
-                    StopBits = System.IO.Ports.StopBits.One,
-                    UnitIdentifier = 0x01,//Convert.ToByte(slaveID), // Slave ID
-                    ConnectionTimeout = 500//Convert.ToInt32(readingTimeOut.Value) // Timeout in milliseconds
-                };
-
-                //statusConnection.Text = ("Connected");
-
-                modbusClient.Connect();
-                //Logger.Info("MainParamaterForm/InitializeModbusClient| modbusClient.Connect()");
-            }
-            catch (Exception ex)
-            {
-                //Logger.Error("MainParamaterForm/InitializeModbusClient| Exception: " + ex.Message);
-                string ss = ex.Message;
-                string[] parts = ss.Split('\''); // Split by single quote
-                string port = parts.Length > 1 ? parts[1] : string.Empty; // Get the second part (COM4)
-
-                richTextBox1.Text += ("\r\n" + port); // Outputs: COM4
-                //statusConnection.Text = ("Disconnected" + port + "is denied");
-                //infoMessages.Text = ("Error reading: " + "+ port: " + port + ex.Message);
-            }
-        }
-
 
 
         private void RefreshComPortList()
@@ -527,9 +367,18 @@ namespace KomaxApp.UI_Design
                 JIMessageBox.ErrorMessage(ex.Message);
             }
         }
-
-
-        #region MyRegion
+        private void CloseSerialPort(string comPort)
+        {
+            if (serialPorts.ContainsKey(comPort))
+            {
+                SerialPort port = serialPorts[comPort];
+                if (port.IsOpen)
+                {
+                    port.Close(); // Close the port if it's open
+                }
+                serialPorts.Remove(comPort); // Remove it from the dictionary
+            }
+        }
         private void CloseAllSerialPorts()
         {
             foreach (var serialPort in serialPorts.Values)
@@ -541,46 +390,10 @@ namespace KomaxApp.UI_Design
             }
             serialPorts.Clear();  // Clear the dictionary after closing all ports
         }
-        #endregion
-        #region Old
-        //private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
-        //{
-        //    SerialPort serialPort = (SerialPort)sender;
+        
 
-        //    try
-        //    {
-        //        string inData = serialPort.ReadExisting();
-        //        if (!string.IsNullOrEmpty(inData))
-        //        {
-        //            //richTextBox1.Text += inData;
-        //            responseBuilder.Append(inData);
-        //            //richTextBox1.Text += inData;
-
-        //        }
-        //        /*   string[] parsedData = inData.Split(',');
-        //           */
-        //    }
-        //    catch (TimeoutException)
-        //    {
-        //        // Handle timeout if necessary, e.g., break the loop
-        //    }
-        //    //Logger.Info("MainParamaterForm/DataReceivedHandler|  canPacket Ack:" + inData);
-
-
-        //}
-
-        #endregion
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // InitializeSerialPort();
-            richTextBox1.Text = null;
-        }
-
-        private void labelA0_Click(object sender, EventArgs e)
-        {
-
-        }
+        
+        
 
         #region try for PM data reading
         public void SendCommandAndDisplayResponse(string command)
@@ -690,14 +503,9 @@ namespace KomaxApp.UI_Design
                 richTextBox1.AppendText("No data received." + Environment.NewLine);
                 return;
             }
-
             string cleanedData = Regex.Replace(data, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();
-
             // Split the string by commas
             var dataParts = cleanedData.Split(',');
-
-
-
             var dataResponse = new DashboardModel.Manupulation
             {
                 labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
@@ -718,7 +526,6 @@ namespace KomaxApp.UI_Design
                 labelPower3 = dataParts.ElementAtOrDefault(19) ?? "N/A",
                 labelPower0 = dataParts.ElementAtOrDefault(20) ?? "N/A",
             };
-
             #region Formula
             dataResponse.labelPower1 = (Convert.ToDouble(dataResponse.labelPower1) / 1000).ToString();
             dataResponse.labelPower2 = (Convert.ToDouble(dataResponse.labelPower2) / 1000).ToString();
@@ -768,63 +575,15 @@ namespace KomaxApp.UI_Design
                     richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
                 });
             }
-
-            // Close the serial port if it is open
-
-            //if (serialPort.IsOpen)
-            //{
-            //    serialPort.Close();
-            //    richTextBox1.Invoke((MethodInvoker)delegate
-            //    {
-            //        richTextBox1.AppendText("Serial port closed." + Environment.NewLine);
-            //    });
-            //}
         }
 
-        // Method to update UI labels
-        private void UpdateUI(DashboardModel.Manupulation response)
-        {
-            labelV1.Text = response.labelV1;
-            labelV2.Text = response.labelV2;
-            labelV3.Text = response.labelV3;
-            labelV0.Text = response.labelV0;
-            labelA1.Text = response.labelA1;
-            labelA2.Text = response.labelA2;
-            labelA3.Text = response.labelA3;
-            labelA0.Text = response.labelA0;
-            labelPf1.Text = response.labelPf1;
-            labelPf2.Text = response.labelPf2;
-            labelPf3.Text = response.labelPf3;
-            labelPf0.Text = response.labelPf0;
-            labelHertz.Text = response.labelHertz;
-            labelPower1.Text = response.labelPower1;
-            labelPower2.Text = response.labelPower2;
-            labelPower3.Text = response.labelPower3;
-            labelPower0.Text = response.labelPower0;
-        }
-
-        private void AppendTextToRichTextBox(string text)
-        {
-            if (InvokeRequired)
-            {
-                Invoke((MethodInvoker)delegate
-                {
-                    richTextBox1.AppendText(text + Environment.NewLine);
-                });
-            }
-            else
-            {
-                richTextBox1.AppendText(text + Environment.NewLine);
-            }
-        }
+         
         #endregion
 
         private void buttonScreenshot_Click_1(object sender, EventArgs e)
         {
             CaptureMdiChildForm(this);
         }
-
-
 
         // Example method to handle form closing
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -833,13 +592,86 @@ namespace KomaxApp.UI_Design
             CloseAllSerialPorts();  // Close all ports when the form is closing
         }
 
-        private void btnStartReadng_Click(object sender, EventArgs e)
+
+        #region ScreenShot_Code
+        public void CaptureWindow(Form form)
         {
+            // Get the form's bounds on the screen (including borders and title bar)
+            Rectangle formBounds = form.Bounds;
 
+            // Create a bitmap with the size of the form
+            using (Bitmap bitmap = new Bitmap(formBounds.Width, formBounds.Height))
+            {
+                // Create a graphics object from the bitmap
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    // Copy the form's content into the bitmap
+                    g.CopyFromScreen(formBounds.Location, Point.Empty, formBounds.Size);
+                }
+
+                // Create and configure the SaveFileDialog
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    // Set default file name with date and time
+                    saveFileDialog.FileName = $"screenshot_{DateTime.Now:yyyy_MM_dd_HH_mm_ss_tt}.jpg";
+                    saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png";
+                    saveFileDialog.Title = "Save Screenshot";
+
+                    // Show the dialog and check if the user clicked "Save"
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Save the bitmap to the selected file path
+                        string filePath = saveFileDialog.FileName;
+                        bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    }
+                }
+            }
         }
+        public void CaptureMdiChildForm(Form mdiChildForm)
+        {
+            if (mdiChildForm != null && mdiChildForm.Visible)
+            {
+                // Get the bounds of the MDI child form
+                Rectangle formBounds = mdiChildForm.Bounds;
+
+                // Create a bitmap with the size of the form's client area
+                using (Bitmap bitmap = new Bitmap(formBounds.Width, formBounds.Height))
+                {
+                    // Create a graphics object from the bitmap
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        // Capture only the form's content (not including borders)
+                        Point formLocation = mdiChildForm.PointToScreen(Point.Empty);
+                        g.CopyFromScreen(formLocation, Point.Empty, formBounds.Size);
+                    }
+
+                    // Create and configure the SaveFileDialog
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        // Set default file name with date and time
+                        saveFileDialog.FileName = $"screenshot_{DateTime.Now:yyyy_MM_dd_HH_mm_ss_tt}.jpg";
+                        saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png";
+                        saveFileDialog.Title = "Save Screenshot";
+
+                        // Show the dialog and check if the user clicked "Save"
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            // Save the bitmap to the selected file path
+                            string filePath = saveFileDialog.FileName;
+                            bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("The MDI child form is not visible.", "Capture Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        #endregion
+
     }
-
-
 }
 
 
