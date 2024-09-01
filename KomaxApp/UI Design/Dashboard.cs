@@ -324,7 +324,7 @@ namespace KomaxApp.UI_Design
                 if (!string.IsNullOrEmpty(inData))
                 {
                     AppendTextToRichTextBox(inData);
-                    ParseResponse(inData, commandName);  // You can call ParseResponse to handle the data
+                    ParseResponse(inData, commandName, PortName);  // You can call ParseResponse to handle the data
                 }
             }
             catch (Exception ex)
@@ -396,107 +396,9 @@ namespace KomaxApp.UI_Design
         
 
         #region try for PM data reading
-        public void SendCommandAndDisplayResponse(string command)
-        {
-            try
-            {
-                // Open the serial port if it's not already open
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
-                }
-
-                // Send the command
-                byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n"); // Adding CRLF
-                serialPort.Write(commandBytes, 0, commandBytes.Length);
-                //serialPort.Write(":MEAS?");
-
-                richTextBox1.AppendText("Command sent: " + command + Environment.NewLine);
-
-                // Call the ReadCompleteResponse method to get the JSON string
-                string response = ReadCompleteResponse();
-
-                if (!string.IsNullOrEmpty(response))
-                {
-                    richTextBox1.AppendText(response + Environment.NewLine);
-                }
-                else
-                {
-                    JIMessageBox.WarningMessage("Response is Empty");
-                    return;
-                }
-
-                ParseResponse(response, null);
-            }
-            catch (Exception ex)
-            {
-                richTextBox1.AppendText("Error: " + ex.Message + Environment.NewLine);
-            }
-            finally
-            {
-                // Close the serial port if it's open
-
-                richTextBox1.AppendText("Serial port closed." + Environment.NewLine);
-            }
-        }
-
-        private string ReadCompleteResponse()
-        {
-            string jsonResult = null;
-            try
-            {
-
-                string data = serialPort.ReadExisting();
-
-                if (!string.IsNullOrEmpty(data))
-                {
-                    // Split the string by commas
-                    var dataParts = data.Split(',');
-
-                    // Define a dictionary to hold key-value pairs
-                    var dataDictionary = new Dictionary<string, string>();
-
-                    try
-                    {
-                        dataDictionary["labelV1"] = Conversion.GetValue(dataParts, 4);
-                        dataDictionary["labelV2"] = Conversion.GetValue(dataParts, 5);
-                        dataDictionary["labelV3"] = Conversion.GetValue(dataParts, 6);
-                        dataDictionary["labelV0"] = Conversion.GetValue(dataParts, 7);
-                        dataDictionary["labelA1"] = Conversion.GetValue(dataParts, 8);
-                        dataDictionary["labelA2"] = Conversion.GetValue(dataParts, 9);
-                        dataDictionary["labelA3"] = Conversion.GetValue(dataParts, 10);
-                        dataDictionary["labelA0"] = Conversion.GetValue(dataParts, 11);
-                        dataDictionary["labelPf1"] = Conversion.GetValue(dataParts, 15);
-                        dataDictionary["labelPf2"] = Conversion.GetValue(dataParts, 16);
-                        dataDictionary["labelPf3"] = Conversion.GetValue(dataParts, 17);
-                        dataDictionary["labelPf0"] = Conversion.GetValue(dataParts, 18);
-                        dataDictionary["labelHertz"] = Conversion.GetValue(dataParts, 19);
-                        dataDictionary["labelPower1"] = Conversion.GetValue(dataParts, 20);
-                        dataDictionary["labelPower2"] = Conversion.GetValue(dataParts, 26);
-                        dataDictionary["labelPower3"] = Conversion.GetValue(dataParts, 27);
-                        dataDictionary["labelPower0"] = Conversion.GetValue(dataParts, 28);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("An error occurred while processing data: " + ex.Message);
-                    }
-
-                    // Convert the dictionary to JSON
-                    jsonResult = JsonConvert.SerializeObject(dataDictionary, Newtonsoft.Json.Formatting.Indented);
-
-                    // Output the JSON
-                    Console.WriteLine(jsonResult);
-                }
-            }
-            catch (TimeoutException)
-            {
-                // Handle timeout
-                richTextBox1.AppendText("Timeout occurred while reading response." + Environment.NewLine);
-            }
-            return jsonResult;
-        }
-
-        private void ParseResponse(string data, string commandName)
+       
+        
+        private void ParseResponse(string data, string commandName, string PortNo)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -560,6 +462,8 @@ namespace KomaxApp.UI_Design
                     labelPower2.Text = deserializedResponse.labelPower2;
                     labelPower3.Text = deserializedResponse.labelPower3;
                     labelPower0.Text = deserializedResponse.labelPower0;
+                    labelPortNo.Text = PortNo;
+                    labelPortNo.ForeColor = Color.DarkGoldenrod;
                 });
 
                 // Optionally append the raw response to the RichTextBox
