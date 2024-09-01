@@ -1,6 +1,7 @@
 ﻿using EasyModbus;
 using komaxApp.BusinessLayer;
 using komaxApp.Utility.ExtensionMethod;
+using KomaxApp.GenericCode;
 using KomaxApp.Model.Dashboard;
 using KomaxApp.Model.Display;
 using Microsoft.ReportingServices.RdlExpressions.ExpressionHostObjectModel;
@@ -155,7 +156,8 @@ namespace KomaxApp.UI_Design
         }
         public void PollingTimer_Tick(object sender, EventArgs e)
         {
-            if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null) {
+            if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+            {
                 StopPolling();
                 JIMessageBox.WarningMessage("COM Ports are not Configure");
                 return;
@@ -163,16 +165,30 @@ namespace KomaxApp.UI_Design
             #region Data Reading
             try
             {
+
+                // List of COM ports
                 List<string> comPorts = new List<string>
                     {
-                        _powerMeter,_torqueMeter,_rpm,_temperature,
+                         _powerMeter,  // COM6
+                         _torqueMeter, // COM5
+                         _rpm,         // COM4
+                         _temperature  // COM7
                     };
-                InitializeMultipleSerialPorts(comPorts);
+                // Corresponding commands for each port
+                List<string> commands = new List<string>
+                {
+                    ":MEAS?",                          // Command for _powerMeter (COM6)
+                    "0x23, 0x30, 0x30, 0x30, 0x0d",    // Command for _torqueMeter (COM5)
+                    "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA", // Command for _rpm (COM4)
+                    null                               // No command for _temperature (COM7)
+                };
 
-
-                //InitializeSerialPort(_powerMeter);
-                //InitializeSerialPort(_torqueMeter);
-                //InitializeSerialPort(_rpm);
+                // Loop through each port and initialize
+                for (int i = 0; i < comPorts.Count; i++)
+                {
+                    InitializeSerialPort(comPorts[i], commands[i]);
+                }
+                //InitializeMultipleSerialPorts(comPorts);
                 //InitializeSerialPort(_temperature);
             }
             catch (Exception ex)
@@ -183,21 +199,44 @@ namespace KomaxApp.UI_Design
         }
 
         // Method to initialize multiple serial ports
-        private void InitializeMultipleSerialPorts(List<string> comPorts)
-        {
-            InitializeSerialPort(comPorts[0]);
-            InitializeSerialPort(comPorts[1]);
-            InitializeSerialPort(comPorts[2]);
-            InitializeSerialPort(comPorts[3]);
-            //foreach (var comPort in comPorts)
-            //{
-            //    InitializeSerialPort(comPort);
-            //}
-        }
+        ////private void InitializeMultipleSerialPorts(List<string> comPorts)
+        ////{
+        ////    InitializeSerialPort(comPorts[0], ":MEAS?");   //COM6 _powerMeter
+        ////    InitializeSerialPort(comPorts[1], "0x23, 0x30, 0x30, 0x30, 0x0d");  //COM5  _torqueMeter
+        ////    InitializeSerialPort(comPorts[2], "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA");  //COM4  _rpm
+        ////    InitializeSerialPort(comPorts[3], null);   //COM7  _temperature
+        ////    //foreach (var comPort in comPorts)
+        ////    //{
+        ////    //    InitializeSerialPort(comPort);
+        ////    //}
+        ////}
 
         #region InitilizeSerialPortNew
+        private void InitializeMultipleSerialPorts(List<string> comPorts)
+        {
+            for (int i = 0; i < comPorts.Count; i++)
+            {
+                if (!serialPorts.ContainsKey(comPorts[i]))
+                {
+                    InitializeSerialPort(comPorts[i], commands[i]);
+                }
+            }
+        }
+
+        private void ExecuteCommandsOnInitializedPorts(List<string> comPorts, List<string> commands)
+        {
+            for (int i = 0; i < comPorts.Count; i++)
+            {
+                if (serialPorts.ContainsKey(comPorts[i]))
+                {
+                    SendCommandToPort(serialPorts[comPorts[i]], commands[i]);
+                }
+            }
+        }
+
+
         // Method to initialize a single serial port
-        private void InitializeSerialPort(string comPort)
+        private void InitializeSerialPort(string comPort, string CommandName)
         {
             try
             {
@@ -225,9 +264,13 @@ namespace KomaxApp.UI_Design
                         return;  // Exit if the port couldn't be opened
                     }
 
-                    // Set up the DataReceived event handler and send an initial command
-                    serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(":MEAS?" + "\r\n");  // Add CRLF
+                    // Create a model to store the SerialPort and CommandName
+                    var model = new SerialPortCommandModel(serialPort, CommandName);
+
+
+                    //  serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                    serialPort.DataReceived += (sender, e) => DataReceivedHandler(model, e);
+                    byte[] commandBytes = Encoding.ASCII.GetBytes(CommandName + "\r\n");  // Add CRLF
                     serialPort.Write(commandBytes, 0, commandBytes.Length);
 
                     // Add the initialized port to the dictionary
@@ -289,12 +332,15 @@ namespace KomaxApp.UI_Design
 
 
         #endregion
-        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        //private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        private void DataReceivedHandler(SerialPortCommandModel model, SerialDataReceivedEventArgs e)
         {
             try
             {
-                SerialPort sp = (SerialPort)sender;
+                //SerialPort sp = (SerialPort)sender;
+                SerialPort sp = model.SerialPort;
                 var PortName = sp.PortName;
+                string commandName = model.CommandName;
                 string inData = sp.ReadLine();
                 if (!string.IsNullOrEmpty(inData))
                 {
@@ -312,7 +358,7 @@ namespace KomaxApp.UI_Design
                         // Directly update the control if on the UI thread
                         richTextBox1.AppendText(inData);
                     }
-                    ParseResponse(inData);  // You can call ParseResponse to handle the data
+                    ParseResponse(inData, commandName);  // You can call ParseResponse to handle the data
                 }
             }
             catch (Exception ex)
@@ -324,8 +370,9 @@ namespace KomaxApp.UI_Design
             }
             finally
             {
-                string comPort = ((SerialPort)sender).PortName;
-                CloseSerialPort(comPort);
+                //string comPort = ((SerialPort)sender).PortName;
+                CloseSerialPort(model.SerialPort.PortName);
+                //CloseSerialPort(comPort);
             }
         }
 
@@ -480,7 +527,7 @@ namespace KomaxApp.UI_Design
                 JIMessageBox.ErrorMessage(ex.Message);
             }
         }
-       
+
 
         #region MyRegion
         private void CloseAllSerialPorts()
@@ -566,7 +613,7 @@ namespace KomaxApp.UI_Design
                     return;
                 }
 
-                ParseResponse(response);
+                ParseResponse(response, null);
             }
             catch (Exception ex)
             {
@@ -575,7 +622,7 @@ namespace KomaxApp.UI_Design
             finally
             {
                 // Close the serial port if it's open
- 
+
                 richTextBox1.AppendText("Serial port closed." + Environment.NewLine);
             }
         }
@@ -636,7 +683,7 @@ namespace KomaxApp.UI_Design
             return jsonResult;
         }
 
-        private void ParseResponse(string data)
+        private void ParseResponse(string data, string commandName)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -649,6 +696,8 @@ namespace KomaxApp.UI_Design
             // Split the string by commas
             var dataParts = cleanedData.Split(',');
 
+
+
             var dataResponse = new DashboardModel.Manupulation
             {
                 labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
@@ -659,18 +708,23 @@ namespace KomaxApp.UI_Design
                 labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A",
                 labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A",
                 labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A",
-                labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A",
-                labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A",
-                labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A",
-                labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A",
-                labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A",
-                labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A",
-                labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A",
-                labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A",
-                labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A",
-
-
+                labelPf1 = dataParts.ElementAtOrDefault(26) ?? "N/A",
+                labelPf2 = dataParts.ElementAtOrDefault(27) ?? "N/A",
+                labelPf3 = dataParts.ElementAtOrDefault(28) ?? "N/A",
+                labelPf0 = dataParts.ElementAtOrDefault(15) ?? "N/A",
+                labelHertz = dataParts.ElementAtOrDefault(16) ?? "N/A",
+                labelPower1 = dataParts.ElementAtOrDefault(17) ?? "N/A",
+                labelPower2 = dataParts.ElementAtOrDefault(18) ?? "N/A",
+                labelPower3 = dataParts.ElementAtOrDefault(19) ?? "N/A",
+                labelPower0 = dataParts.ElementAtOrDefault(20) ?? "N/A",
             };
+
+            #region Formula
+            dataResponse.labelPower1 = (Convert.ToDouble(dataResponse.labelPower1) / 1000).ToString();
+            dataResponse.labelPower2 = (Convert.ToDouble(dataResponse.labelPower2) / 1000).ToString();
+            dataResponse.labelPower3 = (Convert.ToDouble(dataResponse.labelPower3) / 1000).ToString();
+            dataResponse.labelPower0 = (Convert.ToDouble(dataResponse.labelPower0) / 1000).ToString();
+            #endregion
             // Convert the class to JSON
             string jsonResult = JsonConvert.SerializeObject(dataResponse, Newtonsoft.Json.Formatting.Indented);
             // Deserialize the JSON string into a class instance

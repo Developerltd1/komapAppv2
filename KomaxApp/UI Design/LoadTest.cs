@@ -34,29 +34,141 @@ namespace KomaxApp.UI_Design
 
         private string ReportNo;
 
-        private void LoadTest_Load(object sender, EventArgs e)
+        private async  void LoadTest_Load(object sender, EventArgs e)
         {
             try
             {
-                //isPollingEnabled = !isPollingEnabled;
-                //if (isPollingEnabled)
-                //{
+                
                     isPollSelected = true;
-                    InitializePollingTimer();
-                    StartPolling();
-                //}
-                //else
-                //{
-                //    isPollSelected = false;
-                //    StopPolling();
-                //}
+                await StartPollingAsync();
+
+                //InitializePollingTimer();
+                // StartPolling();
+                
             }
             catch (Exception ex)
             {
                 JIMessageBox.ErrorMessage(ex.Message);
             }
         }
+        #region Polling
+        private async Task StartPollingAsync()
+        {
+            while (isPollSelected)
+            {
+                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+                {
+                    infoMessages.Text = "COM Ports are not configured.";
+                    infoMessages.ForeColor = Color.Red;
+                    isPollSelected = false;
+                    return;
+                }
 
+                try
+                {
+                    var comPorts = new List<string> { _powerMeter, _torqueMeter, _rpm, _temperature };
+                    await InitializeMultipleSerialPortsAsync(comPorts);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Polling error: " + ex.Message);
+                }
+
+                // Delay for 1 second before the next poll
+                await Task.Delay(1000);
+            }
+        }
+        #endregion
+        #region Serial Port Initialization and Data Handling
+        private async Task InitializeMultipleSerialPortsAsync(List<string> comPorts)
+        {
+            var tasks = comPorts.Select(comPort => InitializeSerialPortAsync(comPort)).ToList();
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task InitializeSerialPortAsync(string comPort)
+        {
+            try
+            {
+                if (!serialPorts.ContainsKey(comPort))
+                {
+                    var serialPort = new SerialPort
+                    {
+                        PortName = comPort,
+                        BaudRate = 9600,
+                        Parity = Parity.None,
+                        DataBits = 8,
+                        StopBits = StopBits.One,
+                        Handshake = Handshake.None,
+                        ReadTimeout = 90000
+                    };
+
+                    // Ensure the port is not already open
+                    if (!serialPort.IsOpen)
+                    {
+                        serialPort.Open();
+                    }
+                    serialPort.DataReceived += async (sender, e) => await DataReceivedHandlerAsync(sender, e);
+
+                    var commandBytes = Encoding.ASCII.GetBytes(":MEAS?\r\n");
+                    await serialPort.BaseStream.WriteAsync(commandBytes, 0, commandBytes.Length);
+
+                    serialPorts[comPort] = serialPort;
+                }
+            }
+            catch (Exception ex)
+            {
+                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}";
+                labelInfo.ForeColor = Color.Red;
+
+                if (serialPorts.ContainsKey(comPort))
+                {
+                    CloseSerialPort(comPort);
+                }
+            }
+        }
+
+        private async Task DataReceivedHandlerAsync(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                var serialPort = (SerialPort)sender;
+                var data =  serialPort.ReadLine();
+
+                if (!string.IsNullOrEmpty(data))
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        richTextBox1.AppendText(data + Environment.NewLine);
+                        ParseResponse(data);
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                });
+            }
+            finally
+            {
+                CloseSerialPort(((SerialPort)sender).PortName);
+            }
+        }
+        private void CloseSerialPort(string comPort)
+        {
+            if (serialPorts.ContainsKey(comPort))
+            {
+                var port = serialPorts[comPort];
+                if (port.IsOpen)
+                {
+                    port.Close();
+                }
+                serialPorts.Remove(comPort);
+            }
+        }
+        #endregion
         public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
         {
             // Store the configuration values
@@ -170,24 +282,20 @@ namespace KomaxApp.UI_Design
         }
 
         // Method to close and remove a serial port
-        private void CloseSerialPort(string comPort)
-        {
-            if (serialPorts.ContainsKey(comPort))
-            {
-                SerialPort port = serialPorts[comPort];
-                if (port.IsOpen)
-                {
-                    port.Close(); // Close the port if it's open
-                }
-                serialPorts.Remove(comPort); // Remove it from the dictionary
-            }
-        }
+        //public void CloseSerialPort(string comPort)
+        //{
+        //    if (serialPorts.ContainsKey(comPort))
+        //    {
+        //        SerialPort port = serialPorts[comPort];
+        //        if (port.IsOpen)
+        //        {
+        //            port.Close(); // Close the port if it's open
+        //        }
+        //        serialPorts.Remove(comPort); // Remove it from the dictionary
+        //    }
+        //}
 
         #endregion
-
-
-
-
 
         #region PoolingCode
         public void PollingTimer_Tick(object sender, EventArgs e)
@@ -195,7 +303,8 @@ namespace KomaxApp.UI_Design
             if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
             {
                 StopPolling();
-                JIMessageBox.WarningMessage("COM Ports are not Configure");
+                infoMessages.Text = "COM Ports are not Configure.";
+                infoMessages.ForeColor = Color.Red;
                 return;
             }
             #region Data Reading
@@ -230,7 +339,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                Utility.JIMessageBox.ErrorMessage(ex.Message);
+                Utility.JIMessageBox.ErrorMessage("Error initializing polling timer: " + ex.Message);
             }
         }
         private void StopPolling()
@@ -251,32 +360,6 @@ namespace KomaxApp.UI_Design
         }
         #endregion
         #region SerialPortManagerClass
-
-        private void SerialPortManager_DataReceived(object sender, string data)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(() => ParseResponse(data)));
-            }
-            else
-            {
-                ParseResponse(data);
-            }
-        }
-
-        private void SerialPortManager_ErrorOccurred(object sender, string errorMessage)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(() => richTextBox1.AppendText(errorMessage + Environment.NewLine)));
-            }
-            else
-            {
-                richTextBox1.AppendText(errorMessage + Environment.NewLine);
-            }
-        }
-
-
         private void ParseResponse(string data)
         {
             if (string.IsNullOrEmpty(data))
@@ -357,10 +440,6 @@ namespace KomaxApp.UI_Design
             }
 
         }
-
-
-
-
         private void InitializeMultipleSerialPorts(List<string> comPorts)
         {
             InitializeSerialPort(comPorts[0]);
@@ -372,11 +451,10 @@ namespace KomaxApp.UI_Design
             //    serialPortManager.InitializeSerialPort(comPort);
             //}
         }
-
-        private void CloseAllSerialPorts()
-        {
-            serialPortManager.CloseSerialPort();
-        }
+        //private void CloseAllSerialPorts()
+        //{
+        //    serialPortManager.CloseSerialPort();
+        //}
 
         #endregion
         private void LoadData()
