@@ -85,7 +85,15 @@ namespace KomaxApp.UI_Design
         public string _rpm;
         public string _temperature;
         // Dictionary to store SerialPort objects for each COM port
-        private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
+        //private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
+        
+        private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>
+        {
+                { "COM6", new SerialPort("COM6", 9600, Parity.None, 8, StopBits.One) },
+                { "COM4", new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One) },
+                { "COM5", new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One) },
+                { "COM3", new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One) }
+        };
 
 
         public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
@@ -163,9 +171,13 @@ namespace KomaxApp.UI_Design
             #region Data Reading
             try
             {
+                //List<string> comPorts = new List<string>  //dynamic
+                //    {
+                //        _powerMeter,_torqueMeter,_rpm,_temperature,
+                //    };
                 List<string> comPorts = new List<string>
                     {
-                        _powerMeter,_torqueMeter,_rpm,_temperature,
+                        "COM6","COM4","COM5","COM3"
                     };
                 List<string> commands = new List<string>
                 {
@@ -175,12 +187,6 @@ namespace KomaxApp.UI_Design
                     null                               // No command for _temperature (COM7)
                 };
                 InitializeMultipleSerialPorts(comPorts, commands);
-
-
-                //InitializeSerialPort(_powerMeter);
-                //InitializeSerialPort(_torqueMeter);
-                //InitializeSerialPort(_rpm);
-                //InitializeSerialPort(_temperature);
             }
             catch (Exception ex)
             {
@@ -247,6 +253,41 @@ namespace KomaxApp.UI_Design
                     {
                         byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
                         serialPort.Write(commandBytes, 0, commandBytes.Length);
+                    }
+                }
+                else
+                {
+                    // If the port is already initialized, perform the logic that should run every second
+                    var serialPort = serialPorts[comPort];
+                    if (!serialPort.IsOpen)
+                    {
+                        try
+                        {
+                            // Attempt to open the serial port if it is not open
+                            serialPort.Open();
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle errors during the port opening process
+                            labelInfo.Text = $"Error reopening serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                            labelInfo.ForeColor = Color.Red;
+                            return;
+                        }
+                    }
+                    try
+                    {
+                        // Send the command again if provided
+                        if (!string.IsNullOrEmpty(command))
+                        {
+                            byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
+                            serialPort.Write(commandBytes, 0, commandBytes.Length);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle errors during the command sending process
+                        labelInfo.Text = $"Error sending command to serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                        labelInfo.ForeColor = Color.Red;
                     }
                 }
             }
