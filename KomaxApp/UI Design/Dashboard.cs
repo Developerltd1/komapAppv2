@@ -145,7 +145,7 @@ namespace KomaxApp.UI_Design
             try
             {
                 pollingTimer = new Timer();
-                pollingTimer.Interval = 1000;
+                pollingTimer.Interval = 6000;
                 pollingTimer.Tick += PollingTimer_Tick;
             }
             catch (Exception ex)
@@ -167,7 +167,14 @@ namespace KomaxApp.UI_Design
                     {
                         _powerMeter,_torqueMeter,_rpm,_temperature,
                     };
-                InitializeMultipleSerialPorts(comPorts);
+                List<string> commands = new List<string>
+                {
+                    ":MEAS?",                          // Command for _powerMeter (COM6)
+                    "0x23, 0x30, 0x30, 0x30, 0x0d",    // Command for _torqueMeter (COM5)
+                    "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA", // Command for _rpm (COM4)
+                    null                               // No command for _temperature (COM7)
+                };
+                InitializeMultipleSerialPorts(comPorts, commands);
 
 
                 //InitializeSerialPort(_powerMeter);
@@ -183,70 +190,82 @@ namespace KomaxApp.UI_Design
         }
 
         // Method to initialize multiple serial ports
-        private void InitializeMultipleSerialPorts(List<string> comPorts)
+        private void InitializeMultipleSerialPorts(List<string> comPorts, List<string> commands)
         {
-            InitializeSerialPort(comPorts[0]);
-            InitializeSerialPort(comPorts[1]);
-            InitializeSerialPort(comPorts[2]);
-            InitializeSerialPort(comPorts[3]);
-            //foreach (var comPort in comPorts)
-            //{
-            //    InitializeSerialPort(comPort);
-            //}
+            //InitializeSerialPort(comPorts[0],);
+            //InitializeSerialPort(comPorts[1]);
+            //InitializeSerialPort(comPorts[2]);
+            //InitializeSerialPort(comPorts[3]);
+            for (int i = 0; i < comPorts.Count; i++)
+            {
+                string comPort = comPorts[i];
+                string command = commands[i]; // Corresponding command for the port
+                InitializeSerialPort(comPort, command);
+            }
         }
 
         #region InitilizeSerialPortNew
         // Method to initialize a single serial port
-        private void InitializeSerialPort(string comPort)
+        private void InitializeSerialPort(string comPort, string command)
         {
             try
             {
+                // Check if the serial port is already initialized
                 if (!serialPorts.ContainsKey(comPort))
                 {
+                    // Initialize the serial port with common settings
                     SerialPort serialPort = new SerialPort
                     {
-                        PortName = comPort,  // Set the COM port name
+                        PortName = comPort,
                         BaudRate = 9600,
                         Parity = Parity.None,
                         DataBits = 8,
                         StopBits = StopBits.One,
                         Handshake = Handshake.None,
-                        ReadTimeout = 90000  // Optional timeout
+                        ReadTimeout = 90000  // Set an optional timeout
                     };
 
                     try
                     {
-                        serialPort.Open();  // Attempt to open the serial port
+                        // Open the serial port
+                        serialPort.Open();
+                        serialPorts[comPort] = serialPort; // Add the port to the dictionary
                     }
                     catch (Exception ex)
                     {
+                        // Handle errors during the port opening process
                         labelInfo.Text = $"Error opening serial port {comPort}: {ex.Message}" + Environment.NewLine;
-                        labelInfo.ForeColor = System.Drawing.Color.Red;
-                        return;  // Exit if the port couldn't be opened
+                        labelInfo.ForeColor = Color.Red;
+                        return;
                     }
 
-                    // Set up the DataReceived event handler and send an initial command
-                    serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(":MEAS?" + "\r\n");  // Add CRLF
-                    serialPort.Write(commandBytes, 0, commandBytes.Length);
+                    // Set up the DataReceived event handler for the serial port
+                    serialPort.DataReceived += (sender, e) => DataReceivedHandler(sender, e);
 
-                    // Add the initialized port to the dictionary
-                    serialPorts[comPort] = serialPort;
+                    // Send the initial command if provided
+                    if (!string.IsNullOrEmpty(command))
+                    {
+                        byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
+                        serialPort.Write(commandBytes, 0, commandBytes.Length);
+                    }
                 }
             }
             catch (Exception ex)
             {
+                // Display an error message and handle cleanup
                 labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
-                labelInfo.ForeColor = System.Drawing.Color.Red;
+                labelInfo.ForeColor = Color.Red;
 
-                // Close and remove the port from the dictionary if initialization fails
+                // Clean up resources if initialization fails
                 if (serialPorts.ContainsKey(comPort))
                 {
                     serialPorts[comPort].Close();
-                    //serialPorts.Remove(comPort);
+                    serialPorts.Remove(comPort);
                 }
             }
         }
+
+
         #endregion
         #region InitializeSerialPort
         //private void InitializeSerialPort(string ComPort)
