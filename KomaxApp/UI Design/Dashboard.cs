@@ -146,7 +146,7 @@ namespace KomaxApp.UI_Design
             try
             {
                 pollingTimer = new Timer();
-                pollingTimer.Interval = 1000;
+                pollingTimer.Interval = 3000;
                 pollingTimer.Tick += PollingTimer_Tick;
             }
             catch (Exception ex)
