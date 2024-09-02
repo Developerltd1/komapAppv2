@@ -55,7 +55,10 @@ namespace KomaxApp.GenericCode
                     try
                     {
                         // Open the serial port
-                        //serialPort.Open();//dynamic
+                        if (!serialPort.IsOpen)
+                        {
+                            serialPort.Open();//dynamic
+                        }
                         serialPorts[comPort] = serialPort; // Add the port to the dictionary
                     }
                     catch (Exception ex)
@@ -64,16 +67,24 @@ namespace KomaxApp.GenericCode
                         Console.WriteLine($"Error opening serial port {comPort}: {ex.Message}");
                         return;
                     }
-
+                   
                     // Set up the DataReceived event handler for the serial port
                     serialPort.DataReceived += (sender, e) => DataReceivedHandler(sender, e);
-
                     // Send the initial command if provided
                     if (!string.IsNullOrEmpty(command))
                     {
-                        byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
-                        // serialPort.Write(commandBytes, 0, commandBytes.Length);  //dynamic
+                      
+                       
+
+                        byte[] commandBytes = command.Split(' ')
+                .Select(hex => Convert.ToByte(hex, 16))
+                .ToArray();
+
+                        //byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
+                        serialPort.Write(commandBytes, 0, commandBytes.Length);  //dynamic
+                        //serialPort.Write(command);  //dynamic
                     }
+
                 }
                 else
                 {
@@ -84,7 +95,7 @@ namespace KomaxApp.GenericCode
                         try
                         {
                             // Attempt to open the serial port if it is not open
-                            // serialPort.Open();   //dynamic
+                             serialPort.Open();   //dynamic
                         }
                         catch (Exception ex)
                         {
@@ -99,7 +110,7 @@ namespace KomaxApp.GenericCode
                         if (!string.IsNullOrEmpty(command))
                         {
                             byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");
-                            // serialPort.Write(commandBytes, 0, commandBytes.Length);  //dynamic
+                             serialPort.Write(commandBytes, 0, commandBytes.Length);  //dynamic
                         }
                     }
                     catch (Exception ex)
@@ -129,6 +140,7 @@ namespace KomaxApp.GenericCode
             try
             {
                 SerialPort sp = (SerialPort)sender;
+                string commandName = sp.PortName;
                 string inData = sp.ReadLine();
                 if (!string.IsNullOrEmpty(inData))
                 {
@@ -150,35 +162,11 @@ namespace KomaxApp.GenericCode
                 Console.WriteLine("No data received.");
                 return;
             }
+        
 
-            string cleanedData = Regex.Replace(data, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();
+           
 
-            // Split the string by commas
-            var dataParts = cleanedData.Split(',');
 
-            var dataResponse = new DashboardModel.Manupulation
-            {
-                labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
-                labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A",
-                labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A",
-                labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A",
-                labelA1 = dataParts.ElementAtOrDefault(8) ?? "N/A",
-                labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A",
-                labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A",
-                labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A",
-                labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A",
-                labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A",
-                labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A",
-                labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A",
-                labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A",
-                labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A",
-                labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A",
-                labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A",
-                labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A"
-            };
-
-            // Optionally serialize to JSON if needed
-            // string jsonResult = JsonConvert.SerializeObject(dataResponse, Newtonsoft.Json.Formatting.Indented);
         }
     }
 }
