@@ -4,7 +4,7 @@ using System.IO.Ports;
 namespace KomaxApp.GenericCode
 {
     public class SerialPortManager
-    {
+    { 
 
         public event EventHandler<string> DataReceived;
         public event EventHandler<string> ErrorOccurred;
