@@ -33,7 +33,7 @@ namespace KomaxApp.UI_Design
                 dashboard.Show();
             }
             else
-            {
+            { 
                 dashboard.Activate();
             }
         }

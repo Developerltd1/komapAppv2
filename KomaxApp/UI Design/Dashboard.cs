@@ -1,6 +1,7 @@
 ﻿using EasyModbus;
 using komaxApp.BusinessLayer;
 using komaxApp.Utility.ExtensionMethod;
+using KomaxApp.GenericCode;
 using KomaxApp.Model.Dashboard;
 using KomaxApp.Model.Display;
 using Microsoft.ReportingServices.RdlExpressions.ExpressionHostObjectModel;
@@ -20,6 +21,14 @@ using System.Windows.Forms;
 using System.Xml;
 using Utility;
 using static KomaxApp.Model.Dashboard.DashboardModel.Manupulation;
+using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Windows.Forms;
+using KomaxApp.GenericCode;
+using KomaxApp.Model.Dashboard;
+
+
 
 namespace KomaxApp.UI_Design
 {
@@ -84,17 +93,9 @@ namespace KomaxApp.UI_Design
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
-        // Dictionary to store SerialPort objects for each COM port
-        //private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
-        
-        private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>
-        {
-                { "COM6", new SerialPort("COM6", 9600, Parity.None, 8, StopBits.One) },
-                { "COM4", new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One) },
-                { "COM5", new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One) },
-                { "COM3", new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One) }
-        };
 
+        private Dictionary<string, SerialPort> serialPorts;
+        private SerialPortCode serialPortCode;
 
         public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
         {
@@ -107,7 +108,50 @@ namespace KomaxApp.UI_Design
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
+
+
+            serialPorts = new Dictionary<string, SerialPort>
+            {
+                    { "COM6", new SerialPort("COM6", 9600, Parity.None, 8, StopBits.One) },
+                    { "COM4", new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One) },
+                    { "COM5", new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One) },
+                    { "COM3", new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One) }
+            };
+
+         
         }
+
+        #region Generic
+        private void HandleDataReceived(string data)
+        {
+            // Call ParseResponse to handle the data
+            serialPortCode.ParseResponse(data);
+
+            // Update the UI with the new data
+            this.Invoke((MethodInvoker)delegate
+            {
+                // Assuming ParseResponse updates some labels directly
+                // You can handle additional UI updates here if needed
+            });
+        }
+
+        // Initialize the serial ports with their respective commands
+        private void InitializePorts()
+        {
+            var comPorts = new List<string> { "COM6", "COM4", "COM5", "COM3" };
+            var commands = new List<string>
+        {
+            ":MEAS?", // Command for COM6
+            "0x23, 0x30, 0x30, 0x30, 0x0d", // Command for COM4
+            "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA", // Command for COM5
+            null // No command for COM3
+        };
+
+            // Initialize serial ports
+            serialPortCode.InitializeMultipleSerialPorts(comPorts, commands);
+        }
+
+        #endregion
         private void buttonReading_Click(object sender, EventArgs e)
         {
             try
@@ -168,30 +212,39 @@ namespace KomaxApp.UI_Design
                 JIMessageBox.WarningMessage("COM Ports are not Configure");
                 return;
             }
+
+            #region MyRegion
+            // Initialize SerialPortCode and subscribe to the event
+            serialPortCode = new SerialPortCode();
+            serialPortCode.OnDataReceived += HandleDataReceived;
+
+            // Example initialization call (make sure to call this method as needed)
+            InitializePorts();
+            #endregion
             #region Data Reading
-            try
-            {
-                //List<string> comPorts = new List<string>  //dynamic
-                //    {
-                //        _powerMeter,_torqueMeter,_rpm,_temperature,
-                //    };
-                List<string> comPorts = new List<string>
-                    {
-                        "COM6","COM4","COM5","COM3"
-                    };
-                List<string> commands = new List<string>
-                {
-                    ":MEAS?",                          // Command for _powerMeter (COM6)
-                    "0x23, 0x30, 0x30, 0x30, 0x0d",    // Command for _torqueMeter (COM5)
-                    "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA", // Command for _rpm (COM4)
-                    null                               // No command for _temperature (COM7)
-                };
-                InitializeMultipleSerialPorts(comPorts, commands);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("PollingTimer error: " + ex.Message);
-            }
+            //try
+            //{
+            //    //List<string> comPorts = new List<string>  //dynamic
+            //    //    {
+            //    //        _powerMeter,_torqueMeter,_rpm,_temperature,
+            //    //    };
+            //    List<string> comPorts = new List<string>
+            //        {
+            //            "COM6","COM4","COM5","COM3"
+            //        };
+            //    List<string> commands = new List<string>
+            //    {
+            //        ":MEAS?",                          // Command for _powerMeter (COM6)
+            //        "0x23, 0x30, 0x30, 0x30, 0x0d",    // Command for _torqueMeter (COM5)
+            //        "0x05,0x01,0x00,0x00,0x00,0x00,0x06,0xAA", // Command for _rpm (COM4)
+            //        null                               // No command for _temperature (COM7)
+            //    };
+            //    InitializeMultipleSerialPorts(comPorts, commands);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("PollingTimer error: " + ex.Message);
+            //}
             #endregion
         }
 
@@ -308,47 +361,7 @@ namespace KomaxApp.UI_Design
 
 
         #endregion
-        #region InitializeSerialPort
-        //private void InitializeSerialPort(string ComPort)
-        //{
-        //    try
-        //    {
-        //        if (serialPort == null)
-        //        {
-        //            serialPort = new SerialPort();
-        //        }
-        //        serialPort.PortName = ComPort;// comPorts.Text;  // Set your port name
-        //        serialPort.BaudRate = 9600;
-        //        serialPort.Parity = Parity.None;
-        //        serialPort.DataBits = 8;
-        //        serialPort.StopBits = StopBits.One;
-        //        serialPort.Handshake = Handshake.None;
-        //        serialPort.ReadTimeout = 2000;  // Optional timeout
-        //        try
-        //        {
-        //            serialPort.Open();
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            throw;
-        //        }
-
-        //        serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-        //        byte[] commandBytes = Encoding.ASCII.GetBytes(":MEAS?" + "\r\n"); // Adding CRLF
-        //        serialPort.Write(commandBytes, 0, commandBytes.Length);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        labelInfo.Text = "Error initializing serial port: " + ex.Message + Environment.NewLine;
-        //        labelInfo.ForeColor = Color.Red;
-        //        serialPort.Close();
-        //    }
-
-        //}
-
-
-        #endregion
+         
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
             try
