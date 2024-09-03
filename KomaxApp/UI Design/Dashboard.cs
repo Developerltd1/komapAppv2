@@ -172,12 +172,38 @@ namespace KomaxApp.UI_Design
                    // null                               // No command for _temperature (COM7)
                 };
 
+                DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
+
                 for (int i = 0; i < comPorts.Count; i++)
                 {
                     string comPort = comPorts[i];
                     string command = commands[i]; // Corresponding command for the port
-                    InitializeSerialPort(comPort, command);
+                    switch (comPort)
+                    {
+                        case "COM4":
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                            break;
+
+                        case "COM5":
+                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                            break;
+                        case "COM6":
+                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                            break;
+                        case "COM7":
+                            serialResponse._serialResponseCOM7 = InitializeSerialPort(comPort, command);
+                            break;
+                        default:
+                            JIMessageBox.WarningMessage("No Ports Initlized");
+                            return;
+                    }
                 }
+
+
+                ParseResponse(serialResponse);  // You can call ParseResponse to handle the data
+
+
+
 
             }
             catch (Exception ex)
@@ -188,8 +214,9 @@ namespace KomaxApp.UI_Design
         }
 
         #region InitilizeSerialPortNew
-        private void InitializeSerialPort(string comPort, string command)
+        private string InitializeSerialPort(string comPort, string command)
         {
+            string serialResponse = null;
             try
             {
                 // Check if the serial port is already initialized
@@ -211,38 +238,57 @@ namespace KomaxApp.UI_Design
                     serialPort.Open();
                     serialPorts[comPort] = serialPort; // Add the port to the dictionary
                 }
-                else  //already 
+                else  //already open
                 {
                     serialPort = serialPorts[comPort];
                 }
 
 
                 var PortName = serialPort.PortName;
-                string inData = null;
+                switch (command)  //COnversion
+                {
+                    case "COM4":
+                        byte[] commandBytes4 = HexStringToByteArray(command);
+                        serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                        serialResponse = serialPort.ReadExisting();
+                        break;
+
+                    case "COM6":
+                            byte[] commandBytes6 = HexStringToByteArray(command);
+                            serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
+                            serialResponse = serialPort.ReadExisting();
+                        break;
+
+                    case "COM5":
+                        if (!string.IsNullOrEmpty(serialResponse))
+                        {
+                            return serialResponse; // Return if there's a response for COM5
+                        }
+                        break;
+
+                    default:
+                        richTextBox1.AppendText("No data received." + Environment.NewLine);
+                        return string.Empty; // Return empty string if no data is received
+                }
 
                 if (!string.IsNullOrEmpty(command) && command == "COM4")
                 {
-                    byte[] commandBytes = HexStringToByteArray(command);
-                    serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
-                    inData = serialPort.ReadExisting();
+                    return serialResponse;
                 }
-                if (!string.IsNullOrEmpty(command) && command == "COM6")
+
+                if (!string.IsNullOrEmpty(serialResponse) && command == "COM5")
                 {
-                    byte[] commandBytes = HexStringToByteArray(command);
-                    serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
-                    inData = serialPort.ReadExisting();
+                    return serialResponse;
                 }
-                if (!string.IsNullOrEmpty(inData))
+                if (!string.IsNullOrEmpty(serialResponse) && command == "COM6")
                 {
-                    ParseResponse(inData);  // You can call ParseResponse to handle the data
+                    return serialResponse;
                 }
                 else
                 {
                     richTextBox1.AppendText("No data received." + Environment.NewLine);
-                    return;
+                    return null;
                 }
-
-                //}
 
             }
             catch (Exception ex)
@@ -259,6 +305,7 @@ namespace KomaxApp.UI_Design
             {
                 CloseSerialPort(comPort);
             }
+            return serialResponse;
         }
         private byte[] HexStringToByteArray(string hex)
         {
@@ -278,6 +325,85 @@ namespace KomaxApp.UI_Design
         }
 
         #endregion
+        private void ParseResponse(DashboardModel.SerialResponseModel data)
+        {
+            DashboardModel.Manupulation returnModel = new DashboardModel.Manupulation();
+            if (!string.IsNullOrEmpty(data._serialResponseCOM4))
+            {
+                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                var dataParts = cleanedData.Split(',');    // Split the string by commas
+                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(4) ?? "N/A";
+
+            }
+            if (!string.IsNullOrEmpty(data._serialResponseCOM5))
+            {
+                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                var dataParts = cleanedData.Split(',');    // Split the string by commas
+                returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(4) ?? "N/A";
+            }
+            if (!string.IsNullOrEmpty(data._serialResponseCOM6))
+            {
+                string cleanedData = Regex.Replace(data._serialResponseCOM6, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                var dataParts = cleanedData.Split(',');    // Split the string by commas
+
+                    returnModel.labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A";
+                    returnModel.labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A";
+                    returnModel.labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A";
+                    returnModel.labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A";
+                returnModel.labelA1 = dataParts.ElementAtOrDefault(8) ?? "N/A";
+                    returnModel.labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A";
+                    returnModel.labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A";
+                returnModel.labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A";
+                returnModel.labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A";
+                    returnModel.labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A";
+                    returnModel.labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A";
+                    returnModel.labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A";
+                returnModel.labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A";
+                    returnModel.labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A";
+                    returnModel.labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A";
+                    returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
+                returnModel.labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A";
+            }
+            if (!string.IsNullOrEmpty(data._serialResponseCOM7))
+            {
+                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                var dataParts = cleanedData.Split(',');    // Split the string by commas
+                returnModel._tbShaftPawerKw = dataParts.ElementAtOrDefault(4) ?? "N/A";
+            }
+
+
+            //UI
+            try
+            {
+                // Update the labels on the UI thread
+                this.Invoke((MethodInvoker)delegate
+                {
+                    labelV1.Text = returnModel.labelV1;
+                    labelV2.Text = returnModel.labelV2;
+                    labelV3.Text = returnModel.labelV3;
+                    labelV0.Text = returnModel.labelV0;
+                    labelA1.Text = returnModel.labelA1;
+                    labelA2.Text = returnModel.labelA2;
+                    labelA3.Text = returnModel.labelA3;
+                    labelA0.Text = returnModel.labelA0;
+                    labelPf1.Text = returnModel.labelPf1;
+                    labelPf2.Text = returnModel.labelPf2;
+                    labelPf3.Text = returnModel.labelPf3;
+                    labelPf0.Text = returnModel.labelPf0;
+                    labelHertz.Text = returnModel.labelHertz;
+                    labelPower1.Text = returnModel.labelPower1;
+                    labelPower2.Text = returnModel.labelPower2;
+                    labelPower3.Text = returnModel.labelPower3;
+                    labelPower0.Text = returnModel.labelPower0;
+                });
+            }
+            catch (Exception ex)
+            {
+            }
+            // Convert the class to JSON
+            //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
+            //var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
+        }
 
         private void CloseSerialPort(string comPort)
         {
@@ -294,7 +420,31 @@ namespace KomaxApp.UI_Design
 
 
 
+     
+
+       
+       
         #region Screenshot
+        private void buttonScreenshot_Click_1(object sender, EventArgs e)
+        {
+            CaptureMdiChildForm(this);
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            CloseAllSerialPorts();  // Close all ports when the form is closing
+        }
+        private void CloseAllSerialPorts()
+        {
+            foreach (var serialPort in serialPorts.Values)
+            {
+                if (serialPort.IsOpen)
+                {
+                    serialPort.Close();  // Close each open serial port
+                }
+            }
+            serialPorts.Clear();  // Clear the dictionary after closing all ports
+        }
         public void CaptureWindow(Form form)
         {
             // Get the form's bounds on the screen (including borders and title bar)
@@ -398,203 +548,7 @@ namespace KomaxApp.UI_Design
 
         #endregion
 
-        #region MyRegion
-        private void CloseAllSerialPorts()
-        {
-            foreach (var serialPort in serialPorts.Values)
-            {
-                if (serialPort.IsOpen)
-                {
-                    serialPort.Close();  // Close each open serial port
-                }
-            }
-            serialPorts.Clear();  // Clear the dictionary after closing all ports
-        }
-        #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // InitializeSerialPort();
-            richTextBox1.Text = null;
-        }
-
-        private void labelA0_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        #region try for PM data reading
-        public void SendCommandAndDisplayResponse(string command)
-        {
-            try
-            {
-                // Open the serial port if it's not already open
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
-                }
-
-                // Send the command
-                byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n"); // Adding CRLF
-                serialPort.Write(commandBytes, 0, commandBytes.Length);
-                //serialPort.Write(":MEAS?");
-
-                richTextBox1.AppendText("Command sent: " + command + Environment.NewLine);
-
-                // Call the ReadCompleteResponse method to get the JSON string
-                string response = ReadCompleteResponse();
-
-                if (!string.IsNullOrEmpty(response))
-                {
-                    richTextBox1.AppendText(response + Environment.NewLine);
-                }
-                else
-                {
-                    JIMessageBox.WarningMessage("Response is Empty");
-                    return;
-                }
-
-                ParseResponse(response);
-            }
-            catch (Exception ex)
-            {
-                richTextBox1.AppendText("Error: " + ex.Message + Environment.NewLine);
-            }
-            finally
-            {
-                // Close the serial port if it's open
-
-                richTextBox1.AppendText("Serial port closed." + Environment.NewLine);
-            }
-        }
-
-        private string ReadCompleteResponse()
-        {
-            string jsonResult = null;
-            try
-            {
-
-                string data = serialPort.ReadExisting();
-
-                if (!string.IsNullOrEmpty(data))
-                {
-                    // Split the string by commas
-                    var dataParts = data.Split(',');
-
-                    // Define a dictionary to hold key-value pairs
-                    var dataDictionary = new Dictionary<string, string>();
-
-                    try
-                    {
-                        dataDictionary["labelV1"] = Conversion.GetValue(dataParts, 4);
-                        dataDictionary["labelV2"] = Conversion.GetValue(dataParts, 5);
-                        dataDictionary["labelV3"] = Conversion.GetValue(dataParts, 6);
-                        dataDictionary["labelV0"] = Conversion.GetValue(dataParts, 7);
-                        dataDictionary["labelA1"] = Conversion.GetValue(dataParts, 8);
-                        dataDictionary["labelA2"] = Conversion.GetValue(dataParts, 9);
-                        dataDictionary["labelA3"] = Conversion.GetValue(dataParts, 10);
-                        dataDictionary["labelA0"] = Conversion.GetValue(dataParts, 11);
-                        dataDictionary["labelPf1"] = Conversion.GetValue(dataParts, 15);
-                        dataDictionary["labelPf2"] = Conversion.GetValue(dataParts, 16);
-                        dataDictionary["labelPf3"] = Conversion.GetValue(dataParts, 17);
-                        dataDictionary["labelPf0"] = Conversion.GetValue(dataParts, 18);
-                        dataDictionary["labelHertz"] = Conversion.GetValue(dataParts, 19);
-                        dataDictionary["labelPower1"] = Conversion.GetValue(dataParts, 20);
-                        dataDictionary["labelPower2"] = Conversion.GetValue(dataParts, 26);
-                        dataDictionary["labelPower3"] = Conversion.GetValue(dataParts, 27);
-                        dataDictionary["labelPower0"] = Conversion.GetValue(dataParts, 28);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("An error occurred while processing data: " + ex.Message);
-                    }
-
-                    // Convert the dictionary to JSON
-                    jsonResult = JsonConvert.SerializeObject(dataDictionary, Newtonsoft.Json.Formatting.Indented);
-
-                    // Output the JSON
-                    Console.WriteLine(jsonResult);
-                }
-            }
-            catch (TimeoutException)
-            {
-                // Handle timeout
-                richTextBox1.AppendText("Timeout occurred while reading response." + Environment.NewLine);
-            }
-            return jsonResult;
-        }
-
-        private void ParseResponse(string data)
-        {
-            string cleanedData = Regex.Replace(data, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();
-
-            // Split the string by commas
-            var dataParts = cleanedData.Split(',');
-            var dataResponse = new DashboardModel.Manupulation
-            {
-                labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A",
-                labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A",
-                labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A",
-                labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A",
-                labelA1 = dataParts.ElementAtOrDefault(8) ?? "N/A",
-                labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A",
-                labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A",
-                labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A",
-                labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A",
-                labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A",
-                labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A",
-                labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A",
-                labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A",
-                labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A",
-                labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A",
-                labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A",
-                labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A",
-            };
-            // Convert the class to JSON
-            string jsonResult = JsonConvert.SerializeObject(dataResponse, Newtonsoft.Json.Formatting.Indented);
-            var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
-            try
-            {
-                // Update the labels on the UI thread
-                this.Invoke((MethodInvoker)delegate
-                {
-                    labelV1.Text = deserializedResponse.labelV1;
-                    labelV2.Text = deserializedResponse.labelV2;
-                    labelV3.Text = deserializedResponse.labelV3;
-                    labelV0.Text = deserializedResponse.labelV0;
-                    labelA1.Text = deserializedResponse.labelA1;
-                    labelA2.Text = deserializedResponse.labelA2;
-                    labelA3.Text = deserializedResponse.labelA3;
-                    labelA0.Text = deserializedResponse.labelA0;
-                    labelPf1.Text = deserializedResponse.labelPf1;
-                    labelPf2.Text = deserializedResponse.labelPf2;
-                    labelPf3.Text = deserializedResponse.labelPf3;
-                    labelPf0.Text = deserializedResponse.labelPf0;
-                    labelHertz.Text = deserializedResponse.labelHertz;
-                    labelPower1.Text = deserializedResponse.labelPower1;
-                    labelPower2.Text = deserializedResponse.labelPower2;
-                    labelPower3.Text = deserializedResponse.labelPower3;
-                    labelPower0.Text = deserializedResponse.labelPower0;
-                });
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        #endregion
-
-        #region Screnshot
-        private void buttonScreenshot_Click_1(object sender, EventArgs e)
-        {
-            CaptureMdiChildForm(this);
-        }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            CloseAllSerialPorts();  // Close all ports when the form is closing
-        }
-
-        #endregion
 
     }
 
