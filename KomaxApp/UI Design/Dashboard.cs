@@ -377,15 +377,15 @@ namespace KomaxApp.UI_Design
                 returnModel.labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A";
                 returnModel.labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A";
                 returnModel.labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A";
-                returnModel.labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A";
-                returnModel.labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A";
-                returnModel.labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A";
-                returnModel.labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A";
-                returnModel.labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A";
-                returnModel.labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A";
-                returnModel.labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A";
-                returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
-                returnModel.labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A";
+                returnModel.labelPf1 = dataParts.ElementAtOrDefault(26) ?? "N/A";
+                returnModel.labelPf2 = dataParts.ElementAtOrDefault(27) ?? "N/A";
+                returnModel.labelPf3 = dataParts.ElementAtOrDefault(28) ?? "N/A";
+                returnModel.labelPf0 = dataParts.ElementAtOrDefault(15) ?? "N/A";
+                returnModel.labelHertz = dataParts.ElementAtOrDefault(16) ?? "N/A";
+                returnModel.labelPower1 = dataParts.ElementAtOrDefault(17) ?? "N/A";
+                returnModel.labelPower2 = dataParts.ElementAtOrDefault(18) ?? "N/A";
+                returnModel.labelPower3 = dataParts.ElementAtOrDefault(19) ?? "N/A";
+                returnModel.labelPower0 = dataParts.ElementAtOrDefault(20) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM7Temp1))
             {
@@ -404,30 +404,58 @@ namespace KomaxApp.UI_Design
             try
             {
                 // Update the labels on the UI thread
+                #region Default
+                //this.Invoke((MethodInvoker)delegate
+                //      {
+                //          labelV1.Text = returnModel.labelV1;
+                //          labelV2.Text = returnModel.labelV2;
+                //          labelV3.Text = returnModel.labelV3;
+                //          labelV0.Text = returnModel.labelV0;
+                //          labelA1.Text = returnModel.labelA1;
+                //          labelA2.Text = returnModel.labelA2;
+                //          labelA3.Text = returnModel.labelA3;
+                //          labelA0.Text = returnModel.labelA0;
+                //          labelPf1.Text = returnModel.labelPf1;
+                //          labelPf2.Text = returnModel.labelPf2;
+                //          labelPf3.Text = returnModel.labelPf3;
+                //          labelPf0.Text = returnModel.labelPf0;
+                //          labelHertz.Text = returnModel.labelHertz;
+                //          labelPower1.Text = returnModel.labelPower1;
+                //          labelPower2.Text = returnModel.labelPower2;
+                //          labelPower3.Text = returnModel.labelPower3;
+                //          labelPower0.Text = returnModel.labelPower0;
+                //          tbTorqueNm.Text = returnModel._tbTorqueNm;
+                //          tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                //          tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                //          tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                //      }); 
+                #endregion
+                #region Default
                 this.Invoke((MethodInvoker)delegate
-                {
-                    labelV1.Text = returnModel.labelV1;
-                    labelV2.Text = returnModel.labelV2;
-                    labelV3.Text = returnModel.labelV3;
-                    labelV0.Text = returnModel.labelV0;
-                    labelA1.Text = returnModel.labelA1;
-                    labelA2.Text = returnModel.labelA2;
-                    labelA3.Text = returnModel.labelA3;
-                    labelA0.Text = returnModel.labelA0;
-                    labelPf1.Text = returnModel.labelPf1;
-                    labelPf2.Text = returnModel.labelPf2;
-                    labelPf3.Text = returnModel.labelPf3;
-                    labelPf0.Text = returnModel.labelPf0;
-                    labelHertz.Text = returnModel.labelHertz;
-                    labelPower1.Text = returnModel.labelPower1;
-                    labelPower2.Text = returnModel.labelPower2;
-                    labelPower3.Text = returnModel.labelPower3;
-                    labelPower0.Text = returnModel.labelPower0;
-                    tbTorqueNm.Text = returnModel._tbTorqueNm;
-                    tbSpeedRPM.Text = returnModel._tbSpeedRPM;
-                    tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
-                    tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
-                });
+                      {
+                          labelV1.Text = returnModel.labelV1;
+                          labelV2.Text = returnModel.labelV2;
+                          labelV3.Text = returnModel.labelV3;
+                          labelV0.Text = returnModel.labelV0;
+                          labelA1.Text = returnModel.labelA1;
+                          labelA2.Text = returnModel.labelA2;
+                          labelA3.Text = returnModel.labelA3;
+                          labelA0.Text = returnModel.labelA0;
+                          labelPf1.Text = returnModel.labelPf1;
+                          labelPf2.Text = returnModel.labelPf2;
+                          labelPf3.Text = returnModel.labelPf3;
+                          labelPf0.Text = returnModel.labelPf0;
+                          labelHertz.Text = returnModel.labelHertz;
+                          labelPower1.Text = returnModel.labelPower1;
+                          labelPower2.Text = returnModel.labelPower2;
+                          labelPower3.Text = returnModel.labelPower3;
+                          labelPower0.Text = returnModel.labelPower0;
+                          tbTorqueNm.Text = returnModel._tbTorqueNm;
+                          tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                          tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                          tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                      });
+                #endregion
             }
             catch (Exception ex)
             {
