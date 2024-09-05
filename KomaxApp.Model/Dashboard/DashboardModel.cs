@@ -34,14 +34,17 @@ namespace KomaxApp.Model.Dashboard
             public string _tbLoadingFactorPercentage { get; set; }
             public string _tbMototSizeHP { get; set; }
             public string _tbShaftPawerKw { get; set; }
-            
+            public string _tbserialResponseCOM7Temp1 { get; set; }
+            public string __tbserialResponseCOM7Temp2 { get; set; }
+
         }
         public class SerialResponseModel
         {
             public string _serialResponseCOM4  { get; set; }
             public string _serialResponseCOM5  { get; set; }
             public string _serialResponseCOM6  { get; set; }
-            public string _serialResponseCOM7  { get; set; }
+            public string _serialResponseCOM7Temp1  { get; set; }
+            public string _serialResponseCOM7Temp2 { get; set; }
         }
     }
 }

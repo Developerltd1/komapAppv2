@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -160,8 +161,8 @@ namespace KomaxApp.UI_Design
                     {
                         _powerMeter,
                         _torqueMeter
-                        ,_rpm
-                        //,_temperature,
+                        ,_rpm,
+                        _temperature,
                     };
                 //List<string> comPorts = new List<string>
                 //    {
@@ -172,7 +173,7 @@ namespace KomaxApp.UI_Design
                     ":MEAS?",                          // Command for _powerMeter (COM6)
                     "x23 x30 x30 x30 x0d",    // Command for _torqueMeter (COM5)
                     "x05 x01 x00 x00 x00 x00 x06 xAA" // Command for _rpm (COM4)
-                   // null                               // No command for _temperature (COM7)
+                    ,""// null                               // No command for _temperature (COM7)  //Modbus Data
                 };
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
@@ -198,7 +199,10 @@ namespace KomaxApp.UI_Design
                             portInitialized = true;
                             break;
                         case "COM7":
-                            serialResponse._serialResponseCOM7 = InitializeSerialPort(comPort, command);
+                            double temp1 = LoadModbusData(comPort, 1);
+                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            double temp2 = LoadModbusData(comPort, 2);
+                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                             portInitialized = true;
                             break;
                         default:
@@ -349,14 +353,14 @@ namespace KomaxApp.UI_Design
             DashboardModel.Manupulation returnModel = new DashboardModel.Manupulation();
             if (!string.IsNullOrEmpty(data._serialResponseCOM4))
             {
-                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                string cleanedData = Regex.Replace(data._serialResponseCOM4, @".*?(-\d+\.\d+\.\d+).*", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
                 returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
 
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM5))
             {
-                string cleanedData = Regex.Replace(data._serialResponseCOM5, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                string cleanedData = Regex.Replace(data._serialResponseCOM5, @".*\+(\d+\.\d+)", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
                 returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
@@ -383,13 +387,18 @@ namespace KomaxApp.UI_Design
                 returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
                 returnModel.labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A";
             }
-            if (!string.IsNullOrEmpty(data._serialResponseCOM7))
+            if (!string.IsNullOrEmpty(data._serialResponseCOM7Temp1))
             {
-                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                string cleanedData = Regex.Replace(data._serialResponseCOM7Temp1, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbShaftPawerKw = dataParts.ElementAtOrDefault(4) ?? "N/A";
+                returnModel._tbserialResponseCOM7Temp1 = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
-
+            if (!string.IsNullOrEmpty(data._serialResponseCOM7Temp2))
+            {
+                string cleanedData = Regex.Replace(data._serialResponseCOM7Temp2, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                var dataParts = cleanedData.Split(',');    // Split the string by commas
+                returnModel.__tbserialResponseCOM7Temp2 = dataParts.ElementAtOrDefault(0) ?? "N/A";
+            }
 
             //UI
             try
@@ -414,8 +423,10 @@ namespace KomaxApp.UI_Design
                     labelPower2.Text = returnModel.labelPower2;
                     labelPower3.Text = returnModel.labelPower3;
                     labelPower0.Text = returnModel.labelPower0;
-                    tbTorqueNm.Text  = returnModel._tbTorqueNm;
-                    tbSpeedRPM.Text=returnModel._tbSpeedRPM;
+                    tbTorqueNm.Text = returnModel._tbTorqueNm;
+                    tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                    tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                    tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
                 });
             }
             catch (Exception ex)
@@ -569,7 +580,66 @@ namespace KomaxApp.UI_Design
 
         #endregion
 
+        #region ForCOM7
+        private bool isModbusClientConnected = false;
+        private void InitializeModbusClient(string PortName, Int32 slaveId)
+        {
+            try
+            {
+                modbusClient = new ModbusClient(PortName)
+                {
+                    Baudrate = 9600,//Convert.ToInt32(cbBaudRate1.SelectedItem),
+                    Parity = System.IO.Ports.Parity.None,
+                    StopBits = System.IO.Ports.StopBits.One,
+                    UnitIdentifier = Convert.ToByte(slaveId), // Slave ID
+                    ConnectionTimeout = 300//Convert.ToInt32(readingTimeOut.Value) // Timeout in milliseconds
+                };
 
+
+                modbusClient.Connect();
+                isModbusClientConnected = true;
+            }
+            catch (Exception ex)
+            {
+                string ss = ex.Message;
+                string[] parts = ss.Split('\''); // Split by single quote
+                string port = parts.Length > 1 ? parts[1] : string.Empty; // Get the second part (COM4)
+
+                Console.WriteLine(port); // Outputs: COM4
+                infoMessages.Text = ("Error reading: " + "+ port: " + port + ex.Message);
+            }
+        }
+
+        public double LoadModbusData(string PortName, Int32 slaveId)
+        {
+            double temp = 0;
+            try
+            {
+
+                InitializeModbusClient(PortName, slaveId);
+
+                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
+                temp = registerValuefrmSensor[0];
+                //infoMessages.Text = ("Reading Successful");
+
+
+            }
+            catch (Exception ex)
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+                JIMessageBox.ErrorMessage(ex.Message);
+            }
+
+            finally
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+            }
+            return temp;
+        }
+
+        #endregion
 
     }
 
