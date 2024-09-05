@@ -25,17 +25,31 @@ namespace KomaxApp.UI_Design
 
         private void ParentForm_Load(object sender, EventArgs e)
         {
-            if (dashboard == null)
+            //if (dashboard == null)
+            //{
+            //    dashboard = new Dashboard(null, null, null, null, null);
+            //    dashboard.MdiParent = this;
+            //    dashboard.Dock = DockStyle.Fill;
+            //    dashboard.Show();
+            //}
+            //else
+            //{
+            //    dashboard.Activate();
+            //}
+
+            if (configurationForm == null)
             {
-                dashboard = new Dashboard(null, null, null, null, null);
-                dashboard.MdiParent = this;
-                dashboard.Dock = DockStyle.Fill;
-                dashboard.Show();
+                configurationForm = new ConfigurationForm();
+                configurationForm.MdiParent = this;
+                configurationForm.Dock = DockStyle.Fill;
+                configurationForm.Show();
             }
             else
             {
-                dashboard.Activate();
+                configurationForm.Activate();
             }
+
+            
         }
 
         private void pnBtnDashboard_Click(object sender, EventArgs e)

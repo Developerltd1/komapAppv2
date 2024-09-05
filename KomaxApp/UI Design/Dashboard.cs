@@ -122,9 +122,9 @@ namespace KomaxApp.UI_Design
                 }
                 else
                 {
-                    isPollSelected = false;
-                    btnStartReadng.BackColor = System.Drawing.Color.Black;
-                    pollingTimer.Stop();
+                    //isPollSelected = false;
+                    //btnStartReadng.BackColor = System.Drawing.Color.Black;
+                    //pollingTimer.Stop();
                 }
             }
             catch (Exception ex)
@@ -156,24 +156,27 @@ namespace KomaxApp.UI_Design
             #region Data Reading
             try
             {
-                //List<string> comPorts = new List<string>  //dynamic
-                //    {
-                //        _powerMeter,_torqueMeter,_rpm,_temperature,
-                //    };
-                List<string> comPorts = new List<string>
+                List<string> comPorts = new List<string>  //dynamic
                     {
-                        "COM4"
+                        _powerMeter,
+                        _torqueMeter
+                        ,_rpm
+                        //,_temperature,
                     };
+                //List<string> comPorts = new List<string>
+                //    {
+                //        "COM4"
+                //    };
                 List<string> commands = new List<string>
                 {
-                    //":MEAS?",                          // Command for _powerMeter (COM6)
-                    //"0x23, 0x30, 0x30, 0x30, 0x0d",    // Command for _torqueMeter (COM5)
+                    ":MEAS?",                          // Command for _powerMeter (COM6)
+                    "x23 x30 x30 x30 x0d",    // Command for _torqueMeter (COM5)
                     "x05 x01 x00 x00 x00 x00 x06 xAA" // Command for _rpm (COM4)
                    // null                               // No command for _temperature (COM7)
                 };
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
-
+                bool portInitialized = false;
                 for (int i = 0; i < comPorts.Count; i++)
                 {
                     string comPort = comPorts[i];
@@ -182,16 +185,21 @@ namespace KomaxApp.UI_Design
                     {
                         case "COM4":
                             serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
                             break;
 
                         case "COM5":
                             serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
                             break;
                         case "COM6":
                             serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+
+                            portInitialized = true;
                             break;
                         case "COM7":
                             serialResponse._serialResponseCOM7 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
                             break;
                         default:
                             JIMessageBox.WarningMessage("No Ports Initlized");
@@ -199,8 +207,10 @@ namespace KomaxApp.UI_Design
                     }
                 }
 
-
-                ParseResponse(serialResponse);  // You can call ParseResponse to handle the data
+                if (portInitialized)
+                {
+                    ParseResponse(serialResponse);  // Handle the data after initialization
+                }
 
 
 
@@ -217,12 +227,13 @@ namespace KomaxApp.UI_Design
         private string InitializeSerialPort(string comPort, string command)
         {
             string serialResponse = null;
+            SerialPort serialPort;
             try
             {
                 // Check if the serial port is already initialized
                 if (!serialPorts.ContainsKey(comPort))
                 {
-                    SerialPort serialPort = new SerialPort
+                    serialPort = new SerialPort()
                     {
                         PortName = comPort,
                         BaudRate = 9600,
@@ -230,40 +241,66 @@ namespace KomaxApp.UI_Design
                         DataBits = 8,
                         StopBits = StopBits.One,
                         Handshake = Handshake.None,
-                        //ReadTimeout = 90000  // Set an optional timeout
+                        ReadTimeout = 5000  // Set an optional timeout
                     };
+
+                    serialPorts[comPort] = serialPort;
                 }
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
-                    serialPorts[comPort] = serialPort; // Add the port to the dictionary
-                }
-                else  //already open
+                else
                 {
                     serialPort = serialPorts[comPort];
                 }
 
+                if (!serialPort.IsOpen)
+                {
+                    serialPort.Open();
+                }
 
                 var PortName = serialPort.PortName;
-                switch (command)  //COnversion
+                switch (PortName)//command)  //COnversion
                 {
                     case "COM4":
                         byte[] commandBytes4 = HexStringToByteArray(command);
                         serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                        System.Threading.Thread.Sleep(100);
                         serialResponse = serialPort.ReadExisting();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
                         break;
 
                     case "COM6":
-                            byte[] commandBytes6 = HexStringToByteArray(command);
-                            serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                            serialResponse = serialPort.ReadExisting();
+                        byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        System.Threading.Thread.Sleep(100);
+                        serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
+                        serialResponse = serialPort.ReadLine();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
                         break;
 
                     case "COM5":
+
+                        byte[] commandBytes5 = HexStringToByteArray(command);
+                        serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse = serialPort.ReadExisting();
                         if (!string.IsNullOrEmpty(serialResponse))
-                        {
-                            return serialResponse; // Return if there's a response for COM5
-                        }
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                        break;
+
+                    case "COM7":
+                        byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
+                        serialResponse = serialPort.ReadExisting();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
                         break;
 
                     default:
@@ -271,24 +308,6 @@ namespace KomaxApp.UI_Design
                         return string.Empty; // Return empty string if no data is received
                 }
 
-                if (!string.IsNullOrEmpty(command) && command == "COM4")
-                {
-                    return serialResponse;
-                }
-
-                if (!string.IsNullOrEmpty(serialResponse) && command == "COM5")
-                {
-                    return serialResponse;
-                }
-                if (!string.IsNullOrEmpty(serialResponse) && command == "COM6")
-                {
-                    return serialResponse;
-                }
-                else
-                {
-                    richTextBox1.AppendText("No data received." + Environment.NewLine);
-                    return null;
-                }
 
             }
             catch (Exception ex)
@@ -332,36 +351,36 @@ namespace KomaxApp.UI_Design
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(4) ?? "N/A";
+                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
 
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM5))
             {
-                string cleanedData = Regex.Replace(data._serialResponseCOM4, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
+                string cleanedData = Regex.Replace(data._serialResponseCOM5, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(4) ?? "N/A";
+                returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM6))
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM6, @"\+|E\+\d{2}|E[\+\d]+", "").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
 
-                    returnModel.labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A";
-                    returnModel.labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A";
-                    returnModel.labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A";
-                    returnModel.labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A";
+                returnModel.labelV1 = dataParts.ElementAtOrDefault(4) ?? "N/A";
+                returnModel.labelV2 = dataParts.ElementAtOrDefault(5) ?? "N/A";
+                returnModel.labelV3 = dataParts.ElementAtOrDefault(6) ?? "N/A";
+                returnModel.labelV0 = dataParts.ElementAtOrDefault(7) ?? "N/A";
                 returnModel.labelA1 = dataParts.ElementAtOrDefault(8) ?? "N/A";
-                    returnModel.labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A";
-                    returnModel.labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A";
+                returnModel.labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A";
+                returnModel.labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A";
                 returnModel.labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A";
                 returnModel.labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A";
-                    returnModel.labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A";
-                    returnModel.labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A";
-                    returnModel.labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A";
+                returnModel.labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A";
+                returnModel.labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A";
+                returnModel.labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A";
                 returnModel.labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A";
-                    returnModel.labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A";
-                    returnModel.labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A";
-                    returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
+                returnModel.labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A";
+                returnModel.labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A";
+                returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
                 returnModel.labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM7))
@@ -395,6 +414,8 @@ namespace KomaxApp.UI_Design
                     labelPower2.Text = returnModel.labelPower2;
                     labelPower3.Text = returnModel.labelPower3;
                     labelPower0.Text = returnModel.labelPower0;
+                    tbTorqueNm.Text  = returnModel._tbTorqueNm;
+                    tbSpeedRPM.Text=returnModel._tbSpeedRPM;
                 });
             }
             catch (Exception ex)
@@ -420,10 +441,10 @@ namespace KomaxApp.UI_Design
 
 
 
-     
 
-       
-       
+
+
+
         #region Screenshot
         private void buttonScreenshot_Click_1(object sender, EventArgs e)
         {
