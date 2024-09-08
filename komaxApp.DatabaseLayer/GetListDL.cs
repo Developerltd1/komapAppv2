@@ -526,13 +526,8 @@ namespace komaxApp.DatabaseLayer
 
         private Page3ModelFinilize ReportingPage3(tblMotorModify tblMotorModify, List<KomaxApp.Model.Reporting.Model.Page3.Entity.tblLoadTest> tblLoadTest, tblMotor tblMotor)
         {
-
-
-
             Page3ModelFinilize page3ModelFinilize = new Page3ModelFinilize();
             Page3Model page3Model = new Page3Model();
-
-
 
             page3Model.TestReportNo = tblMotor.TestReportNo;
             page3Model.MotorModel = tblMotor.MotorModel;
@@ -544,7 +539,6 @@ namespace komaxApp.DatabaseLayer
             page3Model.StatorResistanceColdInOhms = tblMotorModify.StatorResistanceColdInOhms;
             //C3 Stator Resistance (Cold) measure at Temp, in °C
             page3Model.StatorResistanceColdMeasureAtTempInC = tblMotorModify.StatorResistanceColdMeasureAtTempInC;
-
             //D4 Stator Winding Temp, tt in °C   From => LoadTest -> PT100[tbtemp1]
             foreach (var item in tblLoadTest)
             {
@@ -576,7 +570,6 @@ namespace komaxApp.DatabaseLayer
                     }
                 }
             }
-
             //E5  Stator Resistance (Cold) measure at Temp, in °C    From => LoadTest -> PT100[tbtemp2]
             foreach (var item in tblLoadTest)
             {
@@ -608,57 +601,53 @@ namespace komaxApp.DatabaseLayer
                     }
                 }
             }
-
-            //F6 Line-to-Line Voltage, in V  =?
+            //F6 Line-to-Line Voltage, in V  - From => LoadTest -> Voltage (V) [labelV0]
             foreach (var item in tblLoadTest)
             {
-                if (item.VoltageV_Value1 != null)
+                switch (item.LabelCount)
                 {
-                    switch (item.LabelCount)
-                    {
-                        case 0:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 25:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 50:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 75:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 100:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 115:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                        case 130:
-                            page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
-                            page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
-                            page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
-                            page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
-                            break;
-                    }
+                    case 0:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 25:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 50:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 75:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 100:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 115:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
+                    case 130:
+                        page3Model.LinetoLineCol1Voltage1 = item.VoltageV_Value1.ToString();
+                        page3Model.LinetoLineCol1Voltage2 = item.VoltageV_Value2.ToString();
+                        page3Model.LinetoLineCol1Voltage3 = item.VoltageV_Value3.ToString();
+                        page3Model.LinetoLineCol1Voltage4 = item.VoltageV_Value4.ToString();
+                        break;
                 }
             }
             //G7  Frequency, in Hz    LoadTestFrom =>  GridLabel -> labelHertz
@@ -1013,63 +1002,60 @@ namespace komaxApp.DatabaseLayer
                         break;
                 }
             }
-            //R18  Line Current, in A  = ?
+            //R18  Line Current, in A  =  - From => LoadTest -> Current (A) [labelCurrentA]
             foreach (var item in tblLoadTest)
             {
                 switch (item.LabelCount)
                 {
                     case 0:
-                        page3Model.LineCurrentinA1 = "";
+                        page3Model.LineCurrentinA1 = item.CurrentA_Value1.ToString();
                         break;
                     case 25:
-                        page3Model.LineCurrentinA2 = "";
+                        page3Model.LineCurrentinA2 = item.CurrentA_Value1.ToString();
                         break;
                     case 50:
-                        page3Model.LineCurrentinA3 = "";
+                        page3Model.LineCurrentinA3 = item.CurrentA_Value1.ToString();
                         break;
                     case 75:
-                        page3Model.LineCurrentinA4 = "";
+                        page3Model.LineCurrentinA4 = item.CurrentA_Value1.ToString();
                         break;
                     case 100:
-                        page3Model.LineCurrentinA5 = "";
+                        page3Model.LineCurrentinA5 = item.CurrentA_Value1.ToString();
                         break;
                     case 115:
-                        page3Model.LineCurrentinA6 = "";
+                        page3Model.LineCurrentinA6 = item.CurrentA_Value1.ToString();
                         break;
                     case 130:
-                        page3Model.LineCurrentinA7 = "";
+                        page3Model.LineCurrentinA7 = item.CurrentA_Value1.ToString();
                         break;
                 }
             }
-            //S19 Stator Power, in kW  = ?
+            //S19 Stator Power, in kW  =  - From => LoadTest -> ActivePower (kW) [labelPower0]
             foreach (var item in tblLoadTest)
             {
-                if (item.ShaftPowerkW != null)
+                switch (item.LabelCount)
                 {
-                    switch (item.LabelCount)
-                    {
-                        case 0:
-                            page3Model.StatorPowerinkW1 = "";
-                            break;
-                        case 25:
-                            page3Model.StatorPowerinkW2 = "";
-                            break;
-                        case 50:
-                            page3Model.StatorPowerinkW3 = "";
-                            break;
-                        case 75:
-                            page3Model.StatorPowerinkW4 = "";
-                            break;
-                        case 100:
-                            page3Model.StatorPowerinkW5 = "";
-                            break;
-                        case 115:
-                            page3Model.StatorPowerinkW6 = "";
-                            break;
-                        case 130:
-                            page3Model.StatorPowerinkW7 = "";
-                            break;
-                    }
+                    case 0:
+                        page3Model.StatorPowerinkW1 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 25:
+                        page3Model.StatorPowerinkW2 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 50:
+                        page3Model.StatorPowerinkW3 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 75:
+                        page3Model.StatorPowerinkW4 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 100:
+                        page3Model.StatorPowerinkW5 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 115:
+                        page3Model.StatorPowerinkW6 = item.ActivePower_Value1.ToString();
+                        break;
+                    case 130:
+                        page3Model.StatorPowerinkW7 = item.ActivePower_Value1.ToString();
+                        break;
                 }
             }
             //T20 Stator I2R Loss, in kW, at tt  -  T = 1.5*R*R*B*(234.5+D)/(234.5+C)/1000
@@ -1159,7 +1145,6 @@ namespace komaxApp.DatabaseLayer
                         break;
                 }
             }
-
             //W23 Stator Power Correction, in kW  -  W = V-T
             foreach (var item in tblLoadTest)
             {
@@ -1188,7 +1173,6 @@ namespace komaxApp.DatabaseLayer
                         break;
                 }
             }
-
             //X24 Corrected Stator Power, in kW - X = S+W
             foreach (var item in tblLoadTest)
             {
@@ -1245,7 +1229,6 @@ namespace komaxApp.DatabaseLayer
                         break;
                 }
             }
-
             //Z26 Power Factor, in %   -  Z = 100*X/(1.732*F*R)*1000
             foreach (var item in tblLoadTest)
             {

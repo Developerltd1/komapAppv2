@@ -52,7 +52,7 @@
             this.labelA2 = new System.Windows.Forms.Label();
             this.labelA1 = new System.Windows.Forms.Label();
             this.labelA0 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
+            this.labelCurrentA = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.labelV3 = new System.Windows.Forms.Label();
             this.labelV2 = new System.Windows.Forms.Label();
@@ -94,15 +94,15 @@
             this.label1Count = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.panel15 = new System.Windows.Forms.Panel();
+            this.panel16 = new System.Windows.Forms.Panel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tbTemp1 = new System.Windows.Forms.TextBox();
+            this.tbTemp2 = new System.Windows.Forms.TextBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.infoMessages = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.tbTemp2 = new System.Windows.Forms.TextBox();
-            this.tbTemp1 = new System.Windows.Forms.TextBox();
-            this.panel16 = new System.Windows.Forms.Panel();
-            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -384,7 +384,7 @@
             this.panel7.Controls.Add(this.labelA2);
             this.panel7.Controls.Add(this.labelA1);
             this.panel7.Controls.Add(this.labelA0);
-            this.panel7.Controls.Add(this.label30);
+            this.panel7.Controls.Add(this.labelCurrentA);
             this.panel7.Location = new System.Drawing.Point(64, 106);
             this.panel7.Margin = new System.Windows.Forms.Padding(0);
             this.panel7.Name = "panel7";
@@ -441,17 +441,17 @@
             this.labelA0.TabIndex = 14;
             this.labelA0.Text = "0";
             // 
-            // label30
+            // labelCurrentA
             // 
-            this.label30.AutoSize = true;
-            this.label30.BackColor = System.Drawing.Color.Transparent;
-            this.label30.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label30.Location = new System.Drawing.Point(17, 4);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(94, 21);
-            this.label30.TabIndex = 13;
-            this.label30.Text = "Current (A)";
+            this.labelCurrentA.AutoSize = true;
+            this.labelCurrentA.BackColor = System.Drawing.Color.Transparent;
+            this.labelCurrentA.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCurrentA.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.labelCurrentA.Location = new System.Drawing.Point(17, 4);
+            this.labelCurrentA.Name = "labelCurrentA";
+            this.labelCurrentA.Size = new System.Drawing.Size(94, 21);
+            this.labelCurrentA.TabIndex = 13;
+            this.labelCurrentA.Text = "Current (A)";
             // 
             // panel6
             // 
@@ -951,6 +951,78 @@
             this.panel15.Size = new System.Drawing.Size(1128, 226);
             this.panel15.TabIndex = 63;
             // 
+            // panel16
+            // 
+            this.panel16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.panel16.Controls.Add(this.label22);
+            this.panel16.Controls.Add(this.label14);
+            this.panel16.Controls.Add(this.label21);
+            this.panel16.Controls.Add(this.tbTemp1);
+            this.panel16.Controls.Add(this.tbTemp2);
+            this.panel16.Location = new System.Drawing.Point(13, 10);
+            this.panel16.Name = "panel16";
+            this.panel16.Size = new System.Drawing.Size(711, 91);
+            this.panel16.TabIndex = 62;
+            // 
+            // label22
+            // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.Transparent;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.ForestGreen;
+            this.label22.Location = new System.Drawing.Point(472, 67);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(77, 17);
+            this.label22.TabIndex = 39;
+            this.label22.Text = "From PT100";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.label14.Location = new System.Drawing.Point(3, 4);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(116, 21);
+            this.label14.TabIndex = 45;
+            this.label14.Text = "Output Power";
+            // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label21.AutoSize = true;
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.ForestGreen;
+            this.label21.Location = new System.Drawing.Point(187, 67);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 17);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "From PT100";
+            // 
+            // tbTemp1
+            // 
+            this.tbTemp1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tbTemp1.BackColor = System.Drawing.Color.White;
+            this.tbTemp1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTemp1.Location = new System.Drawing.Point(89, 29);
+            this.tbTemp1.Name = "tbTemp1";
+            this.tbTemp1.Size = new System.Drawing.Size(273, 35);
+            this.tbTemp1.TabIndex = 36;
+            // 
+            // tbTemp2
+            // 
+            this.tbTemp2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tbTemp2.BackColor = System.Drawing.Color.White;
+            this.tbTemp2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTemp2.Location = new System.Drawing.Point(374, 29);
+            this.tbTemp2.Name = "tbTemp2";
+            this.tbTemp2.Size = new System.Drawing.Size(273, 35);
+            this.tbTemp2.TabIndex = 37;
+            // 
             // labelInfo
             // 
             this.labelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -978,78 +1050,6 @@
             this.richTextBox1.Size = new System.Drawing.Size(115, 195);
             this.richTextBox1.TabIndex = 63;
             this.richTextBox1.Text = "";
-            // 
-            // label22
-            // 
-            this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.Transparent;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.ForestGreen;
-            this.label22.Location = new System.Drawing.Point(472, 67);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(77, 17);
-            this.label22.TabIndex = 39;
-            this.label22.Text = "From PT100";
-            // 
-            // label21
-            // 
-            this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label21.AutoSize = true;
-            this.label21.BackColor = System.Drawing.Color.Transparent;
-            this.label21.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.ForestGreen;
-            this.label21.Location = new System.Drawing.Point(187, 67);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(77, 17);
-            this.label21.TabIndex = 38;
-            this.label21.Text = "From PT100";
-            // 
-            // tbTemp2
-            // 
-            this.tbTemp2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tbTemp2.BackColor = System.Drawing.Color.White;
-            this.tbTemp2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTemp2.Location = new System.Drawing.Point(374, 29);
-            this.tbTemp2.Name = "tbTemp2";
-            this.tbTemp2.Size = new System.Drawing.Size(273, 35);
-            this.tbTemp2.TabIndex = 37;
-            // 
-            // tbTemp1
-            // 
-            this.tbTemp1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tbTemp1.BackColor = System.Drawing.Color.White;
-            this.tbTemp1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTemp1.Location = new System.Drawing.Point(89, 29);
-            this.tbTemp1.Name = "tbTemp1";
-            this.tbTemp1.Size = new System.Drawing.Size(273, 35);
-            this.tbTemp1.TabIndex = 36;
-            // 
-            // panel16
-            // 
-            this.panel16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
-            this.panel16.Controls.Add(this.label22);
-            this.panel16.Controls.Add(this.label14);
-            this.panel16.Controls.Add(this.label21);
-            this.panel16.Controls.Add(this.tbTemp1);
-            this.panel16.Controls.Add(this.tbTemp2);
-            this.panel16.Location = new System.Drawing.Point(13, 10);
-            this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(711, 91);
-            this.panel16.TabIndex = 62;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label14.Location = new System.Drawing.Point(3, 4);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(116, 21);
-            this.label14.TabIndex = 45;
-            this.label14.Text = "Output Power";
             // 
             // LoadTest
             // 
@@ -1160,7 +1160,7 @@
         private System.Windows.Forms.Label labelA2;
         private System.Windows.Forms.Label labelA1;
         private System.Windows.Forms.Label labelA0;
-        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label labelCurrentA;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label labelV3;
         private System.Windows.Forms.Label labelV2;
