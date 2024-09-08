@@ -4,7 +4,34 @@ using System.IO.Ports;
 namespace KomaxApp.GenericCode
 {
     public class SerialPortManager
-    { 
+    {
+
+        public byte[] HexStringToByteArray(string hex)
+        {
+            // Remove spaces and convert to upper case
+            hex = hex.Replace(" ", "").Replace("x", "").ToUpper();
+            if (hex.Length % 2 != 0)
+            {
+                throw new ArgumentException("Invalid length of hex string.");
+            }
+
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
+
+
+
+
+
+
+
+
+
+
 
         public event EventHandler<string> DataReceived;
         public event EventHandler<string> ErrorOccurred;

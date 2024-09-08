@@ -33,6 +33,8 @@ namespace KomaxApp.Model.Reporting.Model.Page3.Entity
         public string AmbientTemperature { get; set; }
         public string MotorTemperature { get; set; }
         public string EstimitedEfficiency { get; set; }
+        public string Pt100_Temp1 { get; set; }
+        public string Pt100_Temp2 { get; set; }
         public int LabelCount { get; set; }
         public string LoadStatus { get; set; }
     }

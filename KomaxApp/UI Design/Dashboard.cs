@@ -113,6 +113,13 @@ namespace KomaxApp.UI_Design
         {
             try
             {
+                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+                {
+                    pollingTimer.Stop();
+                    JIMessageBox.WarningMessage("COM Ports are not Configure");
+                    return;
+                }
+
                 isPollingEnabled = !isPollingEnabled;
                 if (isPollingEnabled)
                 {
@@ -137,6 +144,8 @@ namespace KomaxApp.UI_Design
         {
             try
             {
+                
+
                 pollingTimer = new Timer();
                 pollingTimer.Interval = 1000;
                 pollingTimer.Tick += PollingTimer_Tick;
@@ -148,12 +157,7 @@ namespace KomaxApp.UI_Design
         }
         public void PollingTimer_Tick(object sender, EventArgs e)
         {
-            if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
-            {
-                pollingTimer.Stop();
-                JIMessageBox.WarningMessage("COM Ports are not Configure");
-                return;
-            }
+            
             #region Data Reading
             try
             {
@@ -170,10 +174,10 @@ namespace KomaxApp.UI_Design
                 //    };
                 List<string> commands = new List<string>
                 {
-                    ":MEAS?",                          // Command for _powerMeter (COM6)
-                    "x23 x30 x30 x30 x0d",    // Command for _torqueMeter (COM5)
-                    "x05 x01 x00 x00 x00 x00 x06 xAA" // Command for _rpm (COM4)
-                    ,""// null                               // No command for _temperature (COM7)  //Modbus Data
+                    Model.PortsAndCommands.COM6_MEAS,                          // Command for _powerMeter (COM6)
+                    Model.PortsAndCommands.COM5_x23x30x30x30x0d,    // Command for _torqueMeter (COM5)
+                    Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA // Command for _rpm (COM4)
+                    ,Model.PortsAndCommands.COM7_Empty// null                               // No command for _temperature (COM7)  //Modbus Data
                 };
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
@@ -264,7 +268,7 @@ namespace KomaxApp.UI_Design
                 switch (PortName)//command)  //COnversion
                 {
                     case "COM4":
-                        byte[] commandBytes4 = HexStringToByteArray(command);
+                        byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
                         serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
                         System.Threading.Thread.Sleep(100);
                         serialResponse = serialPort.ReadExisting();
@@ -287,7 +291,7 @@ namespace KomaxApp.UI_Design
 
                     case "COM5":
 
-                        byte[] commandBytes5 = HexStringToByteArray(command);
+                        byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
                         serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
                         System.Threading.Thread.Sleep(100);
                         serialResponse = serialPort.ReadExisting();
@@ -330,24 +334,7 @@ namespace KomaxApp.UI_Design
             }
             return serialResponse;
         }
-        private byte[] HexStringToByteArray(string hex)
-        {
-            // Remove spaces and convert to upper case
-            hex = hex.Replace(" ", "").Replace("x", "").ToUpper();
-            if (hex.Length % 2 != 0)
-            {
-                throw new ArgumentException("Invalid length of hex string.");
-            }
 
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < hex.Length; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-            }
-            return bytes;
-        }
-
-        #endregion
         private void ParseResponse(DashboardModel.SerialResponseModel data)
         {
             DashboardModel.Manupulation returnModel = new DashboardModel.Manupulation();
@@ -436,6 +423,8 @@ namespace KomaxApp.UI_Design
             //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
             //var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
         }
+
+        #endregion
 
         private void CloseSerialPort(string comPort)
         {

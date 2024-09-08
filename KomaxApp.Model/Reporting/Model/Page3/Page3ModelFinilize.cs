@@ -258,6 +258,22 @@ namespace KomaxApp.Model.Reporting.Model.Page3
         public string PowerFactorinPercentage5 { get; set; }
         public string PowerFactorinPercentage6 { get; set; }
         public string PowerFactorinPercentage7 { get; set; }
+
+        public string Pt100_Temp1_1 { get; set; }
+        public string Pt100_Temp1_2 { get; set; }
+        public string Pt100_Temp1_3 { get; set; }
+        public string Pt100_Temp1_4 { get; set; }
+        public string Pt100_Temp1_5 { get; set; }
+        public string Pt100_Temp1_6 { get; set; }
+        public string Pt100_Temp1_7 { get; set; }
+
+        public string Pt100_Temp2_1 { get; set; }
+        public string Pt100_Temp2_2 { get; set; }
+        public string Pt100_Temp2_3 { get; set; }
+        public string Pt100_Temp2_4 { get; set; }
+        public string Pt100_Temp2_5 { get; set; }
+        public string Pt100_Temp2_6 { get; set; }
+        public string Pt100_Temp2_7 { get; set; }
         #endregion
 
 

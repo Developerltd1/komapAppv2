@@ -349,6 +349,7 @@ namespace komaxApp.DatabaseLayer
                     reportingModel.page2Mdl = ReportingPage2(_tblEntity, _tblMotor);
                     //Page3
                     tblMotorModify _tblMotorModify = (await multi.ReadAsync<tblMotorModify>()).FirstOrDefault();
+
                     List<KomaxApp.Model.Reporting.Model.Page3.Entity.tblLoadTest> _tblLoadTest = (await multi.ReadAsync<KomaxApp.Model.Reporting.Model.Page3.Entity.tblLoadTest>()).ToList();
                     reportingModel.page3Mdl = ReportingPage3(_tblMotorModify, _tblLoadTest, _tblMotor);
                     //Page4And5
@@ -525,8 +526,13 @@ namespace komaxApp.DatabaseLayer
 
         private Page3ModelFinilize ReportingPage3(tblMotorModify tblMotorModify, List<KomaxApp.Model.Reporting.Model.Page3.Entity.tblLoadTest> tblLoadTest, tblMotor tblMotor)
         {
+
+
+
             Page3ModelFinilize page3ModelFinilize = new Page3ModelFinilize();
             Page3Model page3Model = new Page3Model();
+
+
 
             page3Model.TestReportNo = tblMotor.TestReportNo;
             page3Model.MotorModel = tblMotor.MotorModel;
@@ -539,39 +545,71 @@ namespace komaxApp.DatabaseLayer
             //C3 Stator Resistance (Cold) measure at Temp, in °C
             page3Model.StatorResistanceColdMeasureAtTempInC = tblMotorModify.StatorResistanceColdMeasureAtTempInC;
 
-            //D4 Stator Winding Temp, tt in °C  = ?
-            //E5
+            //D4 Stator Winding Temp, tt in °C   From => LoadTest -> PT100[tbtemp1]
             foreach (var item in tblLoadTest)
             {
-                if (item.AmbientTemperature != null)
+                if (item.Pt100_Temp1 != null)
                 {
                     switch (item.LabelCount)
                     {
                         case 0:
-                            page3Model.StatorWindingTemp1 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp1 = item.Pt100_Temp1.ToString();
                             break;
                         case 25:
-                            page3Model.StatorWindingTemp2 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp2 = item.Pt100_Temp1.ToString();
                             break;
                         case 50:
-                            page3Model.StatorWindingTemp3 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp3 = item.Pt100_Temp1.ToString();
                             break;
                         case 75:
-                            page3Model.StatorWindingTemp4 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp4 = item.Pt100_Temp1.ToString();
                             break;
                         case 100:
-                            page3Model.StatorWindingTemp5 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp5 = item.Pt100_Temp1.ToString();
                             break;
                         case 115:
-                            page3Model.StatorWindingTemp6 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp6 = item.Pt100_Temp1.ToString();
                             break;
                         case 130:
-                            page3Model.StatorWindingTemp7 = item.AmbientTemperature.ToString();
+                            page3Model.StatorWindingTemp7 = item.Pt100_Temp1.ToString();
                             break;
                     }
                 }
             }
-            //F6
+
+            //E5  Stator Resistance (Cold) measure at Temp, in °C    From => LoadTest -> PT100[tbtemp2]
+            foreach (var item in tblLoadTest)
+            {
+                if (item.Pt100_Temp2 != null)
+                {
+                    switch (item.LabelCount)
+                    {
+                        case 0:
+                            page3Model.StatorWindingTemp1 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 25:
+                            page3Model.StatorWindingTemp2 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 50:
+                            page3Model.StatorWindingTemp3 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 75:
+                            page3Model.StatorWindingTemp4 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 100:
+                            page3Model.StatorWindingTemp5 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 115:
+                            page3Model.StatorWindingTemp6 = item.Pt100_Temp2.ToString();
+                            break;
+                        case 130:
+                            page3Model.StatorWindingTemp7 = item.Pt100_Temp2.ToString();
+                            break;
+                    }
+                }
+            }
+
+            //F6 Line-to-Line Voltage, in V  =?
             foreach (var item in tblLoadTest)
             {
                 if (item.VoltageV_Value1 != null)
@@ -623,7 +661,7 @@ namespace komaxApp.DatabaseLayer
                     }
                 }
             }
-            //G7
+            //G7  Frequency, in Hz    LoadTestFrom =>  GridLabel -> labelHertz
             foreach (var item in tblLoadTest)
             {
                 if (item.FrequencyHZ != null)
@@ -638,42 +676,42 @@ namespace komaxApp.DatabaseLayer
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 25:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz2 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 50:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz3 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 75:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz4 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 100:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz5 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 115:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz6 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
                             page3Model.FrequencyinHz1Col4 = item.Frequency_Value4.ToString();
                             break;
                         case 130:
-                            page3Model.FrequencyinHz1 = item.FrequencyHZ.ToString();
+                            page3Model.FrequencyinHz7 = item.FrequencyHZ.ToString();
                             page3Model.FrequencyinHz1Col1 = item.Frequency_Value1.ToString();
                             page3Model.FrequencyinHz1Col2 = item.Frequency_Value2.ToString();
                             page3Model.FrequencyinHz1Col3 = item.Frequency_Value3.ToString();
@@ -682,7 +720,37 @@ namespace komaxApp.DatabaseLayer
                     }
                 }
             }
-            //H8
+            //H8 Synchronous speed, ns, in RPM 
+            foreach (var item in tblLoadTest)
+            {
+                // H = (120*G/o)
+                double H8Formula = (120 * Convert.ToDouble(item.SpeedRPM) / Convert.ToDouble(tblMotor.POLE));
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.SynchronousspeednsinRPM1 = H8Formula.ToString(); //item.SpeedRPM.ToString();
+                        break;
+                    case 25:
+                        page3Model.SynchronousspeednsinRPM2 = H8Formula.ToString();
+                        break;
+                    case 50:
+                        page3Model.SynchronousspeednsinRPM3 = H8Formula.ToString();
+                        break;
+                    case 75:
+                        page3Model.SynchronousspeednsinRPM4 = H8Formula.ToString();
+                        break;
+                    case 100:
+                        page3Model.SynchronousspeednsinRPM5 = H8Formula.ToString();
+                        break;
+                    case 115:
+                        page3Model.SynchronousspeednsinRPM6 = H8Formula.ToString();
+                        break;
+                    case 130:
+                        page3Model.SynchronousspeednsinRPM7 = H8Formula.ToString();
+                        break;
+                }
+            }
+            //I9    Observed Speed from RPM Sensor  LoadTestFrom =>  Textbox -> Speed RPM[textBoxSpeedRPM]
             foreach (var item in tblLoadTest)
             {
                 if (item.SpeedRPM != null)
@@ -690,65 +758,144 @@ namespace komaxApp.DatabaseLayer
                     switch (item.LabelCount)
                     {
                         case 0:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin1 = item.SpeedRPM.ToString();
                             break;
                         case 25:
-                            page3Model.SynchronousspeednsinRPM2 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin2 = item.SpeedRPM.ToString();
                             break;
                         case 50:
-                            page3Model.SynchronousspeednsinRPM3 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin3 = item.SpeedRPM.ToString();
                             break;
                         case 75:
-                            page3Model.SynchronousspeednsinRPM4 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin4 = item.SpeedRPM.ToString();
                             break;
                         case 100:
-                            page3Model.SynchronousspeednsinRPM5 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin5 = item.SpeedRPM.ToString();
                             break;
                         case 115:
-                            page3Model.SynchronousspeednsinRPM6 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin6 = item.SpeedRPM.ToString();
                             break;
                         case 130:
-                            page3Model.SynchronousspeednsinRPM7 = item.SpeedRPM.ToString();
+                            page3Model.ObservedSpeedinmin7 = item.SpeedRPM.ToString();
                             break;
                     }
                 }
             }
-            //I9   same H8
+            //J10  Observed Slip, in r/min  => J10 = H-I
             foreach (var item in tblLoadTest)
             {
-                if (item.SpeedRPM != null)
+                switch (item.LabelCount)
                 {
-                    switch (item.LabelCount)
-                    {
-                        case 0:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 25:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 50:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 75:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 100:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 115:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                        case 130:
-                            page3Model.SynchronousspeednsinRPM1 = item.SpeedRPM.ToString();
-                            break;
-                    }
+                    case 0:
+                        page3Model.ObservedSlipinmin1 = (page3Model.SynchronousspeednsinRPM1.ToDoble() - page3Model.ObservedSpeedinmin1.ToDoble()).ToString();
+                        break;
+                    case 25:
+                        page3Model.ObservedSlipinmin2 = (page3Model.SynchronousspeednsinRPM2.ToDoble() - page3Model.ObservedSpeedinmin2.ToDoble()).ToString();
+                        break;
+                    case 50:
+                        page3Model.ObservedSlipinmin3 = (page3Model.SynchronousspeednsinRPM3.ToDoble() - page3Model.ObservedSpeedinmin3.ToDoble()).ToString();
+                        break;
+                    case 75:
+                        page3Model.ObservedSlipinmin4 = (page3Model.SynchronousspeednsinRPM4.ToDoble() - page3Model.ObservedSpeedinmin4.ToDoble()).ToString();
+                        break;
+                    case 100:
+                        page3Model.ObservedSlipinmin5 = (page3Model.SynchronousspeednsinRPM5.ToDoble() - page3Model.ObservedSpeedinmin5.ToDoble()).ToString();
+                        break;
+                    case 115:
+                        page3Model.ObservedSlipinmin6 = (page3Model.SynchronousspeednsinRPM6.ToDoble() - page3Model.ObservedSpeedinmin6.ToDoble()).ToString();
+                        break;
+                    case 130:
+                        page3Model.ObservedSlipinmin7 = (page3Model.SynchronousspeednsinRPM7.ToDoble() - page3Model.ObservedSpeedinmin7.ToDoble()).ToString();
+                        break;
                 }
             }
-            //J10  Observed Slip, in r/min
-            //K11  Observed Slip, in p.u.
-            //L12 Corrected Slip, in p.u
-            //M13 Corrected Speed, in r/min
-            //N14
+            //K11  Observed Slip, in p.u.  => K = J/H
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+
+                        page3Model.ObservedSlipinpu1 = (page3Model.ObservedSlipinmin1.ToDoble() / page3Model.SynchronousspeednsinRPM1.ToDoble()).ToString();
+                        break;
+                    case 25:
+                        page3Model.ObservedSlipinpu2 = (page3Model.ObservedSlipinmin2.ToDoble() / page3Model.SynchronousspeednsinRPM2.ToDoble()).ToString();
+                        break;
+                    case 50:
+                        page3Model.ObservedSlipinpu3 = (page3Model.ObservedSlipinmin3.ToDoble() / page3Model.SynchronousspeednsinRPM3.ToDoble()).ToString();
+                        break;
+                    case 75:
+                        page3Model.ObservedSlipinpu4 = (page3Model.ObservedSlipinmin4.ToDoble() / page3Model.SynchronousspeednsinRPM4.ToDoble()).ToString();
+                        break;
+                    case 100:
+                        page3Model.ObservedSlipinpu5 = (page3Model.ObservedSlipinmin5.ToDoble() / page3Model.SynchronousspeednsinRPM5.ToDoble()).ToString();
+                        break;
+                    case 115:
+                        page3Model.ObservedSlipinpu6 = (page3Model.ObservedSlipinmin6.ToDoble() / page3Model.SynchronousspeednsinRPM6.ToDoble()).ToString();
+                        break;
+                    case 130:
+                        page3Model.ObservedSlipinpu7 = (page3Model.ObservedSlipinmin7.ToDoble() / page3Model.SynchronousspeednsinRPM7.ToDoble()).ToString();
+                        break;
+                }
+            }
+            //L12 Corrected Slip, in p.u => L = K * (A+234.5)/(D+234.5)
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+
+                        page3Model.CorrectedSlipinpu1 = (page3Model.ObservedSlipinpu1.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp1.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 25:
+                        page3Model.CorrectedSlipinpu2 = (page3Model.ObservedSlipinpu2.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp2.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 50:
+                        page3Model.CorrectedSlipinpu3 = (page3Model.ObservedSlipinpu3.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp3.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 75:
+                        page3Model.CorrectedSlipinpu4 = (page3Model.ObservedSlipinpu4.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp4.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 100:
+                        page3Model.CorrectedSlipinpu5 = (page3Model.ObservedSlipinpu5.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp5.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 115:
+                        page3Model.CorrectedSlipinpu6 = (page3Model.ObservedSlipinpu6.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp6.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 130:
+                        page3Model.CorrectedSlipinpu7 = (page3Model.ObservedSlipinpu7.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorWindingTemp7.ToDoble() + 234.5)).ToString();
+                        break;
+                }
+            }
+            //M13 Corrected Speed, in r/min  => M = (120*k/o) * (1-L)
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.CorrectedSlipinpu1 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu1.ToDoble())).ToString();
+                        break;
+                    case 25:
+                        page3Model.CorrectedSlipinpu2 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu2.ToDoble())).ToString();
+                        break;
+                    case 50:
+                        page3Model.CorrectedSlipinpu3 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu3.ToDoble())).ToString();
+                        break;
+                    case 75:
+                        page3Model.CorrectedSlipinpu4 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu4.ToDoble())).ToString();
+                        break;
+                    case 100:
+                        page3Model.CorrectedSlipinpu5 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu5.ToDoble())).ToString();
+                        break;
+                    case 115:
+                        page3Model.CorrectedSlipinpu6 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu6.ToDoble())).ToString();
+                        break;
+                    case 130:
+                        page3Model.CorrectedSlipinpu7 = ((120 * page3Model.SpecifiedtemperatureTsInC.ToDoble() / tblMotor.POLE.ToDoble()) * (1 / page3Model.ObservedSlipinpu7.ToDoble())).ToString();
+                        break;
+                }
+            }
+            //N14   N = Torque from Torque Sensor - LoadTestFrom =>  Textbox -> Speed RPM[textBoxTorqueNm]
             foreach (var item in tblLoadTest)
             {
                 if (item.TorqueNm != null)
@@ -779,9 +926,122 @@ namespace komaxApp.DatabaseLayer
                     }
                 }
             }
-            //O15  *Dynamometer Correction, in N-m
-            //P16 Corrected Torque, in N-m
-            //Q17 
+            //O15  O = Static Zero
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.DynamometerCorrectioninNm1 = "0";
+                        break;
+                    case 25:
+                        page3Model.DynamometerCorrectioninNm2 = "0";
+                        break;
+                    case 50:
+                        page3Model.DynamometerCorrectioninNm3 = "0";
+                        break;
+                    case 75:
+                        page3Model.DynamometerCorrectioninNm4 = "0";
+                        break;
+                    case 100:
+                        page3Model.DynamometerCorrectioninNm5 = "0";
+                        break;
+                    case 115:
+                        page3Model.DynamometerCorrectioninNm6 = "0";
+                        break;
+                    case 130:
+                        page3Model.DynamometerCorrectioninNm7 = "0";
+                        break;
+                }
+            }
+            //P16 Corrected Torque, in N-m    -  P = N+O   
+            foreach (var item in tblLoadTest)
+            {
+                if (item.TorqueNm != null)
+                {
+                    switch (item.LabelCount)
+                    {
+                        case 0:
+                            page3Model.CorrectedTorqueinNm1 = (page3Model.TorqueinNm1.ToDoble() + page3Model.DynamometerCorrectioninNm1.ToDoble()).ToString();
+                            break;
+                        case 25:
+                            page3Model.CorrectedTorqueinNm2 = (page3Model.TorqueinNm2.ToDoble() + page3Model.DynamometerCorrectioninNm2.ToDoble()).ToString();
+                            break;
+                        case 50:
+                            page3Model.CorrectedTorqueinNm3 = (page3Model.TorqueinNm3.ToDoble() + page3Model.DynamometerCorrectioninNm3.ToDoble()).ToString();
+                            break;
+                        case 75:
+                            page3Model.CorrectedTorqueinNm4 = (page3Model.TorqueinNm4.ToDoble() + page3Model.DynamometerCorrectioninNm4.ToDoble()).ToString();
+                            break;
+                        case 100:
+                            page3Model.CorrectedTorqueinNm5 = (page3Model.TorqueinNm5.ToDoble() + page3Model.DynamometerCorrectioninNm5.ToDoble()).ToString();
+                            break;
+                        case 115:
+                            page3Model.CorrectedTorqueinNm6 = (page3Model.TorqueinNm6.ToDoble() + page3Model.DynamometerCorrectioninNm6.ToDoble()).ToString();
+                            break;
+                        case 130:
+                            page3Model.CorrectedTorqueinNm7 = (page3Model.TorqueinNm7.ToDoble() + page3Model.DynamometerCorrectioninNm7.ToDoble()).ToString();
+                            break;
+                    }
+                }
+            }
+            //Q17   - Q = I*P*0.00010472
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.ShaftPowerinkW1 = (page3Model.ObservedSpeedinmin1.ToDoble() * page3Model.CorrectedTorqueinNm1.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 25:
+                        page3Model.ShaftPowerinkW2 = (page3Model.ObservedSpeedinmin2.ToDoble() * page3Model.CorrectedTorqueinNm2.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 50:
+                        page3Model.ShaftPowerinkW3 = (page3Model.ObservedSpeedinmin3.ToDoble() * page3Model.CorrectedTorqueinNm3.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 75:
+                        page3Model.ShaftPowerinkW4 = (page3Model.ObservedSpeedinmin4.ToDoble() * page3Model.CorrectedTorqueinNm4.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 100:
+                        page3Model.ShaftPowerinkW5 = (page3Model.ObservedSpeedinmin5.ToDoble() * page3Model.CorrectedTorqueinNm5.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 115:
+                        page3Model.ShaftPowerinkW6 = (page3Model.ObservedSpeedinmin6.ToDoble() * page3Model.CorrectedTorqueinNm6.ToDoble() * 0.00010472).ToString();
+                        break;
+                    case 130:
+                        page3Model.ShaftPowerinkW7 = (page3Model.ObservedSpeedinmin7.ToDoble() * page3Model.CorrectedTorqueinNm7.ToDoble() * 0.00010472).ToString();
+                        break;
+                }
+            }
+            //R18  Line Current, in A  = ?
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.LineCurrentinA1 = "";
+                        break;
+                    case 25:
+                        page3Model.LineCurrentinA2 = "";
+                        break;
+                    case 50:
+                        page3Model.LineCurrentinA3 = "";
+                        break;
+                    case 75:
+                        page3Model.LineCurrentinA4 = "";
+                        break;
+                    case 100:
+                        page3Model.LineCurrentinA5 = "";
+                        break;
+                    case 115:
+                        page3Model.LineCurrentinA6 = "";
+                        break;
+                    case 130:
+                        page3Model.LineCurrentinA7 = "";
+                        break;
+                }
+            }
+            //S19 Stator Power, in kW  = ?
             foreach (var item in tblLoadTest)
             {
                 if (item.ShaftPowerkW != null)
@@ -789,38 +1049,231 @@ namespace komaxApp.DatabaseLayer
                     switch (item.LabelCount)
                     {
                         case 0:
-                            page3Model.ShaftPowerinkW1 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW1 = "";
                             break;
                         case 25:
-                            page3Model.ShaftPowerinkW2 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW2 = "";
                             break;
                         case 50:
-                            page3Model.ShaftPowerinkW3 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW3 = "";
                             break;
                         case 75:
-                            page3Model.ShaftPowerinkW4 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW4 = "";
                             break;
                         case 100:
-                            page3Model.ShaftPowerinkW5 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW5 = "";
                             break;
                         case 115:
-                            page3Model.ShaftPowerinkW6 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW6 = "";
                             break;
                         case 130:
-                            page3Model.ShaftPowerinkW7 = item.ShaftPowerkW.ToString();
+                            page3Model.StatorPowerinkW7 = "";
                             break;
                     }
                 }
             }
-            //R18  Line Current, in A
-            //S19 Stator Power, in kW
-            //T20 Stator I2R Loss, in kW, at tt
-            //U21 Winding Resistance at ts
-            //V22 Stator I2R Loss, in kW, at ts
-            //W23 Stator Power Correction, in kW
-            //X24 Corrected Stator Power, in kW
-            //Y25 Efficiency, in %
-            //Z26 Power Factor, in %
+            //T20 Stator I2R Loss, in kW, at tt  -  T = 1.5*R*R*B*(234.5+D)/(234.5+C)/1000
+            foreach (var item in tblLoadTest)
+            {
+                if (item.ShaftPowerkW != null)
+                {
+                    switch (item.LabelCount)
+                    {
+                        case 0:
+                            page3Model.StatorI2RLossinkWatts1 = (1.5 * page3Model.LineCurrentinA1.ToDoble() * page3Model.LineCurrentinA1.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp1.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 25:
+                            page3Model.StatorI2RLossinkWatts2 = (1.5 * page3Model.LineCurrentinA2.ToDoble() * page3Model.LineCurrentinA2.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp2.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 50:
+                            page3Model.StatorI2RLossinkWatts3 = (1.5 * page3Model.LineCurrentinA3.ToDoble() * page3Model.LineCurrentinA3.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp3.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 75:
+                            page3Model.StatorI2RLossinkWatts4 = (1.5 * page3Model.LineCurrentinA4.ToDoble() * page3Model.LineCurrentinA4.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp4.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 100:
+                            page3Model.StatorI2RLossinkWatts5 = (1.5 * page3Model.LineCurrentinA5.ToDoble() * page3Model.LineCurrentinA5.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp5.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 115:
+                            page3Model.StatorI2RLossinkWatts6 = (1.5 * page3Model.LineCurrentinA6.ToDoble() * page3Model.LineCurrentinA6.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp6.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                        case 130:
+                            page3Model.StatorI2RLossinkWatts7 = (1.5 * page3Model.LineCurrentinA7.ToDoble() * page3Model.LineCurrentinA7.ToDoble() * page3Model.StatorResistanceColdInOhms.ToDoble() * (234.5 + page3Model.StatorWindingTemp7.ToDoble()) / (234.5 + page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble()) / 1000).ToString();
+                            break;
+                    }
+                }
+            }
+            //U21 Winding Resistance at ts    -   U = B*(A+234.5)/(C+234.5)
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.WindingResistanceatts1 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 25:
+                        page3Model.WindingResistanceatts2 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 50:
+                        page3Model.WindingResistanceatts3 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 75:
+                        page3Model.WindingResistanceatts4 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 100:
+                        page3Model.WindingResistanceatts5 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 115:
+                        page3Model.WindingResistanceatts6 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                    case 130:
+                        page3Model.WindingResistanceatts7 = (page3Model.StatorResistanceColdInOhms.ToDoble() * (page3Model.SpecifiedtemperatureTsInC.ToDoble() + 234.5) / (page3Model.StatorResistanceColdMeasureAtTempInC.ToDoble() + 234.5)).ToString();
+                        break;
+                }
+            }
+            //V22 Stator I2R Loss, in kW, at ts   - V = 1.5*R*R*U/1000
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.StatorPowerinkW1 = (1.5 * page3Model.LineCurrentinA1.ToDoble() * page3Model.LineCurrentinA1.ToDoble() * page3Model.WindingResistanceatts1.ToDoble() / 1000).ToString();
+                        break;
+                    case 25:
+                        page3Model.StatorPowerinkW2 = (1.5 * page3Model.LineCurrentinA2.ToDoble() * page3Model.LineCurrentinA2.ToDoble() * page3Model.WindingResistanceatts2.ToDoble() / 1000).ToString();
+                        break;
+                    case 50:
+                        page3Model.StatorPowerinkW3 = (1.5 * page3Model.LineCurrentinA3.ToDoble() * page3Model.LineCurrentinA3.ToDoble() * page3Model.WindingResistanceatts3.ToDoble() / 1000).ToString();
+                        break;
+                    case 75:
+                        page3Model.StatorPowerinkW4 = (1.5 * page3Model.LineCurrentinA4.ToDoble() * page3Model.LineCurrentinA4.ToDoble() * page3Model.WindingResistanceatts4.ToDoble() / 1000).ToString();
+                        break;
+                    case 100:
+                        page3Model.StatorPowerinkW5 = (1.5 * page3Model.LineCurrentinA5.ToDoble() * page3Model.LineCurrentinA5.ToDoble() * page3Model.WindingResistanceatts5.ToDoble() / 1000).ToString();
+                        break;
+                    case 115:
+                        page3Model.StatorPowerinkW6 = (1.5 * page3Model.LineCurrentinA6.ToDoble() * page3Model.LineCurrentinA6.ToDoble() * page3Model.WindingResistanceatts6.ToDoble() / 1000).ToString();
+                        break;
+                    case 130:
+                        page3Model.StatorPowerinkW7 = (1.5 * page3Model.LineCurrentinA7.ToDoble() * page3Model.LineCurrentinA7.ToDoble() * page3Model.WindingResistanceatts7.ToDoble() / 1000).ToString();
+                        break;
+                }
+            }
+
+            //W23 Stator Power Correction, in kW  -  W = V-T
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.StatorPowerCorrectioninkW1 = (page3Model.StatorPowerinkW1.ToDoble() - page3Model.StatorI2RLossinkWatts1.ToDoble()).ToString();
+                        break;
+                    case 25:
+                        page3Model.StatorPowerCorrectioninkW2 = (page3Model.StatorPowerinkW2.ToDoble() - page3Model.StatorI2RLossinkWatts2.ToDoble()).ToString();
+                        break;
+                    case 50:
+                        page3Model.StatorPowerCorrectioninkW3 = (page3Model.StatorPowerinkW3.ToDoble() - page3Model.StatorI2RLossinkWatts3.ToDoble()).ToString();
+                        break;
+                    case 75:
+                        page3Model.StatorPowerCorrectioninkW4 = (page3Model.StatorPowerinkW4.ToDoble() - page3Model.StatorI2RLossinkWatts4.ToDoble()).ToString();
+                        break;
+                    case 100:
+                        page3Model.StatorPowerCorrectioninkW5 = (page3Model.StatorPowerinkW5.ToDoble() - page3Model.StatorI2RLossinkWatts5.ToDoble()).ToString();
+                        break;
+                    case 115:
+                        page3Model.StatorPowerCorrectioninkW6 = (page3Model.StatorPowerinkW6.ToDoble() - page3Model.StatorI2RLossinkWatts6.ToDoble()).ToString();
+                        break;
+                    case 130:
+                        page3Model.StatorPowerCorrectioninkW7 = (page3Model.StatorPowerinkW7.ToDoble() - page3Model.StatorI2RLossinkWatts7.ToDoble()).ToString();
+                        break;
+                }
+            }
+
+            //X24 Corrected Stator Power, in kW - X = S+W
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.CorrectedStatorPowerinkW1 = (page3Model.StatorPowerinkW1.ToDoble() + page3Model.StatorPowerCorrectioninkW1.ToDoble()).ToString();
+                        break;
+                    case 25:
+                        page3Model.CorrectedStatorPowerinkW2 = (page3Model.StatorPowerinkW2.ToDoble() + page3Model.StatorPowerCorrectioninkW2.ToDoble()).ToString();
+                        break;
+                    case 50:
+                        page3Model.CorrectedStatorPowerinkW3 = (page3Model.StatorPowerinkW3.ToDoble() + page3Model.StatorPowerCorrectioninkW3.ToDoble()).ToString();
+                        break;
+                    case 75:
+                        page3Model.CorrectedStatorPowerinkW4 = (page3Model.StatorPowerinkW4.ToDoble() + page3Model.StatorPowerCorrectioninkW4.ToDoble()).ToString();
+                        break;
+                    case 100:
+                        page3Model.CorrectedStatorPowerinkW5 = (page3Model.StatorPowerinkW5.ToDoble() + page3Model.StatorPowerCorrectioninkW5.ToDoble()).ToString();
+                        break;
+                    case 115:
+                        page3Model.CorrectedStatorPowerinkW6 = (page3Model.StatorPowerinkW6.ToDoble() + page3Model.StatorPowerCorrectioninkW6.ToDoble()).ToString();
+                        break;
+                    case 130:
+                        page3Model.CorrectedStatorPowerinkW7 = (page3Model.StatorPowerinkW7.ToDoble() + page3Model.StatorPowerCorrectioninkW7.ToDoble()).ToString();
+                        break;
+                }
+            }
+            //Y25 Efficiency, in %  -  Y = 100*Q/X
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.EfficiencyinPercentage1 = (100 * page3Model.ShaftPowerinkW1.ToDoble() / page3Model.CorrectedStatorPowerinkW1.ToDoble()).ToString();
+                        break;
+                    case 25:
+                        page3Model.EfficiencyinPercentage2 = (100 * page3Model.ShaftPowerinkW2.ToDoble() / page3Model.CorrectedStatorPowerinkW2.ToDoble()).ToString();
+                        break;
+                    case 50:
+                        page3Model.EfficiencyinPercentage3 = (100 * page3Model.ShaftPowerinkW3.ToDoble() / page3Model.CorrectedStatorPowerinkW3.ToDoble()).ToString();
+                        break;
+                    case 75:
+                        page3Model.EfficiencyinPercentage4 = (100 * page3Model.ShaftPowerinkW4.ToDoble() / page3Model.CorrectedStatorPowerinkW4.ToDoble()).ToString();
+                        break;
+                    case 100:
+                        page3Model.EfficiencyinPercentage5 = (100 * page3Model.ShaftPowerinkW5.ToDoble() / page3Model.CorrectedStatorPowerinkW5.ToDoble()).ToString();
+                        break;
+                    case 115:
+                        page3Model.EfficiencyinPercentage6 = (100 * page3Model.ShaftPowerinkW6.ToDoble() / page3Model.CorrectedStatorPowerinkW6.ToDoble()).ToString();
+                        break;
+                    case 130:
+                        page3Model.EfficiencyinPercentage7 = (100 * page3Model.ShaftPowerinkW7.ToDoble() / page3Model.CorrectedStatorPowerinkW7.ToDoble()).ToString();
+                        break;
+                }
+            }
+
+            //Z26 Power Factor, in %   -  Z = 100*X/(1.732*F*R)*1000
+            foreach (var item in tblLoadTest)
+            {
+                switch (item.LabelCount)
+                {
+                    case 0:
+                        page3Model.PowerFactorinPercentage1 = (1000 * page3Model.CorrectedStatorPowerinkW1.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage1.ToDoble() * page3Model.LineCurrentinA1.ToDoble()) * 1000).ToString();
+                        break;
+                    case 25:
+                        page3Model.PowerFactorinPercentage2 = (1000 * page3Model.CorrectedStatorPowerinkW2.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage2.ToDoble() * page3Model.LineCurrentinA2.ToDoble()) * 1000).ToString();
+                        break;
+                    case 50:
+                        page3Model.PowerFactorinPercentage3 = (1000 * page3Model.CorrectedStatorPowerinkW3.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage3.ToDoble() * page3Model.LineCurrentinA3.ToDoble()) * 1000).ToString();
+                        break;
+                    case 75:
+                        page3Model.PowerFactorinPercentage4 = (1000 * page3Model.CorrectedStatorPowerinkW4.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage4.ToDoble() * page3Model.LineCurrentinA4.ToDoble()) * 1000).ToString();
+                        break;
+                    case 100:
+                        page3Model.PowerFactorinPercentage5 = (1000 * page3Model.CorrectedStatorPowerinkW5.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage5.ToDoble() * page3Model.LineCurrentinA5.ToDoble()) * 1000).ToString();
+                        break;
+                    case 115:
+                        page3Model.PowerFactorinPercentage6 = (1000 * page3Model.CorrectedStatorPowerinkW6.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage6.ToDoble() * page3Model.LineCurrentinA6.ToDoble()) * 1000).ToString();
+                        break;
+                    case 130:
+                        page3Model.PowerFactorinPercentage7 = (1000 * page3Model.CorrectedStatorPowerinkW7.ToDoble() / (1.732 * page3Model.LinetoLineCol1Voltage7.ToDoble() * page3Model.LineCurrentinA7.ToDoble()) * 1000).ToString();
+                        break;
+                }
+            }
 
             new Conversion().CopyProperties(page3Model, page3ModelFinilize);
             return page3ModelFinilize;
@@ -860,6 +1313,45 @@ namespace komaxApp.DatabaseLayer
             Page1ModelFinilize page1ModelFinilize = new Page1ModelFinilize();
             new Conversion().CopyProperties(page1Model.singleMotorModel, page1ModelFinilize);
             #endregion
+
+            #region FORMULAS
+            double EFACTOR, SFACTOR, PFACTOR;
+            //Formula
+            if (0.15 <= Convert.ToDouble(page1Model.singleMotorModel.KW))
+            {
+                EFACTOR = 0.15;
+            }
+            else
+            {
+                EFACTOR = 0.10;
+            }
+
+            //Formula
+            if (Convert.ToDouble(page1Model.singleMotorModel.KW) >= 0.2)
+            {
+                SFACTOR = 0.2;
+            }
+            else
+            {
+                SFACTOR = 0.3;
+            }
+
+            //Formula
+            if (Convert.ToDouble(page1Model.singleMotorModel.KW) >= 0.2)
+            {
+                SFACTOR = 0.2;
+            }
+            else
+            {
+                SFACTOR = 0.3;
+            }
+
+
+
+            PFACTOR = 7;  //Max And mix ?
+            #endregion
+
+            //Row1  ShaftPawer(P2)
             foreach (var item in tblShaftPawer)
             {
                 if (item.Row != null)
@@ -868,118 +1360,129 @@ namespace komaxApp.DatabaseLayer
                     {
                         case 1:
                             page1ModelFinilize.ShaftPower1 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo1 = item.Row.ToString();
+
                             break;
                         case 2:
                             page1ModelFinilize.ShaftPower2 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo2 = item.Row.ToString();
                             break;
                         case 3:
                             page1ModelFinilize.ShaftPower3 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo3 = item.Row.ToString();
                             break;
                         case 4:
                             page1ModelFinilize.ShaftPower4 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo4 = item.Row.ToString();
                             break;
                         case 5:
                             page1ModelFinilize.ShaftPower5 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo5 = item.Row.ToString();
                             break;
                         case 6:
                             page1ModelFinilize.ShaftPower6 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo6 = item.Row.ToString();
                             break;
                         case 7:
                             page1ModelFinilize.ShaftPower7 = item.Row.ToString();
+                            page1ModelFinilize.ShaftPowerTableTwo7 = item.Row.ToString();
                             break;
                     }
                 }
             }
+            //Row2  Efficiency
             foreach (var item in tblEfficiency)
             {
+
                 if (item.Row != null)
                 {
                     switch (item.RowNo)
                     {
                         case 1:
                             page1ModelFinilize.Efficiency1 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo1 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency1)))).ToString();
                             break;
                         case 2:
                             page1ModelFinilize.Efficiency2 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo2 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency2)))).ToString();
                             break;
                         case 3:
                             page1ModelFinilize.Efficiency3 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo3 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency3)))).ToString();
                             break;
+
                         case 4:
                             page1ModelFinilize.Efficiency4 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo4 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency4)))).ToString();
                             break;
                         case 5:
                             page1ModelFinilize.Efficiency5 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo5 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency5)))).ToString();
                             break;
                         case 6:
                             page1ModelFinilize.Efficiency6 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo6 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency6)))).ToString();
                             break;
                         case 7:
                             page1ModelFinilize.Efficiency7 = item.Row.ToString();
+                            page1ModelFinilize.EfficiencyTableTwo7 = (item.Row - (EFACTOR * (100 - Convert.ToDouble(page1ModelFinilize.Efficiency7)))).ToString();
                             break;
                     }
                 }
             }
+            //Row4  Slip -  not understand
+            foreach (var item in tblCurrentAmps)
+            {
+                switch (item.RowNo)
+                {
+                    case 1:
+                        page1ModelFinilize.Slip1 = item.Row.ToString();
+                        page1ModelFinilize.Slip1 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps1) + (Convert.ToDouble(page1ModelFinilize.CurrentInAmps1) * SFACTOR))).ToString();
+                        break;
+                }
+            }
+            //Row3  SpeedRPM
             foreach (var item in tblSpeedRPM)
             {
+
+
                 if (item.Row != null)
                 {
                     switch (item.RowNo)
                     {
                         case 1:
                             page1ModelFinilize.Speed1 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo1 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps1) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps1) * SFACTOR))).ToString();
                             break;
                         case 2:
                             page1ModelFinilize.Speed2 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo2 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps2) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps2) * SFACTOR))).ToString();
                             break;
                         case 3:
                             page1ModelFinilize.Speed3 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo3 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps3) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps3) * SFACTOR))).ToString();
                             break;
                         case 4:
                             page1ModelFinilize.Speed4 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo4 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps4) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps4) * SFACTOR))).ToString();
                             break;
                         case 5:
                             page1ModelFinilize.Speed5 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo5 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps5) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps5) * SFACTOR))).ToString();
                             break;
                         case 6:
                             page1ModelFinilize.Speed6 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo6 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps6) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps6) * SFACTOR))).ToString();
                             break;
                         case 7:
                             page1ModelFinilize.Speed7 = item.Row.ToString();
+                            page1ModelFinilize.SpeedTableTwo7 = (((120 * Convert.ToDouble(page1Model.singleMotorModel.HERTZ)) / 0) * (Convert.ToDouble(page1ModelFinilize.CurrentInAmps7) - (Convert.ToDouble(page1ModelFinilize.CurrentInAmps7) * SFACTOR))).ToString();
                             break;
                     }
                 }
             }
-            foreach (var item in tblCurrentAmps)
-            {
-                if (item.Row != null)
-                {
-                    switch (item.RowNo)
-                    {
-                        case 1:
-                            page1ModelFinilize.CurrentInAmps1 = item.Row.ToString();
-                            break;
-                        case 2:
-                            page1ModelFinilize.CurrentInAmps2 = item.Row.ToString();
-                            break;
-                        case 3:
-                            page1ModelFinilize.CurrentInAmps3 = item.Row.ToString();
-                            break;
-                        case 4:
-                            page1ModelFinilize.CurrentInAmps4 = item.Row.ToString();
-                            break;
-                        case 5:
-                            page1ModelFinilize.CurrentInAmps5 = item.Row.ToString();
-                            break;
-                        case 6:
-                            page1ModelFinilize.CurrentInAmps6 = item.Row.ToString();
-                            break;
-                        case 7:
-                            page1ModelFinilize.CurrentInAmps7 = item.Row.ToString();
-                            break;
-                    }
-                }
-            }
+
+            //Row6
             foreach (var item in tblCos)
             {
                 if (item.Row != null)
@@ -1011,8 +1514,46 @@ namespace komaxApp.DatabaseLayer
                 }
             }
 
-            return page1ModelFinilize;
 
+            //Row5  CurrentAmps
+            foreach (var item in tblCurrentAmps)
+            {
+                if (item.Row != null)
+                {
+                    switch (item.RowNo)
+                    {
+                        case 1:
+                            page1ModelFinilize.CurrentInAmps1 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo1 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos1))).ToString();
+                            break;
+                        case 2:
+                            page1ModelFinilize.CurrentInAmps2 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo2 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                        case 3:
+                            page1ModelFinilize.CurrentInAmps3 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo3 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                        case 4:
+                            page1ModelFinilize.CurrentInAmps4 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo4 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                        case 5:
+                            page1ModelFinilize.CurrentInAmps5 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo5 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                        case 6:
+                            page1ModelFinilize.CurrentInAmps6 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo6 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                        case 7:
+                            page1ModelFinilize.CurrentInAmps7 = item.Row.ToString();
+                            page1ModelFinilize.CurrentInAmpsTableTwo7 = ((1 / 6) * (100 - Convert.ToDouble(page1ModelFinilize.Cos2))).ToString();
+                            break;
+                    }
+                }
+            }
+            return page1ModelFinilize;
         }
 
 
@@ -1068,8 +1609,8 @@ namespace komaxApp.DatabaseLayer
                 var lastRecord = db.QueryFirstOrDefault<(string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort)>(
                 sql, commandType: CommandType.Text);
 
-                    return lastRecord;
-               
+                return lastRecord;
+
             }
             catch (Exception ex)
             {

@@ -45,6 +45,16 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string ShaftPower5 { get; set; }
         public string ShaftPower6 { get; set; }
         public string ShaftPower7 { get; set; }
+
+        #region Table2
+        public string ShaftPowerTableTwo1 { get; set; }
+        public string ShaftPowerTableTwo2 { get; set; }
+        public string ShaftPowerTableTwo3 { get; set; }
+        public string ShaftPowerTableTwo4 { get; set; }
+        public string ShaftPowerTableTwo5 { get; set; }
+        public string ShaftPowerTableTwo6 { get; set; }
+        public string ShaftPowerTableTwo7 { get; set; }
+        #endregion
         #endregion
         #region Efficiency
         public string Efficiency1 { get; set; }
@@ -54,6 +64,15 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string Efficiency5 { get; set; }
         public string Efficiency6 { get; set; }
         public string Efficiency7 { get; set; }
+        #region Table2
+        public string EfficiencyTableTwo1 { get; set; }
+        public string EfficiencyTableTwo2 { get; set; }
+        public string EfficiencyTableTwo3 { get; set; }
+        public string EfficiencyTableTwo4 { get; set; }
+        public string EfficiencyTableTwo5 { get; set; }
+        public string EfficiencyTableTwo6 { get; set; }
+        public string EfficiencyTableTwo7 { get; set; }
+        #endregion
         #endregion
         #region Speed
         public string Speed1 { get; set; }
@@ -63,6 +82,15 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string Speed5 { get; set; }
         public string Speed6 { get; set; }
         public string Speed7 { get; set; }
+        #region Table2
+        public string SpeedTableTwo1 { get; set; }
+        public string SpeedTableTwo2 { get; set; }
+        public string SpeedTableTwo3 { get; set; }
+        public string SpeedTableTwo4 { get; set; }
+        public string SpeedTableTwo5 { get; set; }
+        public string SpeedTableTwo6 { get; set; }
+        public string SpeedTableTwo7 { get; set; }
+        #endregion
         #endregion
         #region Slip
         public string Slip1 { get; set; }
@@ -72,6 +100,15 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string Slip5 { get; set; }
         public string Slip6 { get; set; }
         public string Slip7 { get; set; }
+        #region Table2
+        public string SlipTableTwo1 { get; set; }
+        public string SlipTableTwo2 { get; set; }
+        public string SlipTableTwo3 { get; set; }
+        public string SlipTableTwo4 { get; set; }
+        public string SlipTableTwo5 { get; set; }
+        public string SlipTableTwo6 { get; set; }
+        public string SlipTableTwo7 { get; set; }
+        #endregion
         #endregion 
         #region CurrentInAmps
         public string CurrentInAmps1 { get; set; }
@@ -81,6 +118,15 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string CurrentInAmps5 { get; set; }
         public string CurrentInAmps6 { get; set; }
         public string CurrentInAmps7 { get; set; }
+        #region Table2
+        public string CurrentInAmpsTableTwo1 { get; set; }
+        public string CurrentInAmpsTableTwo2 { get; set; }
+        public string CurrentInAmpsTableTwo3 { get; set; }
+        public string CurrentInAmpsTableTwo4 { get; set; }
+        public string CurrentInAmpsTableTwo5 { get; set; }
+        public string CurrentInAmpsTableTwo6 { get; set; }
+        public string CurrentInAmpsTableTwo7 { get; set; }
+        #endregion
         #endregion
         #region Cos
         public string Cos1 { get; set; }
@@ -90,6 +136,15 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string Cos5 { get; set; }
         public string Cos6 { get; set; }
         public string Cos7 { get; set; }
+        #region Table2
+        public string CosTableTwo1 { get; set; }
+        public string CosTableTwo2 { get; set; }
+        public string CosTableTwo3 { get; set; }
+        public string CosTableTwo4 { get; set; }
+        public string CosTableTwo5 { get; set; }
+        public string CosTableTwo6 { get; set; }
+        public string CosTableTwo7 { get; set; }
+        #endregion
         #endregion
     }
 

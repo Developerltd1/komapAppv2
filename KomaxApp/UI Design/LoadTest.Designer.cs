@@ -94,9 +94,15 @@
             this.label1Count = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.panel15 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.infoMessages = new System.Windows.Forms.TextBox();
             this.labelInfo = new System.Windows.Forms.Label();
+            this.infoMessages = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tbTemp2 = new System.Windows.Forms.TextBox();
+            this.tbTemp1 = new System.Windows.Forms.TextBox();
+            this.panel16 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -113,6 +119,7 @@
             this.panel13.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
+            this.panel16.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRecordNoLoadPoint
@@ -122,7 +129,7 @@
             this.btnRecordNoLoadPoint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRecordNoLoadPoint.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRecordNoLoadPoint.ForeColor = System.Drawing.Color.White;
-            this.btnRecordNoLoadPoint.Location = new System.Drawing.Point(871, 62);
+            this.btnRecordNoLoadPoint.Location = new System.Drawing.Point(875, 62);
             this.btnRecordNoLoadPoint.Name = "btnRecordNoLoadPoint";
             this.btnRecordNoLoadPoint.Size = new System.Drawing.Size(206, 82);
             this.btnRecordNoLoadPoint.TabIndex = 56;
@@ -134,7 +141,7 @@
             // 
             this.textBoxAmbientTempC.BackColor = System.Drawing.Color.White;
             this.textBoxAmbientTempC.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxAmbientTempC.Location = new System.Drawing.Point(26, 77);
+            this.textBoxAmbientTempC.Location = new System.Drawing.Point(26, 54);
             this.textBoxAmbientTempC.Name = "textBoxAmbientTempC";
             this.textBoxAmbientTempC.Size = new System.Drawing.Size(146, 35);
             this.textBoxAmbientTempC.TabIndex = 36;
@@ -779,9 +786,9 @@
             this.panel12.Controls.Add(this.label2);
             this.panel12.Controls.Add(this.label1);
             this.panel12.Controls.Add(this.textBoxAmbientTempC);
-            this.panel12.Location = new System.Drawing.Point(42, 62);
+            this.panel12.Location = new System.Drawing.Point(13, 107);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(233, 136);
+            this.panel12.Size = new System.Drawing.Size(233, 91);
             this.panel12.TabIndex = 59;
             // 
             // label2
@@ -790,7 +797,7 @@
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label2.Location = new System.Drawing.Point(24, 46);
+            this.label2.Location = new System.Drawing.Point(24, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(148, 21);
             this.label2.TabIndex = 46;
@@ -802,7 +809,7 @@
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label1.Location = new System.Drawing.Point(24, 21);
+            this.label1.Location = new System.Drawing.Point(24, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 21);
             this.label1.TabIndex = 45;
@@ -815,9 +822,9 @@
             this.panel13.Controls.Add(this.label5);
             this.panel13.Controls.Add(this.label7);
             this.panel13.Controls.Add(this.textBoxmotorTempC);
-            this.panel13.Location = new System.Drawing.Point(281, 62);
+            this.panel13.Location = new System.Drawing.Point(252, 107);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(233, 136);
+            this.panel13.Size = new System.Drawing.Size(233, 91);
             this.panel13.TabIndex = 60;
             // 
             // label5
@@ -826,7 +833,7 @@
             this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label5.Location = new System.Drawing.Point(24, 46);
+            this.label5.Location = new System.Drawing.Point(24, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(148, 21);
             this.label5.TabIndex = 46;
@@ -838,7 +845,7 @@
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label7.Location = new System.Drawing.Point(24, 21);
+            this.label7.Location = new System.Drawing.Point(24, 3);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 21);
             this.label7.TabIndex = 45;
@@ -848,7 +855,7 @@
             // 
             this.textBoxmotorTempC.BackColor = System.Drawing.Color.White;
             this.textBoxmotorTempC.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxmotorTempC.Location = new System.Drawing.Point(26, 77);
+            this.textBoxmotorTempC.Location = new System.Drawing.Point(26, 55);
             this.textBoxmotorTempC.Name = "textBoxmotorTempC";
             this.textBoxmotorTempC.Size = new System.Drawing.Size(146, 35);
             this.textBoxmotorTempC.TabIndex = 36;
@@ -860,9 +867,9 @@
             this.panel14.Controls.Add(this.label9);
             this.panel14.Controls.Add(this.label13);
             this.panel14.Controls.Add(this.textBoxEstimitedEfficency);
-            this.panel14.Location = new System.Drawing.Point(520, 62);
+            this.panel14.Location = new System.Drawing.Point(491, 107);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(233, 136);
+            this.panel14.Size = new System.Drawing.Size(233, 91);
             this.panel14.TabIndex = 61;
             // 
             // label9
@@ -871,7 +878,7 @@
             this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label9.Location = new System.Drawing.Point(24, 46);
+            this.label9.Location = new System.Drawing.Point(24, 30);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(127, 21);
             this.label9.TabIndex = 46;
@@ -883,7 +890,7 @@
             this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label13.Location = new System.Drawing.Point(24, 21);
+            this.label13.Location = new System.Drawing.Point(24, 5);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(92, 21);
             this.label13.TabIndex = 45;
@@ -895,7 +902,7 @@
             this.textBoxEstimitedEfficency.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxEstimitedEfficency.Enabled = false;
             this.textBoxEstimitedEfficency.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxEstimitedEfficency.Location = new System.Drawing.Point(26, 79);
+            this.textBoxEstimitedEfficency.Location = new System.Drawing.Point(26, 59);
             this.textBoxEstimitedEfficency.Name = "textBoxEstimitedEfficency";
             this.textBoxEstimitedEfficency.Size = new System.Drawing.Size(146, 28);
             this.textBoxEstimitedEfficency.TabIndex = 36;
@@ -907,7 +914,7 @@
             this.label1Count.BackColor = System.Drawing.Color.Transparent;
             this.label1Count.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1Count.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label1Count.Location = new System.Drawing.Point(1037, 177);
+            this.label1Count.Location = new System.Drawing.Point(1041, 177);
             this.label1Count.Name = "label1Count";
             this.label1Count.Size = new System.Drawing.Size(0, 21);
             this.label1Count.TabIndex = 47;
@@ -919,7 +926,7 @@
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label11.Location = new System.Drawing.Point(896, 177);
+            this.label11.Location = new System.Drawing.Point(900, 177);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(135, 21);
             this.label11.TabIndex = 62;
@@ -929,6 +936,7 @@
             // 
             this.panel15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel15.Controls.Add(this.panel16);
             this.panel15.Controls.Add(this.labelInfo);
             this.panel15.Controls.Add(this.infoMessages);
             this.panel15.Controls.Add(this.richTextBox1);
@@ -943,13 +951,15 @@
             this.panel15.Size = new System.Drawing.Size(1128, 226);
             this.panel15.TabIndex = 63;
             // 
-            // richTextBox1
+            // labelInfo
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(703, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(160, 195);
-            this.richTextBox1.TabIndex = 63;
-            this.richTextBox1.Text = "";
+            this.labelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelInfo.AutoSize = true;
+            this.labelInfo.BackColor = System.Drawing.Color.Transparent;
+            this.labelInfo.Location = new System.Drawing.Point(9, 211);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(0, 13);
+            this.labelInfo.TabIndex = 70;
             // 
             // infoMessages
             // 
@@ -961,15 +971,85 @@
             this.infoMessages.Size = new System.Drawing.Size(1122, 20);
             this.infoMessages.TabIndex = 69;
             // 
-            // labelInfo
+            // richTextBox1
             // 
-            this.labelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelInfo.AutoSize = true;
-            this.labelInfo.BackColor = System.Drawing.Color.Transparent;
-            this.labelInfo.Location = new System.Drawing.Point(9, 211);
-            this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(0, 13);
-            this.labelInfo.TabIndex = 70;
+            this.richTextBox1.Location = new System.Drawing.Point(756, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(115, 195);
+            this.richTextBox1.TabIndex = 63;
+            this.richTextBox1.Text = "";
+            // 
+            // label22
+            // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.Transparent;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.ForestGreen;
+            this.label22.Location = new System.Drawing.Point(472, 67);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(77, 17);
+            this.label22.TabIndex = 39;
+            this.label22.Text = "From PT100";
+            // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label21.AutoSize = true;
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.ForestGreen;
+            this.label21.Location = new System.Drawing.Point(187, 67);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 17);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "From PT100";
+            // 
+            // tbTemp2
+            // 
+            this.tbTemp2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tbTemp2.BackColor = System.Drawing.Color.White;
+            this.tbTemp2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTemp2.Location = new System.Drawing.Point(374, 29);
+            this.tbTemp2.Name = "tbTemp2";
+            this.tbTemp2.Size = new System.Drawing.Size(273, 35);
+            this.tbTemp2.TabIndex = 37;
+            // 
+            // tbTemp1
+            // 
+            this.tbTemp1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tbTemp1.BackColor = System.Drawing.Color.White;
+            this.tbTemp1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTemp1.Location = new System.Drawing.Point(89, 29);
+            this.tbTemp1.Name = "tbTemp1";
+            this.tbTemp1.Size = new System.Drawing.Size(273, 35);
+            this.tbTemp1.TabIndex = 36;
+            // 
+            // panel16
+            // 
+            this.panel16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.panel16.Controls.Add(this.label22);
+            this.panel16.Controls.Add(this.label14);
+            this.panel16.Controls.Add(this.label21);
+            this.panel16.Controls.Add(this.tbTemp1);
+            this.panel16.Controls.Add(this.tbTemp2);
+            this.panel16.Location = new System.Drawing.Point(13, 10);
+            this.panel16.Name = "panel16";
+            this.panel16.Size = new System.Drawing.Size(711, 91);
+            this.panel16.TabIndex = 62;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.label14.Location = new System.Drawing.Point(3, 4);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(116, 21);
+            this.label14.TabIndex = 45;
+            this.label14.Text = "Output Power";
             // 
             // LoadTest
             // 
@@ -1013,6 +1093,8 @@
             this.panel14.PerformLayout();
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
+            this.panel16.ResumeLayout(false);
+            this.panel16.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1088,5 +1170,11 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox infoMessages;
         private System.Windows.Forms.Label labelInfo;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox tbTemp2;
+        private System.Windows.Forms.TextBox tbTemp1;
+        private System.Windows.Forms.Panel panel16;
+        private System.Windows.Forms.Label label14;
     }
 }

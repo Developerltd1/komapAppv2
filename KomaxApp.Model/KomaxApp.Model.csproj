@@ -54,6 +54,7 @@
     <Compile Include="Display\DisplayModel.cs" />
     <Compile Include="DummyData.cs" />
     <Compile Include="LoadTest\RequestLoadTestModel.cs" />
+    <Compile Include="PortsAndCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\Model\Page1\Page1ModelFinilize.cs" />
     <Compile Include="Reporting\Model\Page1\StructureMulti\CosInPercentage.cs" />

@@ -41,7 +41,10 @@ namespace KomaxApp.Model.LoadTest
             public double? MotorTemperature { get; set; }
             public double? EstimitedEfficiency { get; set; }
             public DateTime? EntryDate { get; set; }
-            
+
+            public double? Pt100_Temp1 { get; set; }
+            public double? Pt100_Temp2 { get; set; }
+
         }
         public class Response
         {

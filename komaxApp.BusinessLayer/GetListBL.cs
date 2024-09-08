@@ -162,6 +162,12 @@ namespace komaxApp.BusinessLayer
         {
             var _ReportingModel = new ReportingModel();
             _ReportingModel = await new GetListDL().GetDataForReportDL0(ReportNo);
+
+            #region Calculations
+            //_ReportingModel.page2Mdl
+            #endregion
+
+
             return _ReportingModel;
         }
         #endregion

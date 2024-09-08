@@ -8,7 +8,7 @@ namespace KomaxApp.Model.Page1.Entity
 {
     public class tblEfficiency
     {
-        public decimal Row { get; set; }
+        public double Row { get; set; }
         public int RowNo { get; set; }
     }
 }

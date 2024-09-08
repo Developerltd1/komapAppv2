@@ -297,10 +297,150 @@
           <DataField>CurrentInAmps7</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ShaftPowerTableTwo1">
+          <DataField>ShaftPowerTableTwo1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo2">
+          <DataField>ShaftPowerTableTwo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo3">
+          <DataField>ShaftPowerTableTwo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo4">
+          <DataField>ShaftPowerTableTwo4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo5">
+          <DataField>ShaftPowerTableTwo5</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo6">
+          <DataField>ShaftPowerTableTwo6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShaftPowerTableTwo7">
+          <DataField>ShaftPowerTableTwo7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo1">
+          <DataField>EfficiencyTableTwo1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo2">
+          <DataField>EfficiencyTableTwo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo3">
+          <DataField>EfficiencyTableTwo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo4">
+          <DataField>EfficiencyTableTwo4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo5">
+          <DataField>EfficiencyTableTwo5</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo6">
+          <DataField>EfficiencyTableTwo6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfficiencyTableTwo7">
+          <DataField>EfficiencyTableTwo7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo1">
+          <DataField>SpeedTableTwo1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo2">
+          <DataField>SpeedTableTwo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo3">
+          <DataField>SpeedTableTwo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo4">
+          <DataField>SpeedTableTwo4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo5">
+          <DataField>SpeedTableTwo5</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo6">
+          <DataField>SpeedTableTwo6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SpeedTableTwo7">
+          <DataField>SpeedTableTwo7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo1">
+          <DataField>CurrentInAmpsTableTwo1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo2">
+          <DataField>CurrentInAmpsTableTwo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo3">
+          <DataField>CurrentInAmpsTableTwo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo4">
+          <DataField>CurrentInAmpsTableTwo4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo5">
+          <DataField>CurrentInAmpsTableTwo5</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo6">
+          <DataField>CurrentInAmpsTableTwo6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentInAmpsTableTwo7">
+          <DataField>CurrentInAmpsTableTwo7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo1">
+          <DataField>CosTableTwo1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo2">
+          <DataField>CosTableTwo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo3">
+          <DataField>CosTableTwo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo4">
+          <DataField>CosTableTwo4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo5">
+          <DataField>CosTableTwo5</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo6">
+          <DataField>CosTableTwo6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CosTableTwo7">
+          <DataField>CosTableTwo7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
-        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\KomaxApp\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\komapAppv2_StaticCode\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
         <rd:TableName>DSPage1</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -18807,7 +18947,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower1.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo1.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -18840,7 +18980,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower2.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo2.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -18873,7 +19013,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower3.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo3.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -18906,7 +19046,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower4.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo4.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -18939,7 +19079,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower5.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo5.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -18972,7 +19112,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower6.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo6.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19005,7 +19145,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!ShaftPower7.Value</Value>
+                                                <Value>=Fields!ShaftPowerTableTwo7.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19109,7 +19249,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency1.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo1.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19142,7 +19282,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency2.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo2.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19175,7 +19315,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency3.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo3.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19208,7 +19348,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency4.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo4.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19241,7 +19381,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency5.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo5.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19274,7 +19414,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency6.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo6.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19307,7 +19447,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Efficiency7.Value</Value>
+                                                <Value>=Fields!EfficiencyTableTwo7.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19411,7 +19551,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed1.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo1.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19444,7 +19584,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed2.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo2.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19477,7 +19617,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed3.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo3.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19510,7 +19650,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed4.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo4.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19543,7 +19683,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed5.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo5.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19576,7 +19716,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed6.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo6.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19609,7 +19749,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Speed7.Value</Value>
+                                                <Value>=Fields!SpeedTableTwo7.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19647,7 +19787,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>5</Value>
+                                                <Value>4</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19713,7 +19853,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps1.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo1.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19746,7 +19886,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps2.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo2.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19779,7 +19919,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps3.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo3.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19812,7 +19952,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps4.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo4.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19845,7 +19985,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps5.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo5.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19878,7 +20018,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps6.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo6.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19911,7 +20051,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!CurrentInAmps7.Value</Value>
+                                                <Value>=Fields!CurrentInAmpsTableTwo7.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -19949,7 +20089,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>6</Value>
+                                                <Value>5</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20015,7 +20155,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos1.Value</Value>
+                                                <Value>=Fields!CosTableTwo1.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20048,7 +20188,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos2.Value</Value>
+                                                <Value>=Fields!CosTableTwo2.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20081,7 +20221,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos3.Value</Value>
+                                                <Value>=Fields!CosTableTwo3.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20114,7 +20254,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos4.Value</Value>
+                                                <Value>=Fields!CosTableTwo4.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20147,7 +20287,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos5.Value</Value>
+                                                <Value>=Fields!CosTableTwo5.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20180,7 +20320,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos6.Value</Value>
+                                                <Value>=Fields!CosTableTwo6.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -20213,7 +20353,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Cos7.Value</Value>
+                                                <Value>=Fields!CosTableTwo7.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
