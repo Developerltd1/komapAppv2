@@ -115,25 +115,26 @@ namespace KomaxApp.UI_Design
             {
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
-                    pollingTimer.Stop();
+                    
+                    //pollingTimer.Stop();
                     JIMessageBox.WarningMessage("COM Ports are not Configure");
                     return;
                 }
 
-                isPollingEnabled = !isPollingEnabled;
-                if (isPollingEnabled)
-                {
-                    isPollSelected = true;
-                    btnStartReadng.BackColor = System.Drawing.Color.Gray;
-                    InitializePollingTimer();
+                //isPollingEnabled = !isPollingEnabled;
+                //if (isPollingEnabled)
+                //{
+                isPollSelected = true;
+                btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
+                InitializePollingTimer();
                     pollingTimer.Start();
-                }
-                else
-                {
-                    //isPollSelected = false;
-                    //btnStartReadng.BackColor = System.Drawing.Color.Black;
-                    //pollingTimer.Stop();
-                }
+                //}
+                //else
+                //{
+                //    isPollSelected = false;
+                //    btnStartReadng.BackColor = System.Drawing.Color.Black;
+                //    pollingTimer.Stop();
+                //}
             }
             catch (Exception ex)
             {
@@ -658,6 +659,13 @@ namespace KomaxApp.UI_Design
 
         #endregion
 
+        private void btnStopReading_Click(object sender, EventArgs e)
+        {
+            isPollSelected = false;
+            btnStartReadng.BackColor = System.Drawing.Color.Black;
+            btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
+            pollingTimer.Stop();
+        }
     }
 
 

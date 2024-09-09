@@ -105,6 +105,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.infoMessages = new System.Windows.Forms.TextBox();
+            this.btnStopReading = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -137,9 +138,9 @@
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox2.Location = new System.Drawing.Point(3, 5);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(1504, 185);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
@@ -153,7 +154,7 @@
             this.panel5.Controls.Add(this.tbMototSizeHP);
             this.panel5.Controls.Add(this.label10);
             this.panel5.Location = new System.Drawing.Point(1193, 41);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(288, 127);
             this.panel5.TabIndex = 39;
@@ -176,7 +177,7 @@
             this.tbMototSizeHP.BackColor = System.Drawing.Color.White;
             this.tbMototSizeHP.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbMototSizeHP.Location = new System.Drawing.Point(12, 43);
-            this.tbMototSizeHP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbMototSizeHP.Margin = new System.Windows.Forms.Padding(4);
             this.tbMototSizeHP.Name = "tbMototSizeHP";
             this.tbMototSizeHP.Size = new System.Drawing.Size(256, 42);
             this.tbMototSizeHP.TabIndex = 35;
@@ -202,7 +203,7 @@
             this.panel4.Controls.Add(this.tbLoadingFactorPercentage);
             this.panel4.Controls.Add(this.label8);
             this.panel4.Location = new System.Drawing.Point(899, 41);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(288, 127);
             this.panel4.TabIndex = 38;
@@ -225,7 +226,7 @@
             this.tbLoadingFactorPercentage.BackColor = System.Drawing.Color.White;
             this.tbLoadingFactorPercentage.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbLoadingFactorPercentage.Location = new System.Drawing.Point(13, 42);
-            this.tbLoadingFactorPercentage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbLoadingFactorPercentage.Margin = new System.Windows.Forms.Padding(4);
             this.tbLoadingFactorPercentage.Name = "tbLoadingFactorPercentage";
             this.tbLoadingFactorPercentage.Size = new System.Drawing.Size(256, 42);
             this.tbLoadingFactorPercentage.TabIndex = 35;
@@ -251,7 +252,7 @@
             this.panel2.Controls.Add(this.tbShaftPawerKw);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Location = new System.Drawing.Point(604, 41);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(288, 127);
             this.panel2.TabIndex = 37;
@@ -274,7 +275,7 @@
             this.tbShaftPawerKw.BackColor = System.Drawing.Color.White;
             this.tbShaftPawerKw.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbShaftPawerKw.Location = new System.Drawing.Point(16, 42);
-            this.tbShaftPawerKw.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbShaftPawerKw.Margin = new System.Windows.Forms.Padding(4);
             this.tbShaftPawerKw.Name = "tbShaftPawerKw";
             this.tbShaftPawerKw.Size = new System.Drawing.Size(256, 42);
             this.tbShaftPawerKw.TabIndex = 35;
@@ -300,7 +301,7 @@
             this.panel1.Controls.Add(this.tbSpeedRPM);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Location = new System.Drawing.Point(308, 41);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(288, 127);
             this.panel1.TabIndex = 2;
@@ -323,7 +324,7 @@
             this.tbSpeedRPM.BackColor = System.Drawing.Color.White;
             this.tbSpeedRPM.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSpeedRPM.Location = new System.Drawing.Point(15, 42);
-            this.tbSpeedRPM.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbSpeedRPM.Margin = new System.Windows.Forms.Padding(4);
             this.tbSpeedRPM.Name = "tbSpeedRPM";
             this.tbSpeedRPM.Size = new System.Drawing.Size(256, 42);
             this.tbSpeedRPM.TabIndex = 35;
@@ -349,7 +350,7 @@
             this.panel3.Controls.Add(this.tbTorqueNm);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Location = new System.Drawing.Point(12, 41);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(288, 127);
             this.panel3.TabIndex = 1;
@@ -372,7 +373,7 @@
             this.tbTorqueNm.BackColor = System.Drawing.Color.White;
             this.tbTorqueNm.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTorqueNm.Location = new System.Drawing.Point(15, 42);
-            this.tbTorqueNm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTorqueNm.Margin = new System.Windows.Forms.Padding(4);
             this.tbTorqueNm.Name = "tbTorqueNm";
             this.tbTorqueNm.Size = new System.Drawing.Size(256, 42);
             this.tbTorqueNm.TabIndex = 35;
@@ -393,9 +394,9 @@
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(800, 123);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(212, 83);
+            this.richTextBox1.Size = new System.Drawing.Size(47, 83);
             this.richTextBox1.TabIndex = 55;
             this.richTextBox1.Text = "";
             // 
@@ -419,9 +420,9 @@
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox1.Location = new System.Drawing.Point(1, 190);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(1507, 295);
             this.groupBox1.TabIndex = 41;
             this.groupBox1.TabStop = false;
@@ -787,7 +788,7 @@
             this.panel11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.panel11.Location = new System.Drawing.Point(84, 34);
-            this.panel11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel11.Margin = new System.Windows.Forms.Padding(4);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(1352, 54);
             this.panel11.TabIndex = 48;
@@ -886,9 +887,9 @@
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox3.Location = new System.Drawing.Point(53, 9);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(847, 118);
             this.groupBox3.TabIndex = 42;
             this.groupBox3.TabStop = false;
@@ -928,7 +929,7 @@
             this.tbTemp2.BackColor = System.Drawing.Color.White;
             this.tbTemp2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTemp2.Location = new System.Drawing.Point(432, 39);
-            this.tbTemp2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTemp2.Margin = new System.Windows.Forms.Padding(4);
             this.tbTemp2.Name = "tbTemp2";
             this.tbTemp2.Size = new System.Drawing.Size(363, 42);
             this.tbTemp2.TabIndex = 37;
@@ -939,7 +940,7 @@
             this.tbTemp1.BackColor = System.Drawing.Color.White;
             this.tbTemp1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTemp1.Location = new System.Drawing.Point(52, 39);
-            this.tbTemp1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTemp1.Margin = new System.Windows.Forms.Padding(4);
             this.tbTemp1.Name = "tbTemp1";
             this.tbTemp1.Size = new System.Drawing.Size(363, 42);
             this.tbTemp1.TabIndex = 36;
@@ -954,9 +955,9 @@
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox4.Location = new System.Drawing.Point(908, 9);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(497, 118);
             this.groupBox4.TabIndex = 43;
             this.groupBox4.TabStop = false;
@@ -982,7 +983,7 @@
             this.textBox24.BackColor = System.Drawing.Color.White;
             this.textBox24.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox24.Location = new System.Drawing.Point(43, 39);
-            this.textBox24.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox24.Margin = new System.Windows.Forms.Padding(4);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(431, 42);
             this.textBox24.TabIndex = 38;
@@ -1032,14 +1033,14 @@
             // btnStartReadng
             // 
             this.btnStartReadng.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnStartReadng.BackColor = System.Drawing.Color.Gray;
+            this.btnStartReadng.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(99)))));
             this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStartReadng.ForeColor = System.Drawing.Color.White;
-            this.btnStartReadng.Location = new System.Drawing.Point(1051, 137);
-            this.btnStartReadng.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStartReadng.Location = new System.Drawing.Point(978, 134);
+            this.btnStartReadng.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartReadng.Name = "btnStartReadng";
-            this.btnStartReadng.Size = new System.Drawing.Size(173, 75);
+            this.btnStartReadng.Size = new System.Drawing.Size(120, 75);
             this.btnStartReadng.TabIndex = 50;
             this.btnStartReadng.Text = "Start Reading";
             this.btnStartReadng.UseVisualStyleBackColor = false;
@@ -1049,6 +1050,7 @@
             // 
             this.panel12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel12.Controls.Add(this.btnStopReading);
             this.panel12.Controls.Add(this.richTextBox1);
             this.panel12.Controls.Add(this.buttonScreenshot);
             this.panel12.Controls.Add(this.btnStartReadng);
@@ -1062,7 +1064,7 @@
             this.panel12.Controls.Add(this.label41);
             this.panel12.Controls.Add(this.label40);
             this.panel12.Location = new System.Drawing.Point(48, 492);
-            this.panel12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel12.Margin = new System.Windows.Forms.Padding(4);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(1436, 215);
             this.panel12.TabIndex = 51;
@@ -1070,12 +1072,12 @@
             // buttonScreenshot
             // 
             this.buttonScreenshot.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonScreenshot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(66)))));
+            this.buttonScreenshot.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.buttonScreenshot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonScreenshot.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonScreenshot.ForeColor = System.Drawing.Color.White;
             this.buttonScreenshot.Location = new System.Drawing.Point(1232, 135);
-            this.buttonScreenshot.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonScreenshot.Margin = new System.Windows.Forms.Padding(4);
             this.buttonScreenshot.Name = "buttonScreenshot";
             this.buttonScreenshot.Size = new System.Drawing.Size(173, 75);
             this.buttonScreenshot.TabIndex = 57;
@@ -1086,7 +1088,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(608, 178);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 56;
@@ -1097,7 +1099,7 @@
             // 
             this.comPorts.FormattingEnabled = true;
             this.comPorts.Location = new System.Drawing.Point(607, 142);
-            this.comPorts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comPorts.Margin = new System.Windows.Forms.Padding(4);
             this.comPorts.Name = "comPorts";
             this.comPorts.Size = new System.Drawing.Size(101, 24);
             this.comPorts.TabIndex = 54;
@@ -1108,7 +1110,7 @@
             this.stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.stop.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stop.Location = new System.Drawing.Point(753, 138);
-            this.stop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stop.Margin = new System.Windows.Forms.Padding(4);
             this.stop.Name = "stop";
             this.stop.Size = new System.Drawing.Size(27, 28);
             this.stop.TabIndex = 53;
@@ -1121,7 +1123,7 @@
             this.start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.start.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.start.Location = new System.Drawing.Point(719, 138);
-            this.start.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.start.Margin = new System.Windows.Forms.Padding(4);
             this.start.Name = "start";
             this.start.Size = new System.Drawing.Size(27, 28);
             this.start.TabIndex = 52;
@@ -1133,7 +1135,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1496, 764);
             this.pictureBox1.TabIndex = 40;
@@ -1156,10 +1158,26 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.infoMessages.Enabled = false;
             this.infoMessages.Location = new System.Drawing.Point(0, 740);
-            this.infoMessages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.infoMessages.Margin = new System.Windows.Forms.Padding(4);
             this.infoMessages.Name = "infoMessages";
             this.infoMessages.Size = new System.Drawing.Size(1495, 22);
             this.infoMessages.TabIndex = 68;
+            // 
+            // btnStopReading
+            // 
+            this.btnStopReading.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnStopReading.BackColor = System.Drawing.Color.Brown;
+            this.btnStopReading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStopReading.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStopReading.ForeColor = System.Drawing.Color.White;
+            this.btnStopReading.Location = new System.Drawing.Point(1106, 136);
+            this.btnStopReading.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStopReading.Name = "btnStopReading";
+            this.btnStopReading.Size = new System.Drawing.Size(120, 75);
+            this.btnStopReading.TabIndex = 58;
+            this.btnStopReading.Text = "Stop Reading";
+            this.btnStopReading.UseVisualStyleBackColor = false;
+            this.btnStopReading.Click += new System.EventHandler(this.btnStopReading_Click);
             // 
             // Dashboard
             // 
@@ -1173,7 +1191,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Dashboard";
             this.Text = "Dashboard";
             this.groupBox2.ResumeLayout(false);
@@ -1290,5 +1308,6 @@
         private System.Windows.Forms.Button buttonScreenshot;
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.TextBox infoMessages;
+        private System.Windows.Forms.Button btnStopReading;
     }
 }
