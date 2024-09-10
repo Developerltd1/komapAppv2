@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParentForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.sidebarPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -46,9 +47,9 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1739, 49);
+            this.panel1.Size = new System.Drawing.Size(1304, 40);
             this.panel1.TabIndex = 1;
             // 
             // label1
@@ -56,9 +57,10 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(39, 11);
+            this.label1.Location = new System.Drawing.Point(29, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 23);
+            this.label1.Size = new System.Drawing.Size(97, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "KomaxApp v.1";
             // 
@@ -72,10 +74,10 @@
             this.sidebarPanel.Controls.Add(this.pnBtnLogout);
             this.sidebarPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidebarPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.sidebarPanel.Location = new System.Drawing.Point(0, 49);
-            this.sidebarPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.sidebarPanel.Location = new System.Drawing.Point(0, 40);
+            this.sidebarPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.sidebarPanel.Name = "sidebarPanel";
-            this.sidebarPanel.Size = new System.Drawing.Size(221, 814);
+            this.sidebarPanel.Size = new System.Drawing.Size(166, 661);
             this.sidebarPanel.TabIndex = 2;
             // 
             // pnBtnDashboard
@@ -89,11 +91,11 @@
             this.pnBtnDashboard.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pnBtnDashboard.IconSize = 32;
             this.pnBtnDashboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pnBtnDashboard.Location = new System.Drawing.Point(3, 2);
-            this.pnBtnDashboard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnBtnDashboard.Location = new System.Drawing.Point(2, 2);
+            this.pnBtnDashboard.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnBtnDashboard.Name = "pnBtnDashboard";
-            this.pnBtnDashboard.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.pnBtnDashboard.Size = new System.Drawing.Size(239, 59);
+            this.pnBtnDashboard.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.pnBtnDashboard.Size = new System.Drawing.Size(179, 48);
             this.pnBtnDashboard.TabIndex = 12;
             this.pnBtnDashboard.Text = "Dashboard";
             this.pnBtnDashboard.UseVisualStyleBackColor = false;
@@ -110,11 +112,11 @@
             this.pnBtnMotorTestingCreate.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pnBtnMotorTestingCreate.IconSize = 32;
             this.pnBtnMotorTestingCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pnBtnMotorTestingCreate.Location = new System.Drawing.Point(3, 65);
-            this.pnBtnMotorTestingCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnBtnMotorTestingCreate.Location = new System.Drawing.Point(2, 54);
+            this.pnBtnMotorTestingCreate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnBtnMotorTestingCreate.Name = "pnBtnMotorTestingCreate";
-            this.pnBtnMotorTestingCreate.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.pnBtnMotorTestingCreate.Size = new System.Drawing.Size(239, 59);
+            this.pnBtnMotorTestingCreate.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.pnBtnMotorTestingCreate.Size = new System.Drawing.Size(179, 48);
             this.pnBtnMotorTestingCreate.TabIndex = 15;
             this.pnBtnMotorTestingCreate.Text = "Create";
             this.pnBtnMotorTestingCreate.UseVisualStyleBackColor = false;
@@ -131,11 +133,11 @@
             this.iconButtonDisplay.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconButtonDisplay.IconSize = 32;
             this.iconButtonDisplay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButtonDisplay.Location = new System.Drawing.Point(3, 128);
-            this.iconButtonDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.iconButtonDisplay.Location = new System.Drawing.Point(2, 106);
+            this.iconButtonDisplay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.iconButtonDisplay.Name = "iconButtonDisplay";
-            this.iconButtonDisplay.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.iconButtonDisplay.Size = new System.Drawing.Size(239, 59);
+            this.iconButtonDisplay.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.iconButtonDisplay.Size = new System.Drawing.Size(179, 48);
             this.iconButtonDisplay.TabIndex = 17;
             this.iconButtonDisplay.Text = "Display Record";
             this.iconButtonDisplay.UseVisualStyleBackColor = false;
@@ -152,11 +154,11 @@
             this.iconButtonReport.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconButtonReport.IconSize = 32;
             this.iconButtonReport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButtonReport.Location = new System.Drawing.Point(3, 191);
-            this.iconButtonReport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.iconButtonReport.Location = new System.Drawing.Point(2, 158);
+            this.iconButtonReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.iconButtonReport.Name = "iconButtonReport";
-            this.iconButtonReport.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.iconButtonReport.Size = new System.Drawing.Size(239, 59);
+            this.iconButtonReport.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.iconButtonReport.Size = new System.Drawing.Size(179, 48);
             this.iconButtonReport.TabIndex = 18;
             this.iconButtonReport.Text = "Report";
             this.iconButtonReport.UseVisualStyleBackColor = false;
@@ -173,11 +175,11 @@
             this.pnBtnLogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pnBtnLogout.IconSize = 32;
             this.pnBtnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pnBtnLogout.Location = new System.Drawing.Point(3, 254);
-            this.pnBtnLogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnBtnLogout.Location = new System.Drawing.Point(2, 210);
+            this.pnBtnLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnBtnLogout.Name = "pnBtnLogout";
-            this.pnBtnLogout.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.pnBtnLogout.Size = new System.Drawing.Size(239, 59);
+            this.pnBtnLogout.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.pnBtnLogout.Size = new System.Drawing.Size(179, 48);
             this.pnBtnLogout.TabIndex = 16;
             this.pnBtnLogout.Text = "Configuration";
             this.pnBtnLogout.UseVisualStyleBackColor = false;
@@ -185,13 +187,13 @@
             // 
             // ParentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1739, 863);
+            this.ClientSize = new System.Drawing.Size(1304, 701);
             this.Controls.Add(this.sidebarPanel);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ParentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ParentForm";
