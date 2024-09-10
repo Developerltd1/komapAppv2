@@ -536,6 +536,7 @@ namespace KomaxApp.UI_Design
                 //}
                 #endregion
                 pictureBox.Image = ImageClass.GetImageFromBase64(vmCreate.imageObj.Image.ToString());
+                if(vmCreate.imageObjIsLog != null)
                 pictureBoxLogo.Image = ImageClass.GetImageFromBase64(vmCreate.imageObjIsLog.Image.ToString());
                 //gridView();
             }
