@@ -100,7 +100,6 @@ namespace KomaxApp.UI_Design
         public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
         {
             InitializeComponent();
-            RefreshComPortList();
             btnStartReadng.Click += buttonReading_Click;
 
             // Store the configuration values
@@ -313,7 +312,6 @@ namespace KomaxApp.UI_Design
                         break;
 
                     default:
-                        richTextBox1.AppendText("No data received." + Environment.NewLine);
                         return string.Empty; // Return empty string if no data is received
                 }
 
@@ -442,6 +440,9 @@ namespace KomaxApp.UI_Design
                           tbSpeedRPM.Text = returnModel._tbSpeedRPM;
                           tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
                           tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                          tbShaftPawerKw.Text = (tbTorqueNm.Text.ToDoble() * 0.00010472).ToString();
+                          tbLoadingFactorPercentage.Text = (tbShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
+                          textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
                       });
                 #endregion
             }
@@ -571,32 +572,7 @@ namespace KomaxApp.UI_Design
                 MessageBox.Show("The MDI child form is not visible.", "Capture Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void RefreshComPortList()
-        {
-            try
-            {
-                comPorts.Items.Clear();
-
-                string[] ports = SerialPort.GetPortNames();
-                foreach (string port in ports)
-                {
-                    comPorts.Items.Add(port);
-                }
-                // Select the first item if the list is not empty
-                if (comPorts.Items.Count > 0)
-                {
-                    comPorts.SelectedIndex = comPorts.Items.Count - 1;
-                }
-                else
-                {
-                    comPorts.Text = "No COM";//, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                JIMessageBox.ErrorMessage(ex.Message);
-            }
-        }
+       
 
         #endregion
 
@@ -668,6 +644,8 @@ namespace KomaxApp.UI_Design
             btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
             pollingTimer.Stop();
         }
+
+        
     }
 
 

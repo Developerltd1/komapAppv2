@@ -69,7 +69,7 @@ namespace komaxApp.BusinessLayer
             }
 
 
-
+            int SerialNo0 = 1;
             foreach (DataRow r in dt.Rows)
             {
                 string editButtonText = "Edit";
@@ -88,9 +88,9 @@ namespace komaxApp.BusinessLayer
 
 
 
-
+                 
                 int rowIndex = dataGridView.Rows.Add(
-                    r["SerialNo"].ToString(), r["ReportNo"].ToString(), formattedTestDate, editButtonText, buttonText);
+                    SerialNo0++, r["ReportNo"].ToString(), formattedTestDate, editButtonText, buttonText);
 
 
                 // Access the button cell and set its properties

@@ -60,14 +60,13 @@ namespace komaxApp.DatabaseLayer
                     parameters.Add("@TempAtWindingResistanceIsMeasured", rqeuest.createModel.TempAtWindingResistanceIsMeasured);
                     parameters.Add("@rbDescription", rqeuest.createModel.rbDescription);
                     parameters.Add("@RatedCurves", rqeuest.createModel.RatedCurves);
-                    parameters.Add("@EntryDateTime", DateTime.Now);
-
                     if (IsEdit == "Edit")
                     {
                         response.StatusCode = db.Execute("sp_UpdateRecords", parameters, commandType: CommandType.StoredProcedure);
                     }
                     else
                     {
+                        parameters.Add("@EntryDateTime", DateTime.Now);
                         response.StatusCode = db.Execute("sp_InsertRecords", parameters, commandType: CommandType.StoredProcedure);
                     }
 
@@ -112,8 +111,8 @@ namespace komaxApp.DatabaseLayer
                             }
                             else
                             {
-                                 sql4 = "INSERT INTO tblCurrentAmps (ReportNo,Row,RowNo,EntryDateTime) " +
-                                             "VALUES (@ReportNo,@Row,@RowNo,@EntryDateTime)";
+                                sql4 = "INSERT INTO tblCurrentAmps (ReportNo,Row,RowNo,EntryDateTime) " +
+                                            "VALUES (@ReportNo,@Row,@RowNo,@EntryDateTime)";
                             }
                             db.Execute(sql4, rqeuest.lstCurrentInAmps);
                         }
@@ -152,13 +151,23 @@ namespace komaxApp.DatabaseLayer
                     {
                         string sql0 = "UPDATE tblImages SET Image=@Image WHERE ReportNo = @ReportNo";
                         db.Execute(sql0, rqeuest.imageObj);
+
+                        string sql1 = "UPDATE tblImages SET Image=@Image WHERE ReportNo = @ReportNo";
+                        db.Execute(sql1, rqeuest.imageObj);
                     }
                     else
                     {
-                        string sql0 = "INSERT INTO tblImages (ReportNo,Image,EntryDateTime) " +
-                                           "VALUES (@ReportNo,@Image,@EntryDateTime)";
+                        rqeuest.imageObj.IsLogoImg = false;
+                        string sql0 = "INSERT INTO tblImages (ReportNo,Image,EntryDateTime,IsLogoImg) " +
+                                           "VALUES (@ReportNo,@Image,@EntryDateTime,@IsLogoImg)";
                         db.Execute(sql0, rqeuest.imageObj);
+
+                        rqeuest.imageObj.IsLogoImg = true;
+                        string sql1 = "INSERT INTO tblImages (ReportNo,Image,EntryDateTime,IsLogoImg) " +
+                                         "VALUES (@ReportNo,@LogoImage,@EntryDateTime,@IsLogoImg)";
+                        db.Execute(sql1, rqeuest.imageObj);
                     }
+
                     scope.Complete();
                 }
                 catch (Exception ex)

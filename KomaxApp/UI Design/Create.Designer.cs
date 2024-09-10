@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label48 = new System.Windows.Forms.Label();
+            this.labelHeader = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnSelectLogo = new System.Windows.Forms.Button();
+            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.label44 = new System.Windows.Forms.Label();
             this.buttonClear = new System.Windows.Forms.Button();
             this.rbDescription = new System.Windows.Forms.RichTextBox();
@@ -156,6 +159,8 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.RatedCurvesPanel.SuspendLayout();
@@ -169,7 +174,7 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
             this.flowLayoutPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.flowLayoutPanel1.Controls.Add(this.label48);
+            this.flowLayoutPanel1.Controls.Add(this.labelHeader);
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -177,24 +182,24 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1122, 621);
             this.flowLayoutPanel1.TabIndex = 13;
             // 
-            // label48
+            // labelHeader
             // 
-            this.label48.AutoSize = true;
-            this.label48.BackColor = System.Drawing.Color.Transparent;
-            this.label48.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label48.ForeColor = System.Drawing.Color.Black;
-            this.label48.Location = new System.Drawing.Point(3, 0);
-            this.label48.Name = "label48";
-            this.label48.Padding = new System.Windows.Forms.Padding(0, 20, 0, 10);
-            this.label48.Size = new System.Drawing.Size(218, 62);
-            this.label48.TabIndex = 0;
-            this.label48.Text = "Create Motor Test";
+            this.labelHeader.AutoSize = true;
+            this.labelHeader.BackColor = System.Drawing.Color.Transparent;
+            this.labelHeader.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHeader.ForeColor = System.Drawing.Color.Black;
+            this.labelHeader.Location = new System.Drawing.Point(3, 0);
+            this.labelHeader.Name = "labelHeader";
+            this.labelHeader.Padding = new System.Windows.Forms.Padding(0, 20, 0, 10);
+            this.labelHeader.Size = new System.Drawing.Size(218, 62);
+            this.labelHeader.TabIndex = 0;
+            this.labelHeader.Text = "Create Motor Test";
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
             this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Controls.Add(this.RatedCurvesPanel);
             this.groupBox2.Controls.Add(this.tbWindingResistanceinOhm);
@@ -272,6 +277,7 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.label44);
             this.panel1.Controls.Add(this.buttonClear);
             this.panel1.Controls.Add(this.rbDescription);
@@ -282,6 +288,42 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1068, 270);
             this.panel1.TabIndex = 55;
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(215)))), ((int)(((byte)(230)))));
+            this.panel4.Controls.Add(this.btnSelectLogo);
+            this.panel4.Controls.Add(this.pictureBoxLogo);
+            this.panel4.Location = new System.Drawing.Point(573, 17);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(217, 234);
+            this.panel4.TabIndex = 144;
+            // 
+            // btnSelectLogo
+            // 
+            this.btnSelectLogo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSelectLogo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnSelectLogo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSelectLogo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectLogo.ForeColor = System.Drawing.Color.Black;
+            this.btnSelectLogo.Location = new System.Drawing.Point(15, 194);
+            this.btnSelectLogo.Name = "btnSelectLogo";
+            this.btnSelectLogo.Size = new System.Drawing.Size(191, 34);
+            this.btnSelectLogo.TabIndex = 0;
+            this.btnSelectLogo.Text = "Select Logo";
+            this.btnSelectLogo.UseVisualStyleBackColor = false;
+            this.btnSelectLogo.Click += new System.EventHandler(this.btnSelectLogo_Click);
+            // 
+            // pictureBoxLogo
+            // 
+            this.pictureBoxLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.pictureBoxLogo.Location = new System.Drawing.Point(15, 8);
+            this.pictureBoxLogo.Name = "pictureBoxLogo";
+            this.pictureBoxLogo.Size = new System.Drawing.Size(189, 183);
+            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxLogo.TabIndex = 143;
+            this.pictureBoxLogo.TabStop = false;
             // 
             // label44
             // 
@@ -303,9 +345,9 @@
             this.buttonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClear.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonClear.ForeColor = System.Drawing.Color.White;
-            this.buttonClear.Location = new System.Drawing.Point(755, 189);
+            this.buttonClear.Location = new System.Drawing.Point(838, 148);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(302, 62);
+            this.buttonClear.Size = new System.Drawing.Size(200, 62);
             this.buttonClear.TabIndex = 3;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = false;
@@ -317,7 +359,7 @@
             this.rbDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rbDescription.Location = new System.Drawing.Point(37, 80);
             this.rbDescription.Name = "rbDescription";
-            this.rbDescription.Size = new System.Drawing.Size(439, 166);
+            this.rbDescription.Size = new System.Drawing.Size(291, 166);
             this.rbDescription.TabIndex = 0;
             this.rbDescription.Text = "";
             // 
@@ -328,9 +370,9 @@
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSave.ForeColor = System.Drawing.Color.White;
-            this.buttonSave.Location = new System.Drawing.Point(756, 121);
+            this.buttonSave.Location = new System.Drawing.Point(839, 80);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(301, 62);
+            this.buttonSave.Size = new System.Drawing.Size(199, 62);
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = false;
@@ -352,12 +394,12 @@
             // panel3
             // 
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(215)))), ((int)(((byte)(230)))));
             this.panel3.Controls.Add(this.buttonSelectImage);
             this.panel3.Controls.Add(this.pictureBox);
-            this.panel3.Location = new System.Drawing.Point(495, 9);
+            this.panel3.Location = new System.Drawing.Point(350, 17);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(217, 240);
+            this.panel3.Size = new System.Drawing.Size(217, 234);
             this.panel3.TabIndex = 1;
             // 
             // buttonSelectImage
@@ -367,7 +409,7 @@
             this.buttonSelectImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSelectImage.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSelectImage.ForeColor = System.Drawing.Color.Black;
-            this.buttonSelectImage.Location = new System.Drawing.Point(15, 197);
+            this.buttonSelectImage.Location = new System.Drawing.Point(15, 194);
             this.buttonSelectImage.Name = "buttonSelectImage";
             this.buttonSelectImage.Size = new System.Drawing.Size(191, 34);
             this.buttonSelectImage.TabIndex = 0;
@@ -686,7 +728,7 @@
             this.tbCos7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCos7.Location = new System.Drawing.Point(858, 224);
             this.tbCos7.Name = "tbCos7";
-            this.tbCos7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbCos7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbCos7.Size = new System.Drawing.Size(180, 29);
             this.tbCos7.TabIndex = 34;
             this.tbCos7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1010,7 +1052,7 @@
             this.tbWindingResistanceinOhm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbWindingResistanceinOhm.Location = new System.Drawing.Point(412, 578);
             this.tbWindingResistanceinOhm.Name = "tbWindingResistanceinOhm";
-            this.tbWindingResistanceinOhm.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbWindingResistanceinOhm.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbWindingResistanceinOhm.Size = new System.Drawing.Size(295, 29);
             this.tbWindingResistanceinOhm.TabIndex = 24;
             this.tbWindingResistanceinOhm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1021,7 +1063,7 @@
             this.tbTempAtWindingResistanceIsMeasured.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTempAtWindingResistanceIsMeasured.Location = new System.Drawing.Point(727, 578);
             this.tbTempAtWindingResistanceIsMeasured.Name = "tbTempAtWindingResistanceIsMeasured";
-            this.tbTempAtWindingResistanceIsMeasured.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbTempAtWindingResistanceIsMeasured.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbTempAtWindingResistanceIsMeasured.Size = new System.Drawing.Size(295, 29);
             this.tbTempAtWindingResistanceIsMeasured.TabIndex = 25;
             this.tbTempAtWindingResistanceIsMeasured.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1056,7 +1098,7 @@
             this.tbSpecifiedTemperature.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSpecifiedTemperature.Location = new System.Drawing.Point(95, 578);
             this.tbSpecifiedTemperature.Name = "tbSpecifiedTemperature";
-            this.tbSpecifiedTemperature.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbSpecifiedTemperature.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbSpecifiedTemperature.Size = new System.Drawing.Size(295, 29);
             this.tbSpecifiedTemperature.TabIndex = 23;
             this.tbSpecifiedTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1103,6 +1145,7 @@
             this.tbHitachiCruve.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbHitachiCruve.Size = new System.Drawing.Size(295, 29);
             this.tbHitachiCruve.TabIndex = 2;
+            this.tbHitachiCruve.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label26
             // 
@@ -1137,6 +1180,7 @@
             this.tbReportNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbReportNo.Size = new System.Drawing.Size(295, 29);
             this.tbReportNo.TabIndex = 0;
+            this.tbReportNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbReportNo.Leave += new System.EventHandler(this.tbReportNo_Leave);
             // 
             // label24
@@ -1724,6 +1768,8 @@
             this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.RatedCurvesPanel.ResumeLayout(false);
@@ -1862,7 +1908,10 @@
         private System.Windows.Forms.Button buttonSelectImage;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label labelHeader;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnSelectLogo;
+        private System.Windows.Forms.PictureBox pictureBoxLogo;
     }
 }

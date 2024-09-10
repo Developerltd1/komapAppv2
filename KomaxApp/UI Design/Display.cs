@@ -1,6 +1,7 @@
 ﻿using komaxApp.BusinessLayer;
 using komaxApp.DatabaseLayer;
 using komaxApp.Utility.ExtensionMethod;
+using KomaxApp.GenericCode;
 using KomaxApp.Model.Create;
 using KomaxApp.Model.ViewModel;
 using System;
@@ -62,6 +63,18 @@ namespace KomaxApp.UI_Design
                 if (buttonCell.Value.ToString() == "Start Test")
                 {
                     string ReportNo = row.Cells["ReportNo"].Value.ToString();
+                    #region MyRegion
+                    if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+                    {
+                        JIMessageBox.WarningMessage("COM Ports are not Configure");
+                        return;
+                    }
+                    else if (_powerMeter == "No COM" && _torqueMeter == "No COM" && _rpm == "No COM" && _temperature == "No COM")
+                    {
+                        JIMessageBox.WarningMessage("COM Ports are not Configure");
+                        return;
+                    }
+                    #endregion
                     // Create and show TestForm with the collected data
                     LoadTest testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed

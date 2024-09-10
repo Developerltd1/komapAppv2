@@ -44,21 +44,7 @@ namespace KomaxApp.UI_Design
                 //isPollingEnabled = !isPollingEnabled;
                 //if (isPollingEnabled)
                 //{
-                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
-                {
-                    if (_powerMeter != "No COM" && _torqueMeter != "No COM" && _rpm != "No COM" && _temperature != "No COM")
-                    {
-                        pollingTimer.Stop();
-                        JIMessageBox.WarningMessage("COM Ports are not Configure");
-                        return;
-                    }
-                    else
-                    {
-                        pollingTimer.Stop();
-                        JIMessageBox.WarningMessage("COM Ports are not Configure");
-                        return;
-                    }
-                }
+              
 
                 isPollSelected = true;
                 InitializePollingTimer();
@@ -211,7 +197,7 @@ namespace KomaxApp.UI_Design
         #region PoolingCode
         public void PollingTimer_Tick(object sender, EventArgs e)
         {
-           
+
             #region Data Reading
             try
             {
@@ -504,15 +490,15 @@ namespace KomaxApp.UI_Design
                 returnModel.labelA2 = dataParts.ElementAtOrDefault(9) ?? "N/A";
                 returnModel.labelA3 = dataParts.ElementAtOrDefault(10) ?? "N/A";
                 returnModel.labelA0 = dataParts.ElementAtOrDefault(11) ?? "N/A";
-                returnModel.labelPf1 = dataParts.ElementAtOrDefault(15) ?? "N/A";
-                returnModel.labelPf2 = dataParts.ElementAtOrDefault(16) ?? "N/A";
-                returnModel.labelPf3 = dataParts.ElementAtOrDefault(17) ?? "N/A";
-                returnModel.labelPf0 = dataParts.ElementAtOrDefault(18) ?? "N/A";
-                returnModel.labelHertz = dataParts.ElementAtOrDefault(19) ?? "N/A";
-                returnModel.labelPower1 = dataParts.ElementAtOrDefault(20) ?? "N/A";
-                returnModel.labelPower2 = dataParts.ElementAtOrDefault(26) ?? "N/A";
-                returnModel.labelPower3 = dataParts.ElementAtOrDefault(27) ?? "N/A";
-                returnModel.labelPower0 = dataParts.ElementAtOrDefault(28) ?? "N/A";
+                returnModel.labelPf1 = dataParts.ElementAtOrDefault(26) ?? "N/A";
+                returnModel.labelPf2 = dataParts.ElementAtOrDefault(27) ?? "N/A";
+                returnModel.labelPf3 = dataParts.ElementAtOrDefault(28) ?? "N/A";
+                returnModel.labelPf0 = dataParts.ElementAtOrDefault(15) ?? "N/A";
+                returnModel.labelHertz = dataParts.ElementAtOrDefault(16) ?? "N/A";
+                returnModel.labelPower1 = dataParts.ElementAtOrDefault(17) ?? "N/A";
+                returnModel.labelPower2 = dataParts.ElementAtOrDefault(18) ?? "N/A";
+                returnModel.labelPower3 = dataParts.ElementAtOrDefault(19) ?? "N/A";
+                returnModel.labelPower0 = dataParts.ElementAtOrDefault(20) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM7Temp1))
             {
@@ -556,7 +542,7 @@ namespace KomaxApp.UI_Design
                     textBoxmotorTempC.Text = returnModel.__tbserialResponseCOM7Temp2;
 
                     textBoxShaftPawerKw.Text = (textBoxTorqueNm.Text.ToDoble() * 0.00010472).ToString();
-                    textBoxLoadingFactor.Text = (textBoxShaftPawerKw.Text.ToDoble() * 100/ (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
+                    textBoxLoadingFactor.Text = (textBoxShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
                     textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
                 });
             }

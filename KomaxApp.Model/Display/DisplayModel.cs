@@ -9,7 +9,7 @@ namespace KomaxApp.Model.Display
     public class DisplayModel
     {
         public int ReportNo { get; set; }
-        public string SerialNo { get; set; }
+        public string SerialNo0 { get; set; }
         public DateTime TestDate { get; set; }
         public bool IsFilled { get; set; }
         //public string Actions { get; set; }

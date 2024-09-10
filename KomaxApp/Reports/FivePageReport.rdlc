@@ -437,6 +437,10 @@
           <DataField>CosTableTwo7</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ImageLogo">
+          <DataField>ImageLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
@@ -453,8 +457,8 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="ReportNo">
-          <DataField>ReportNo</DataField>
+        <Field Name="TestReportNo">
+          <DataField>TestReportNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Dated">
@@ -504,7 +508,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
-        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\KomaxApp\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\komapAppv2_StaticCode\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
         <rd:TableName>DSPage2</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1452,7 +1456,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
-        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\KomaxApp\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\komapAppv2_StaticCode\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
         <rd:TableName>DSPage3</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1636,7 +1640,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
-        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\KomaxApp\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\komapAppv2_StaticCode\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
         <rd:TableName>DSPage45</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1660,7 +1664,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSetMain</rd:DataSetName>
-        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\KomaxApp\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Company\AppsparqTech\0.ALL_ASSETS\SupportedProjects\Series P2\komapAppv2_StaticCode\KomaxApp\DataSetMain.xsd</rd:SchemaPath>
         <rd:TableName>DSChartEfficiency</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1817,7 +1821,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>7.86952in</Width>
+                  <Width>7.76785in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1848,7 +1852,7 @@
                               </Paragraphs>
                               <rd:DefaultName>Textbox1018</rd:DefaultName>
                               <Top>9.40337in</Top>
-                              <Left>0.2596in</Left>
+                              <Left>0.18107in</Left>
                               <Height>0.16772in</Height>
                               <Width>7.36083in</Width>
                               <Style>
@@ -1878,9 +1882,9 @@
                               </Paragraphs>
                               <rd:DefaultName>Textbox1018</rd:DefaultName>
                               <Top>9.5711in</Top>
-                              <Left>0.28427in</Left>
+                              <Left>0.20574in</Left>
                               <Height>0.16994in</Height>
-                              <Width>7.36083in</Width>
+                              <Width>7.33616in</Width>
                               <ZIndex>1</ZIndex>
                               <Style>
                                 <Border>
@@ -1909,7 +1913,7 @@
                               </Paragraphs>
                               <rd:DefaultName>Textbox1018</rd:DefaultName>
                               <Top>9.75492in</Top>
-                              <Left>0.2596in</Left>
+                              <Left>0.18107in</Left>
                               <Height>0.16994in</Height>
                               <Width>7.36083in</Width>
                               <ZIndex>2</ZIndex>
@@ -1955,7 +1959,7 @@
                               </Paragraphs>
                               <rd:DefaultName>Textbox1018</rd:DefaultName>
                               <Top>9.92486in</Top>
-                              <Left>0.2596in</Left>
+                              <Left>0.18107in</Left>
                               <Height>0.29881in</Height>
                               <Width>7.36083in</Width>
                               <ZIndex>3</ZIndex>
@@ -1994,7 +1998,7 @@
             <Top>12.50748in</Top>
             <Left>0.24333in</Left>
             <Height>10.4327in</Height>
-            <Width>7.86952in</Width>
+            <Width>7.76785in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2094,14 +2098,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ReportNo1">
+                        <Textbox Name="TestReportNo1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ReportNo.Value</Value>
+                                  <Value>=Fields!TestReportNo.Value</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2112,7 +2116,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ReportNo1</rd:DefaultName>
+                          <rd:DefaultName>TestReportNo1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2124,6 +2128,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -11200,51 +11205,6 @@
               </Border>
             </Style>
           </Tablix>
-          <Image Name="Image7">
-            <Source>Embedded</Source>
-            <Value>Komax</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>4.78034in</Top>
-            <Left>0.35729in</Left>
-            <Height>2.31477in</Height>
-            <Width>2.36601in</Width>
-            <ZIndex>16</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
-          <Image Name="Image8">
-            <Source>Embedded</Source>
-            <Value>Komax</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>4.78034in</Top>
-            <Left>2.91981in</Left>
-            <Height>2.31477in</Height>
-            <Width>2.36601in</Width>
-            <ZIndex>17</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
-          <Image Name="Image9">
-            <Source>Embedded</Source>
-            <Value>Komax</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>4.78034in</Top>
-            <Left>5.50357in</Left>
-            <Height>2.31477in</Height>
-            <Width>2.36601in</Width>
-            <ZIndex>18</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
           <Tablix Name="Tablix44">
             <TablixBody>
               <TablixColumns>
@@ -11281,7 +11241,8 @@
                                       <Value>TEST REPORT NO.</Value>
                                       <Style>
                                         <FontStyle>Normal</FontStyle>
-                                        <FontWeight>Medium</FontWeight>
+                                        <FontFamily>Arial Black</FontFamily>
+                                        <FontWeight>Bold</FontWeight>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -11353,6 +11314,7 @@
                                       <Value>DATE:</Value>
                                       <Style>
                                         <FontStyle>Normal</FontStyle>
+                                        <FontFamily>Arial Black</FontFamily>
                                         <FontWeight>Medium</FontWeight>
                                       </Style>
                                     </TextRun>
@@ -11446,7 +11408,7 @@
             <Left>1.62985in</Left>
             <Height>1.41274in</Height>
             <Width>4.86522in</Width>
-            <ZIndex>19</ZIndex>
+            <ZIndex>16</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -11461,7 +11423,7 @@
             <Left>0.40346in</Left>
             <Height>0.33334in</Height>
             <Width>0.31932in</Width>
-            <ZIndex>20</ZIndex>
+            <ZIndex>17</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -11476,11 +11438,12 @@
             <Left>0.03083in</Left>
             <Height>11.69in</Height>
             <Width>0.1in</Width>
-            <ZIndex>21</ZIndex>
+            <ZIndex>18</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
+              <BackgroundColor>Brown</BackgroundColor>
             </Style>
           </Rectangle>
           <Rectangle Name="Rectangle11">
@@ -11491,12 +11454,13 @@
             <Top>11.69in</Top>
             <Left>0.03083in</Left>
             <Height>11.69in</Height>
-            <Width>0.025in</Width>
-            <ZIndex>22</ZIndex>
+            <Width>0.1in</Width>
+            <ZIndex>19</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
+              <BackgroundColor>DarkOliveGreen</BackgroundColor>
             </Style>
           </Rectangle>
           <Rectangle Name="Rectangle12">
@@ -11508,7 +11472,7 @@
             <Left>0.03083in</Left>
             <Height>11.69in</Height>
             <Width>0.1in</Width>
-            <ZIndex>23</ZIndex>
+            <ZIndex>20</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -11523,7 +11487,7 @@
             <Left>0.40346in</Left>
             <Height>0.33334in</Height>
             <Width>0.31932in</Width>
-            <ZIndex>24</ZIndex>
+            <ZIndex>21</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -12577,7 +12541,7 @@
             <Left>0.10938in</Left>
             <Height>1.2505in</Height>
             <Width>7.93021in</Width>
-            <ZIndex>25</ZIndex>
+            <ZIndex>22</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -13300,7 +13264,7 @@
             <Left>0.11581in</Left>
             <Height>0.77789in</Height>
             <Width>7.93021in</Width>
-            <ZIndex>26</ZIndex>
+            <ZIndex>23</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -13332,7 +13296,7 @@
             <Left>1.72001in</Left>
             <Height>0.35417in</Height>
             <Width>4.82292in</Width>
-            <ZIndex>27</ZIndex>
+            <ZIndex>24</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -13352,7 +13316,7 @@
             <Left>0.36862in</Left>
             <Height>0.33334in</Height>
             <Width>0.31932in</Width>
-            <ZIndex>28</ZIndex>
+            <ZIndex>25</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -14406,7 +14370,7 @@
             <Left>0.07454in</Left>
             <Height>1.2505in</Height>
             <Width>7.93021in</Width>
-            <ZIndex>29</ZIndex>
+            <ZIndex>26</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -15129,7 +15093,7 @@
             <Left>0.08097in</Left>
             <Height>0.77789in</Height>
             <Width>7.93021in</Width>
-            <ZIndex>30</ZIndex>
+            <ZIndex>27</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -15140,16 +15104,16 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.97615in</Width>
+                  <Width>1.94708in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97615in</Width>
+                  <Width>1.94708in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97615in</Width>
+                  <Width>1.94708in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.93749in</Width>
+                  <Width>1.90842in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -15493,8 +15457,8 @@
                               <Value>=Fields!Image.Value</Value>
                               <MIMEType>image/jpeg</MIMEType>
                               <Sizing>Fit</Sizing>
-                              <Top>0.09926in</Top>
-                              <Left>2.3957in</Left>
+                              <Top>0.125in</Top>
+                              <Left>2.61421in</Left>
                               <Height>1.97192in</Height>
                               <Width>2.53283in</Width>
                               <Style>
@@ -15574,7 +15538,7 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>7.86593in</Width>
+                                <Width>7.74965in</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -16900,31 +16864,31 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>0.34568in</Width>
+                                <Width>0.33276in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>1.59186in</Width>
+                                <Width>1.57894in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.81305in</Width>
+                                <Width>0.80013in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.91661in</Width>
+                                <Width>0.90369in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.82499in</Width>
+                                <Width>0.81207in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.93943in</Width>
+                                <Width>0.92651in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.82892in</Width>
+                                <Width>0.816in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.82224in</Width>
+                                <Width>0.80932in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.78318in</Width>
+                                <Width>0.77026in</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -18841,31 +18805,31 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>0.37137in</Width>
+                                <Width>0.35845in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>1.53552in</Width>
+                                <Width>1.5226in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87399in</Width>
+                                <Width>0.86107in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87399in</Width>
+                                <Width>0.86107in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87399in</Width>
+                                <Width>0.86107in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87399in</Width>
+                                <Width>0.86107in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87627in</Width>
+                                <Width>0.86335in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.87171in</Width>
+                                <Width>0.85879in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.71508in</Width>
+                                <Width>0.70216in</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -20497,8 +20461,8 @@
             <Top>12.50748in</Top>
             <Left>0.13878in</Left>
             <Height>9.27168in</Height>
-            <Width>7.86594in</Width>
-            <ZIndex>31</ZIndex>
+            <Width>7.74965in</Width>
+            <ZIndex>28</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -20883,7 +20847,7 @@
             <Left>0.11581in</Left>
             <Height>4.01245in</Height>
             <Width>7.8889in</Width>
-            <ZIndex>32</ZIndex>
+            <ZIndex>29</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -20893,6 +20857,106 @@
               <BackgroundGradientType>None</BackgroundGradientType>
             </Style>
           </Chart>
+          <Tablix Name="Tablix5">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>7.48467in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>3.03125in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle2">
+                          <ReportItems>
+                            <Image Name="Image14">
+                              <Source>Database</Source>
+                              <Value>=Fields!ImageLogo.Value</Value>
+                              <MIMEType>image/jpeg</MIMEType>
+                              <Sizing>Fit</Sizing>
+                              <Top>0.23279in</Top>
+                              <Left>0.10044in</Left>
+                              <Height>2.56567in</Height>
+                              <Width>2.36829in</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Image>
+                            <Image Name="Image15">
+                              <Source>Database</Source>
+                              <Value>=Fields!ImageLogo.Value</Value>
+                              <MIMEType>image/jpeg</MIMEType>
+                              <Sizing>Fit</Sizing>
+                              <Top>0.23279in</Top>
+                              <Left>2.6175in</Left>
+                              <Height>2.56567in</Height>
+                              <Width>2.36829in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Image>
+                            <Image Name="Image16">
+                              <Source>Database</Source>
+                              <Value>=Fields!ImageLogo.Value</Value>
+                              <MIMEType>image/jpeg</MIMEType>
+                              <Sizing>Fit</Sizing>
+                              <Top>0.23279in</Top>
+                              <Left>5.11638in</Left>
+                              <Height>2.56567in</Height>
+                              <Width>2.36829in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Image>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Details13" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSetPage1</DataSetName>
+            <Top>4.46886in</Top>
+            <Left>0.34863in</Left>
+            <Height>3.03125in</Height>
+            <Width>7.48467in</Width>
+            <ZIndex>30</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
         </ReportItems>
         <Height>69.41733in</Height>
         <Style />

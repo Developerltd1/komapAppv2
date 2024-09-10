@@ -12,6 +12,8 @@ namespace KomaxApp.Model.Create
         {
             public int ReportNo { get; set; }
             public string Image { get; set; }
+            public string LogoImage { get; set; }
+            public bool IsLogoImg { get; set; }
             public DateTime EntryDateTime { get; set; } = DateTime.Now;
         }
         public class Response

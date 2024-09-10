@@ -11,6 +11,7 @@ namespace KomaxApp.Model.Reporting.Model.Page1
         public string ReportNo { get; set; }
         public string TestDate { get; set; }
         public string Image { get; set; }
+        public string ImageLogo { get; set; }
         public string TestReportNo { get; set; }
         public string Dated { get; set; }
         public string MotorModel { get; set; }

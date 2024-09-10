@@ -11,7 +11,7 @@ namespace KomaxApp.Model.Page1.Entity
         public string ReportNo { get; set; }
         public string TestDate { get; set; }
         public string Image { get; set; }
-
+        public string ImageLogo { get; set; }
 
         public string TestReportNo { get; set; }
         public string Dated { get; set; }

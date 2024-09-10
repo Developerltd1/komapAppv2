@@ -629,6 +629,8 @@ namespace KomaxApp {
             
             private global::System.Data.DataColumn columnCosTableTwo7;
             
+            private global::System.Data.DataColumn columnImageLogo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public DSPage1DataTable() {
@@ -1504,6 +1506,14 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ImageLogoColumn {
+                get {
+                    return this.columnImageLogo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1644,7 +1654,8 @@ namespace KomaxApp {
                         string CosTableTwo4, 
                         string CosTableTwo5, 
                         string CosTableTwo6, 
-                        string CosTableTwo7) {
+                        string CosTableTwo7, 
+                        string ImageLogo) {
                 DSPage1Row rowDSPage1Row = ((DSPage1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ReportNo,
@@ -1751,7 +1762,8 @@ namespace KomaxApp {
                         CosTableTwo4,
                         CosTableTwo5,
                         CosTableTwo6,
-                        CosTableTwo7};
+                        CosTableTwo7,
+                        ImageLogo};
                 rowDSPage1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDSPage1Row);
                 return rowDSPage1Row;
@@ -1879,6 +1891,7 @@ namespace KomaxApp {
                 this.columnCosTableTwo5 = base.Columns["CosTableTwo5"];
                 this.columnCosTableTwo6 = base.Columns["CosTableTwo6"];
                 this.columnCosTableTwo7 = base.Columns["CosTableTwo7"];
+                this.columnImageLogo = base.Columns["ImageLogo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2094,6 +2107,8 @@ namespace KomaxApp {
                 base.Columns.Add(this.columnCosTableTwo6);
                 this.columnCosTableTwo7 = new global::System.Data.DataColumn("CosTableTwo7", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCosTableTwo7);
+                this.columnImageLogo = new global::System.Data.DataColumn("ImageLogo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImageLogo);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2227,7 +2242,7 @@ namespace KomaxApp {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class DSPage2DataTable : global::System.Data.TypedTableBase<DSPage2Row> {
             
-            private global::System.Data.DataColumn columnReportNo;
+            private global::System.Data.DataColumn columnTestReportNo;
             
             private global::System.Data.DataColumn columnDated;
             
@@ -2286,9 +2301,9 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn ReportNoColumn {
+            public global::System.Data.DataColumn TestReportNoColumn {
                 get {
-                    return this.columnReportNo;
+                    return this.columnTestReportNo;
                 }
             }
             
@@ -2417,10 +2432,10 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public DSPage2Row AddDSPage2Row(string ReportNo, string Dated, string MotorModel, string SerialNo, string FrequencyInHz, string LineoLineVoltageinV, string LineCurrentInA, string PowerFactorInPU, string StatorPowerinkW, string ObservedSpeedinRmin, string StatorWindingTemperatureInC, string CorrectedSpeedInRmin) {
+            public DSPage2Row AddDSPage2Row(string TestReportNo, string Dated, string MotorModel, string SerialNo, string FrequencyInHz, string LineoLineVoltageinV, string LineCurrentInA, string PowerFactorInPU, string StatorPowerinkW, string ObservedSpeedinRmin, string StatorWindingTemperatureInC, string CorrectedSpeedInRmin) {
                 DSPage2Row rowDSPage2Row = ((DSPage2Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        ReportNo,
+                        TestReportNo,
                         Dated,
                         MotorModel,
                         SerialNo,
@@ -2454,7 +2469,7 @@ namespace KomaxApp {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal void InitVars() {
-                this.columnReportNo = base.Columns["ReportNo"];
+                this.columnTestReportNo = base.Columns["TestReportNo"];
                 this.columnDated = base.Columns["Dated"];
                 this.columnMotorModel = base.Columns["MotorModel"];
                 this.columnSerialNo = base.Columns["SerialNo"];
@@ -2471,8 +2486,8 @@ namespace KomaxApp {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnReportNo = new global::System.Data.DataColumn("ReportNo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnReportNo);
+                this.columnTestReportNo = new global::System.Data.DataColumn("TestReportNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTestReportNo);
                 this.columnDated = new global::System.Data.DataColumn("Dated", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDated);
                 this.columnMotorModel = new global::System.Data.DataColumn("MotorModel", typeof(string), null, global::System.Data.MappingType.Element);
@@ -9169,6 +9184,22 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ImageLogo {
+                get {
+                    try {
+                        return ((string)(this[this.tableDSPage1.ImageLogoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ImageLogo\' in table \'DSPage1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDSPage1.ImageLogoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsReportNoNull() {
                 return this.IsNull(this.tableDSPage1.ReportNoColumn);
             }
@@ -10426,6 +10457,18 @@ namespace KomaxApp {
             public void SetCosTableTwo7Null() {
                 this[this.tableDSPage1.CosTableTwo7Column] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsImageLogoNull() {
+                return this.IsNull(this.tableDSPage1.ImageLogoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetImageLogoNull() {
+                this[this.tableDSPage1.ImageLogoColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -10444,17 +10487,17 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string ReportNo {
+            public string TestReportNo {
                 get {
                     try {
-                        return ((string)(this[this.tableDSPage2.ReportNoColumn]));
+                        return ((string)(this[this.tableDSPage2.TestReportNoColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ReportNo\' in table \'DSPage2\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestReportNo\' in table \'DSPage2\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDSPage2.ReportNoColumn] = value;
+                    this[this.tableDSPage2.TestReportNoColumn] = value;
                 }
             }
             
@@ -10636,14 +10679,14 @@ namespace KomaxApp {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsReportNoNull() {
-                return this.IsNull(this.tableDSPage2.ReportNoColumn);
+            public bool IsTestReportNoNull() {
+                return this.IsNull(this.tableDSPage2.TestReportNoColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetReportNoNull() {
-                this[this.tableDSPage2.ReportNoColumn] = global::System.Convert.DBNull;
+            public void SetTestReportNoNull() {
+                this[this.tableDSPage2.TestReportNoColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

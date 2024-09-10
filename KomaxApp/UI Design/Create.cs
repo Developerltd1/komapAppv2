@@ -248,7 +248,7 @@ namespace KomaxApp.UI_Design
                     #endregion
                 }
                 #region Image
-                if (pictureBox.Image == null)
+                if (pictureBox.Image == null || pictureBoxLogo.Image == null)
                 {
                     JIMessageBox.WarningMessage("please select image");
                     return;
@@ -269,8 +269,12 @@ namespace KomaxApp.UI_Design
                 //Db
                 vmCreate.imageObj.ReportNo = vmCreate.createModel.ReportNo;
                 vmCreate.imageObj.Image = ImageClass.GetBase64StringFromImage(Imager.Resize(pictureBox.Image, 200, 200, true)); //Resize & Convert to String
+                vmCreate.imageObj.LogoImage = ImageClass.GetBase64StringFromImage(Imager.Resize(pictureBoxLogo.Image, 200, 200, true)); //Resize & Convert to String
+
                 #endregion
                 CreateModel.Response response = new InsertBL().InsertRecordsBL(vmCreate, buttonSave.Text);
+              
+
                 if (response.StatusCode == 1)
                 {
                     if (buttonSave.Text == "Edit")
@@ -346,7 +350,8 @@ namespace KomaxApp.UI_Design
             //Edit
             if (reportNo != null)
             {
-                VmCreateMotor model = await new GetListBL().GetDatausingReportBL(reportNo);
+                labelHeader.Text = "Edit Motor Test";
+                 VmCreateMotor model = await new GetListBL().GetDatausingReportBL(reportNo);
                 GetEditRecord(model);
             }
 
@@ -531,7 +536,7 @@ namespace KomaxApp.UI_Design
                 //}
                 #endregion
                 pictureBox.Image = ImageClass.GetImageFromBase64(vmCreate.imageObj.Image.ToString());
-
+                pictureBoxLogo.Image = ImageClass.GetImageFromBase64(vmCreate.imageObjIsLog.Image.ToString());
                 //gridView();
             }
             catch (Exception ex)
@@ -548,6 +553,12 @@ namespace KomaxApp.UI_Design
 
         private void buttonSelectImage_Click(object sender, EventArgs e)
         {
+            pictureBox = ImageDialog(pictureBox);
+        }
+
+        private PictureBox ImageDialog(PictureBox pictureBox0)
+        {
+            //PictureBox pictureBox0 = new PictureBox();
             try
             {
                 OpenFileDialog openFileDialogSelectPicture = new OpenFileDialog();
@@ -557,16 +568,16 @@ namespace KomaxApp.UI_Design
                 openFileDialogSelectPicture.RestoreDirectory = true;
                 if (openFileDialogSelectPicture.ShowDialog() == DialogResult.OK)
                 {
-                    pictureBox.ImageLocation = openFileDialogSelectPicture.FileName;
+                    pictureBox0.ImageLocation = openFileDialogSelectPicture.FileName;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            return pictureBox0;
+
         }
-
-
 
         private void cbRatedCurves_Click(object sender, EventArgs e)
         {
@@ -598,6 +609,11 @@ namespace KomaxApp.UI_Design
                 JIMessageBox.WarningMessage(ReportNo +" is already exists !");
                 return;
             }
+        }
+
+        private void btnSelectLogo_Click(object sender, EventArgs e)
+        {
+            pictureBoxLogo = ImageDialog(pictureBoxLogo);
         }
     }
 }

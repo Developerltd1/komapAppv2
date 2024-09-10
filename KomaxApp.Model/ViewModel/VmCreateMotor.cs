@@ -33,8 +33,9 @@ namespace KomaxApp.Model.ViewModel
 
 
         public ImageObj.Request  imageObj { get; set; }
+        public ImageObj.Request imageObjIsLog { get; set; }
 
-    public List<ShaftPowerObj.Request> lstShaftPower { get; set; }
+        public List<ShaftPowerObj.Request> lstShaftPower { get; set; }
         public List<EfficiencyObj.Request> lstEfficiency { get; set; }
         public List<SpeedInRPMObj.Request> lstSpeedInRPM { get; set; }
         public List<CurrentInAmpsObj.Request> lstCurrentInAmps { get; set; }

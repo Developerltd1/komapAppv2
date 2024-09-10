@@ -61,6 +61,7 @@ namespace komaxApp.DatabaseLayer
                     response.lstCurrentInAmps = (await multi.ReadAsync<CurrentInAmpsObj.Request>()).ToList();
                     response.lstCos = (await multi.ReadAsync<CosObj.Request>()).ToList();
                     response.imageObj = (await multi.ReadAsync<ImageObj.Request>()).FirstOrDefault();
+                    response.imageObjIsLog = (await multi.ReadAsync<ImageObj.Request>()).FirstOrDefault();
                     // Optionally, log or process data
                     var count = response.lstShaftPower.Count; // Example: Check the count
                 }
@@ -339,7 +340,7 @@ namespace komaxApp.DatabaseLayer
                     List<tblSpeedRPM> tblSpeedRPM = (await multi.ReadAsync<tblSpeedRPM>()).ToList();
                     List<tblCurrentAmps> tblCurrentAmps = (await multi.ReadAsync<tblCurrentAmps>()).ToList();
                     List<tblCos> tblCos = (await multi.ReadAsync<tblCos>()).ToList();
-                    tblImages tblImages = (await multi.ReadAsync<tblImages>()).FirstOrDefault();
+                    List<tblImages> tblImages  = (await multi.ReadAsync<tblImages>()).ToList();
 
 
 
@@ -1278,15 +1279,17 @@ namespace komaxApp.DatabaseLayer
             return modelFinilize;
         }
 
-        private Page1ModelFinilize ReportingPage1(tblMotor _tblMotor, tblImages _tblImages, List<tblShaftPawer> tblShaftPawer,
+        private Page1ModelFinilize ReportingPage1(tblMotor _tblMotor, List<tblImages> _tblImages, List<tblShaftPawer> tblShaftPawer,
                                     List<tblEfficiency> tblEfficiency, List<tblSpeedRPM> tblSpeedRPM,
                                     List<tblCurrentAmps> tblCurrentAmps, List<tblCos> tblCos)
         {
             Page1Model page1Model = new Page1Model();
             page1Model.singleMotorModel = _tblMotor;
-            page1Model.singleImageModel = _tblImages;
+            page1Model.singleImageModel = _tblImages[0];
             page1Model.singleMotorModel.Image = page1Model.singleImageModel.Image;
-            page1Model.singleMotorModel.MotorImage = page1Model.singleImageModel.Image;
+            if(_tblImages.Count>1)
+            page1Model.singleMotorModel.ImageLogo = _tblImages[1].Image.ToString();
+            //page1Model.singleMotorModel.MotorImage = page1Model.singleImageModel.Image;
             page1Model.singleMotorModel.SR_NO = page1Model.singleMotorModel.SerialNo;
             page1Model.lstShaftPawer.Clear(); // Ensure the list is empty before adding items
 
