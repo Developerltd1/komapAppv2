@@ -475,9 +475,9 @@ namespace KomaxApp.UI_Design
 
 
         #region Screenshot
-        private void buttonScreenshot_Click_1(object sender, EventArgs e)
+        private async void buttonScreenshot_Click_1(object sender, EventArgs e)
         {
-            CaptureMdiChildForm(this);
+           await CaptureMdiChildForm(this);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -495,8 +495,10 @@ namespace KomaxApp.UI_Design
             }
             serialPorts.Clear();  // Clear the dictionary after closing all ports
         }
-        public void CaptureWindow(Form form)
+        public async Task CaptureWindow(Form form)
         {
+            await Task.Delay(100);
+
             // Get the form's bounds on the screen (including borders and title bar)
             Rectangle formBounds = form.Bounds;
 
@@ -528,7 +530,7 @@ namespace KomaxApp.UI_Design
                 }
             }
         }
-        public void CaptureMdiChildForm(Form mdiChildForm)
+        public async Task  CaptureMdiChildForm(Form mdiChildForm)
         {
             if (mdiChildForm != null && mdiChildForm.Visible)
             {

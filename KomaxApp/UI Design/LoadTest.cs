@@ -158,18 +158,18 @@ namespace KomaxApp.UI_Design
                 if (!string.IsNullOrEmpty(inData))
                 {
                     // Check if we need to use Invoke
-                    if (richTextBox1.InvokeRequired)
+                    if (infoMessages.InvokeRequired)
                     {
                         // Create a delegate to handle the invocation
-                        richTextBox1.Invoke(new Action(() =>
+                        infoMessages.Invoke(new Action(() =>
                         {
-                            richTextBox1.AppendText(inData);
+                            infoMessages.AppendText(inData);
                         }));
                     }
                     else
                     {
                         // Directly update the control if on the UI thread
-                        richTextBox1.AppendText(inData);
+                        infoMessages.AppendText(inData);
                     }
                     ParseResponse(inData);  // You can call ParseResponse to handle the data
                 }
@@ -178,7 +178,7 @@ namespace KomaxApp.UI_Design
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                    infoMessages.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
                 });
             }
             finally
@@ -452,7 +452,7 @@ namespace KomaxApp.UI_Design
                         break;
 
                     default:
-                        richTextBox1.AppendText("No data received." + Environment.NewLine);
+                        infoMessages.AppendText("No data received." + Environment.NewLine);
                         return string.Empty; // Return empty string if no data is received
                 }
 
@@ -552,8 +552,12 @@ namespace KomaxApp.UI_Design
                     labelPower0.Text = returnModel.labelPower0;
                     textBoxTorqueNm.Text = returnModel._tbTorqueNm;
                     textBoxSpeedRPM.Text = returnModel._tbSpeedRPM;
-                    tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
-                    tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                    textBoxAmbientTempC.Text = returnModel._tbserialResponseCOM7Temp1;
+                    textBoxmotorTempC.Text = returnModel.__tbserialResponseCOM7Temp2;
+
+                    textBoxShaftPawerKw.Text = (textBoxTorqueNm.Text.ToDoble() * 0.00010472).ToString();
+                    textBoxLoadingFactor.Text = (textBoxShaftPawerKw.Text.ToDoble() * 100/ (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
+                    textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
                 });
             }
             catch (Exception ex)
@@ -600,11 +604,11 @@ namespace KomaxApp.UI_Design
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => richTextBox1.AppendText(errorMessage + Environment.NewLine)));
+                Invoke(new Action(() => infoMessages.AppendText(errorMessage + Environment.NewLine)));
             }
             else
             {
-                richTextBox1.AppendText(errorMessage + Environment.NewLine);
+                infoMessages.AppendText(errorMessage + Environment.NewLine);
             }
         }
 
@@ -613,7 +617,7 @@ namespace KomaxApp.UI_Design
         {
             if (string.IsNullOrEmpty(data))
             {
-                richTextBox1.AppendText("No data received." + Environment.NewLine);
+                infoMessages.AppendText("No data received." + Environment.NewLine);
                 return;
             }
 
@@ -675,16 +679,16 @@ namespace KomaxApp.UI_Design
                 });
 
                 // Optionally append the raw response to the RichTextBox
-                richTextBox1.Invoke((MethodInvoker)delegate
+                infoMessages.Invoke((MethodInvoker)delegate
                 {
-                    richTextBox1.AppendText(data + Environment.NewLine);
+                    infoMessages.AppendText(data + Environment.NewLine);
                 });
             }
             catch (Exception ex)
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    richTextBox1.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                    infoMessages.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
                 });
             }
 
@@ -760,8 +764,8 @@ namespace KomaxApp.UI_Design
             testModel.MotorTemperature = textBoxmotorTempC.Text.ToDouble();
             testModel.EstimitedEfficiency = textBoxEstimitedEfficency.Text.ToDouble();
 
-            testModel.Pt100_Temp1 = tbTemp1.Text.ToDouble();
-            testModel.Pt100_Temp2 = tbTemp2.Text.ToDouble();
+            testModel.Pt100_Temp1 = textBoxAmbientTempC.Text.ToDouble();
+            testModel.Pt100_Temp2 = textBoxmotorTempC.Text.ToDouble();
             #endregion
             #region Value From DummyData
             //testModel.ReportNo = Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();

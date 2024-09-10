@@ -86,6 +86,28 @@ namespace komaxApp.Utility.ExtensionMethod
         #endregion
 
 
+        //public static double? ToDouble(this string str, NumberStyles numberStyles = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo cultureInfo = null)
+        //{
+        //    // Return null if the string is null or empty
+        //    if (string.IsNullOrWhiteSpace(str))
+        //    {
+        //        return null;
+        //    }
+
+        //    // Try to parse the string into a double
+        //    double result;
+        //    bool success = double.TryParse(str, numberStyles, cultureInfo ?? CultureInfo.InvariantCulture, out result);
+
+        //    // Throw an exception if parsing fails
+        //    if (!success)
+        //    {
+        //        throw new FormatException($"The string '{str}' is not a valid double.");
+        //    }
+
+        //    return result;
+        //}
+
+
         public static double? ToDouble(this string str, NumberStyles numberStyles = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo cultureInfo = null)
         {
             // Return null if the string is null or empty
@@ -94,7 +116,10 @@ namespace komaxApp.Utility.ExtensionMethod
                 return null;
             }
 
-            // Try to parse the string into a double
+            // Clean the string to handle multiple decimal points
+            str = CleanNumberString(str);
+
+            // Try to parse the cleaned string into a double
             double result;
             bool success = double.TryParse(str, numberStyles, cultureInfo ?? CultureInfo.InvariantCulture, out result);
 
@@ -105,6 +130,19 @@ namespace komaxApp.Utility.ExtensionMethod
             }
 
             return result;
+        }
+
+        private static string CleanNumberString(string str)
+        {
+            // Check for multiple decimal points and remove excess
+            int firstDecimalIndex = str.IndexOf('.');
+            if (firstDecimalIndex != -1)
+            {
+                // Remove any additional decimal points after the first one
+                str = str.Substring(0, firstDecimalIndex + 1) + str.Substring(firstDecimalIndex + 1).Replace(".", "");
+            }
+
+            return str;
         }
 
 
