@@ -191,26 +191,25 @@ namespace KomaxApp.UI_Design
                         case "COM4":
                         case "COM5":
                         case "COM6":
-                        //case "COM7":
-                        //    {
-                        //        string response = await InitializeSerialPortAsync(comPort, command);
-                        //        if (comPort == "COM4")
-                        //            serialResponse._serialResponseCOM4 = response;
-                        //        else if (comPort == "COM5")
-                        //            serialResponse._serialResponseCOM5 = response;
-                        //        else if (comPort == "COM6")
-                        //            serialResponse._serialResponseCOM6 = response;
-                        //        else if (comPort == "COM7")
-                        //        {
-                        //            double temp1 = LoadModbusData(comPort, 1);
-                        //            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                        //            double temp2 = LoadModbusData(comPort, 2);
-                        //            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-
-                        //            portInitialized = true;
-                        //            break;
-                        //        }
-                        //    }
+                        case "COM7":
+                            {
+                                string response = await InitializeSerialPortAsync(comPort, command);
+                                if (comPort == "COM4")
+                                    serialResponse._serialResponseCOM4 = response;
+                                else if (comPort == "COM5")
+                                    serialResponse._serialResponseCOM5 = response;
+                                else if (comPort == "COM6")
+                                    serialResponse._serialResponseCOM6 = response;
+                                else if (comPort == "COM7")
+                                {
+                                    double temp1 = LoadModbusData(comPort, 1);
+                                    serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                                    double temp2 = LoadModbusData(comPort, 2);
+                                    serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                                    portInitialized = true;
+                                }
+                                break;
+                            }
                         default:
                             JIMessageBox.WarningMessage("No Ports Initialized");
                             return;
