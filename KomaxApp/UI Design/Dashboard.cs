@@ -189,21 +189,27 @@ namespace KomaxApp.UI_Design
                     switch (comPort)
                     {
                         case "COM4":
-                            serialResponse._serialResponseCOM4 = await InitializeSerialPortAsync(comPort, command);
-                            break;
                         case "COM5":
-                            serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
-                            break;
                         case "COM6":
-                            serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
-                            break;
                         case "COM7":
-                                    double temp1 = LoadModbusData(comPort, 1);
+                            {
+                                string response = await InitializeSerialPortAsync(comPort, command);
+                                if (comPort == "COM4")
+                                    serialResponse._serialResponseCOM4 = response;
+                                else if (comPort == "COM5")
+                                    serialResponse._serialResponseCOM5 = response;
+                                else if (comPort == "COM6")
+                                    serialResponse._serialResponseCOM6 = response;
+                                else if (comPort == "COM7")
+                                {
+                                    double temp1 = await LoadModbusDataAsync(comPort, 1);
                                     serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                                    double temp2 = LoadModbusData(comPort, 2);
+                                    double temp2 = await LoadModbusDataAsync(comPort, 2);
                                     serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                                     portInitialized = true;
+                                }
                                 break;
+                            }
                         default:
                             JIMessageBox.WarningMessage("No Ports Initialized");
                             return;
@@ -381,6 +387,7 @@ namespace KomaxApp.UI_Design
                     case "COM7":
                         {
                             byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                            await Task.Delay(100); // Non-blocking delay
                             serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
                             serialResponse = serialPort.ReadExisting();
                             break;
@@ -401,7 +408,7 @@ namespace KomaxApp.UI_Design
             }
             finally
             {
-                //CloseSerialPort(comPort);
+                CloseSerialPort(comPort);
             }
             return serialResponse;
         }
@@ -497,6 +504,7 @@ namespace KomaxApp.UI_Design
                 #region Default
                 this.Invoke((MethodInvoker)delegate
                       {
+                   
                           labelV1.Text = returnModel.labelV1;
                           labelV2.Text = returnModel.labelV2;
                           labelV3.Text = returnModel.labelV3;
@@ -692,6 +700,34 @@ namespace KomaxApp.UI_Design
 
                 InitializeModbusClient(PortName, slaveId);
 
+                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
+                temp = registerValuefrmSensor[0];
+                //infoMessages.Text = ("Reading Successful");
+
+
+            }
+            catch (Exception ex)
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+                JIMessageBox.ErrorMessage(ex.Message);
+            }
+
+            finally
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+            }
+            return temp;
+        }
+        public async Task<double>  LoadModbusDataAsync(string PortName, Int32 slaveId)
+        {
+            double temp = 0;
+            try
+            {
+                await Task.Delay(100); // Non-blocking delay
+                InitializeModbusClient(PortName, slaveId);
+                await Task.Delay(100); // Non-blocking delay
                 int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
                 temp = registerValuefrmSensor[0];
                 //infoMessages.Text = ("Reading Successful");
