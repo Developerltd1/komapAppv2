@@ -119,21 +119,10 @@ namespace KomaxApp.UI_Design
                     JIMessageBox.WarningMessage("COM Ports are not Configure");
                     return;
                 }
-
-                //isPollingEnabled = !isPollingEnabled;
-                //if (isPollingEnabled)
-                //{
                 isPollSelected = true;
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
                 InitializePollingTimer();
-                    pollingTimer.Start();
-                //}
-                //else
-                //{
-                //    isPollSelected = false;
-                //    btnStartReadng.BackColor = System.Drawing.Color.Black;
-                //    pollingTimer.Stop();
-                //}
+                pollingTimer.Start();
             }
             catch (Exception ex)
             {
@@ -144,10 +133,7 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                
-
-                pollingTimer = new Timer();
-                pollingTimer.Interval = 1000;
+                pollingTimer = new Timer { Interval = 1000 };
                 pollingTimer.Tick += PollingTimer_Tick;
             }
             catch (Exception ex)
@@ -155,29 +141,20 @@ namespace KomaxApp.UI_Design
                 Utility.JIMessageBox.ErrorMessage(ex.Message);
             }
         }
-        public void PollingTimer_Tick(object sender, EventArgs e)
+        public async void PollingTimer_Tick(object sender, EventArgs e)
         {
             
             #region Data Reading
             try
             {
-                List<string> comPorts = new List<string>  //dynamic
-                    {
-                        _powerMeter,
-                        _torqueMeter
-                        ,_rpm,
-                        _temperature,
-                    };
-                //List<string> comPorts = new List<string>
-                //    {
-                //        "COM4"
-                //    };
+                var comPorts = new List<string> { _powerMeter, _torqueMeter, _rpm, _temperature };
+
                 List<string> commands = new List<string>
                 {
-                    Model.PortsAndCommands.COM6_MEAS,                          // Command for _powerMeter (COM6)
-                    Model.PortsAndCommands.COM5_x23x30x30x30x0d,    // Command for _torqueMeter (COM5)
-                    Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA // Command for _rpm (COM4)
-                    ,Model.PortsAndCommands.COM7_Empty// null                               // No command for _temperature (COM7)  //Modbus Data
+                    Model.PortsAndCommands.COM6_MEAS,                           // Command for _powerMeter (COM6)
+                    Model.PortsAndCommands.COM5_x23x30x30x30x0d,                // Command for _torqueMeter (COM5)
+                    Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA        // Command for _rpm (COM4)
+                    ,Model.PortsAndCommands.COM7_Empty// null                   // No command for _temperature (COM7)  //Modbus Data
                 };
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
@@ -186,7 +163,13 @@ namespace KomaxApp.UI_Design
                 {
                     string comPort = comPorts[i];
                     string command = commands[i]; // Corresponding command for the port
-                    switch (comPort)
+
+                    // Run each COM port communication asynchronously
+                    await Task.Run(() =>
+                    {
+                        try
+                        {
+                            switch (comPort)
                     {
                         case "COM4":
                             serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
@@ -213,6 +196,12 @@ namespace KomaxApp.UI_Design
                             JIMessageBox.WarningMessage("No Ports Initlized");
                             return;
                     }
+                        }
+                        catch (Exception ex)
+                        {
+                            JIMessageBox.ErrorMessage($"Error processing {comPort}: {ex.Message}");
+                        }
+                    });
                 }
 
                 if (portInitialized)
