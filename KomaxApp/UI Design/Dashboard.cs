@@ -108,13 +108,13 @@ namespace KomaxApp.UI_Design
             _rpm = rpm;
             _temperature = temperature;
         }
-        private void buttonReading_Click(object sender, EventArgs e)
+        private async void buttonReading_Click(object sender, EventArgs e)
         {
             try
             {
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
-                    
+
                     //pollingTimer.Stop();
                     JIMessageBox.WarningMessage("COM Ports are not Configure");
                     return;
@@ -123,6 +123,9 @@ namespace KomaxApp.UI_Design
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
                 InitializePollingTimer();
                 pollingTimer.Start();
+
+                // Start the polling asynchronously
+                await PollDataAsync();
             }
             catch (Exception ex)
             {
@@ -141,9 +144,8 @@ namespace KomaxApp.UI_Design
                 Utility.JIMessageBox.ErrorMessage(ex.Message);
             }
         }
-        public async void PollingTimer_Tick(object sender, EventArgs e)
+        private async Task PollDataAsync()
         {
-            
             #region Data Reading
             try
             {
@@ -159,65 +161,116 @@ namespace KomaxApp.UI_Design
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
                 bool portInitialized = false;
-                for (int i = 0; i < comPorts.Count; i++)
+
+
+                var tasks = new List<Task>
                 {
-                    string comPort = comPorts[i];
-                    string command = commands[i]; // Corresponding command for the port
+                    InitializePortAsync(comPorts[0], commands[0], serialResponse),
+                    InitializePortAsync(comPorts[1], commands[1], serialResponse),
+                    InitializePortAsync(comPorts[2], commands[2], serialResponse),
+                    InitializePortAsync(comPorts[3], commands[3], serialResponse),
+                };
+                await Task.WhenAll(tasks);
 
-                    // Run each COM port communication asynchronously
-                    await Task.Run(() =>
-                    {
-                        try
-                        {
-                            switch (comPort)
-                    {
-                        case "COM4":
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
-                            portInitialized = true;
-                            break;
+                #region LoopCommit
+                //for (int i = 0; i < comPorts.Count; i++)
+                //{
+                //    string comPort = comPorts[i];
+                //    string command = commands[i]; // Corresponding command for the port
 
-                        case "COM5":
-                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
-                            portInitialized = true;
-                            break;
-                        case "COM6":
-                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                //    // Run each COM port communication asynchronously
+                //    await Task.Run(() =>
+                //    {
+                //        try
+                //        {
+                //            switch (comPort)
+                //            {
+                //                case "COM4":
+                //                    serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                //                    portInitialized = true;
+                //                    break;
 
-                            portInitialized = true;
-                            break;
-                        case "COM7":
-                            double temp1 = LoadModbusData(comPort, 1);
-                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            double temp2 = LoadModbusData(comPort, 2);
-                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-                            portInitialized = true;
-                            break;
-                        default:
-                            JIMessageBox.WarningMessage("No Ports Initlized");
-                            return;
-                    }
-                        }
-                        catch (Exception ex)
-                        {
-                            JIMessageBox.ErrorMessage($"Error processing {comPort}: {ex.Message}");
-                        }
-                    });
-                }
+                //                case "COM5":
+                //                    serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                //                    portInitialized = true;
+                //                    break;
+                //                case "COM6":
+                //                    serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+
+                //                    portInitialized = true;
+                //                    break;
+                //                case "COM7":
+                //                    double temp1 = LoadModbusData(comPort, 1);
+                //                    serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                //                    double temp2 = LoadModbusData(comPort, 2);
+                //                    serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                //                    portInitialized = true;
+                //                    break;
+                //                default:
+                //                    JIMessageBox.WarningMessage("No Ports Initlized");
+                //                    return;
+                //            }
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            JIMessageBox.ErrorMessage($"Error processing {comPort}: {ex.Message}");
+                //        }
+                //    });
+                //} 
+                #endregion
 
                 if (portInitialized)
                 {
                     ParseResponse(serialResponse);  // Handle the data after initialization
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("PollingTimer error: " + ex.Message);
             }
             #endregion
+        }
+
+        private async Task InitializePortAsync(string comPort, string command, DashboardModel.SerialResponseModel serialResponse)
+        {
+            string serialResponseData = null;
+
+            try
+            {
+                serialResponseData = await Task.Run(() => InitializeSerialPort(comPort, command));
+
+                if (!string.IsNullOrEmpty(serialResponseData))
+                {
+                    switch (comPort)
+                    {
+                        case "COM4":
+                            serialResponse._serialResponseCOM4 = serialResponseData;
+                            break;
+                        case "COM5":
+                            serialResponse._serialResponseCOM5 = serialResponseData;
+                            break;
+                        case "COM6":
+                            serialResponse._serialResponseCOM6 = serialResponseData;
+                            break;
+                        case "COM7":
+                            serialResponse._serialResponseCOM7Temp1 = (await LoadModbusDataAsync(comPort, 1)).ToString();
+                            serialResponse._serialResponseCOM7Temp2 = (await LoadModbusDataAsync(comPort, 2)).ToString();
+                            break;
+                        default:
+                            JIMessageBox.WarningMessage("No Ports Initialized");
+                            return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                JIMessageBox.ErrorMessage($"Error initializing serial port {comPort}: {ex.Message}");
+            }
+        }
+
+        public async void PollingTimer_Tick(object sender, EventArgs e)
+        {
+            await PollDataAsync();
         }
 
         #region InitilizeSerialPortNew
@@ -337,7 +390,7 @@ namespace KomaxApp.UI_Design
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM5, @".*\+(\d+\.\d+)", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbTorqueNm  = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM6))
             {
@@ -406,33 +459,8 @@ namespace KomaxApp.UI_Design
                 //      }); 
                 #endregion
                 #region Default
-                this.Invoke((MethodInvoker)delegate
-                      {
-                          labelV1.Text = returnModel.labelV1;
-                          labelV2.Text = returnModel.labelV2;
-                          labelV3.Text = returnModel.labelV3;
-                          labelV0.Text = returnModel.labelV0;
-                          labelA1.Text = returnModel.labelA1;
-                          labelA2.Text = returnModel.labelA2;
-                          labelA3.Text = returnModel.labelA3;
-                          labelA0.Text = returnModel.labelA0;
-                          labelPf1.Text = returnModel.labelPf1;
-                          labelPf2.Text = returnModel.labelPf2;
-                          labelPf3.Text = returnModel.labelPf3;
-                          labelPf0.Text = returnModel.labelPf0;
-                          labelHertz.Text = returnModel.labelHertz;
-                          labelPower1.Text = returnModel.labelPower1;
-                          labelPower2.Text = returnModel.labelPower2;
-                          labelPower3.Text = returnModel.labelPower3;
-                          labelPower0.Text = returnModel.labelPower0;
-                          tbTorqueNm.Text = returnModel._tbTorqueNm;
-                          tbSpeedRPM.Text = returnModel._tbSpeedRPM;
-                          tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
-                          tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
-                          tbShaftPawerKw.Text = (tbTorqueNm.Text.ToDoble() * 0.00010472).ToString();
-                          tbLoadingFactorPercentage.Text = (tbShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
-                          textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
-                      });
+                // Call UpdateUI to update the UI with the parsed data
+                UpdateUI(returnModel);
                 #endregion
             }
             catch (Exception ex)
@@ -441,6 +469,45 @@ namespace KomaxApp.UI_Design
             // Convert the class to JSON
             //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
             //var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
+        }
+
+        private void UpdateUI(DashboardModel.Manupulation returnModel)
+        {
+            if (InvokeRequired)
+            {
+                // If the method is called from a different thread, invoke it on the UI thread
+                Invoke(new Action(() => UpdateUI(returnModel)));
+                return;
+            }
+
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                labelV1.Text = returnModel.labelV1;
+                labelV2.Text = returnModel.labelV2;
+                labelV3.Text = returnModel.labelV3;
+                labelV0.Text = returnModel.labelV0;
+                labelA1.Text = returnModel.labelA1;
+                labelA2.Text = returnModel.labelA2;
+                labelA3.Text = returnModel.labelA3;
+                labelA0.Text = returnModel.labelA0;
+                labelPf1.Text = returnModel.labelPf1;
+                labelPf2.Text = returnModel.labelPf2;
+                labelPf3.Text = returnModel.labelPf3;
+                labelPf0.Text = returnModel.labelPf0;
+                labelHertz.Text = returnModel.labelHertz;
+                labelPower1.Text = returnModel.labelPower1;
+                labelPower2.Text = returnModel.labelPower2;
+                labelPower3.Text = returnModel.labelPower3;
+                labelPower0.Text = returnModel.labelPower0;
+                tbTorqueNm.Text = returnModel._tbTorqueNm;
+                tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                tbShaftPawerKw.Text = (tbTorqueNm.Text.ToDoble() * 0.00010472).ToString();
+                tbLoadingFactorPercentage.Text = (tbShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
+                textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
+            });
         }
 
         #endregion
@@ -467,7 +534,7 @@ namespace KomaxApp.UI_Design
         #region Screenshot
         private async void buttonScreenshot_Click_1(object sender, EventArgs e)
         {
-           await CaptureMdiChildForm(this);
+            await CaptureMdiChildForm(this);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -520,7 +587,7 @@ namespace KomaxApp.UI_Design
                 }
             }
         }
-        public async Task  CaptureMdiChildForm(Form mdiChildForm)
+        public async Task CaptureMdiChildForm(Form mdiChildForm)
         {
             if (mdiChildForm != null && mdiChildForm.Visible)
             {
@@ -561,7 +628,7 @@ namespace KomaxApp.UI_Design
                 MessageBox.Show("The MDI child form is not visible.", "Capture Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-       
+
 
         #endregion
 
@@ -623,6 +690,28 @@ namespace KomaxApp.UI_Design
             }
             return temp;
         }
+        private async Task<double> LoadModbusDataAsync(string portName, Int32 slaveId)
+        {
+            double temp = 0;
+            try
+            {
+                InitializeModbusClient(portName, slaveId);
+                int[] registerValuefrmSensor = await Task.Run(() => modbusClient.ReadInputRegisters(1000, 1));
+                temp = registerValuefrmSensor[0];
+            }
+            catch (Exception ex)
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+                JIMessageBox.ErrorMessage(ex.Message);
+            }
+            finally
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+            }
+            return temp;
+        }
 
         #endregion
 
@@ -638,7 +727,7 @@ namespace KomaxApp.UI_Design
             }
         }
 
-        
+
     }
 
 
