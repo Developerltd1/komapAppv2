@@ -643,6 +643,21 @@ namespace KomaxApp.UI_Design
             btnStartReadng.BackColor = System.Drawing.Color.Black;
             btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
             pollingTimer.Stop();
+            if (modbusClient != null)
+            {
+                if (modbusClient.Connected)
+                {
+                    modbusClient.Disconnect();
+                }
+            }
+            if (serialPort != null)
+            {
+                if (serialPort.IsOpen)
+                {
+                    serialPort.Close();
+                    serialPort.Dispose();
+                }
+            }
         }
 
         
