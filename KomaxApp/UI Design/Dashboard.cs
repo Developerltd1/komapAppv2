@@ -114,7 +114,7 @@ namespace KomaxApp.UI_Design
             {
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
-                    
+
                     //pollingTimer.Stop();
                     JIMessageBox.WarningMessage("COM Ports are not Configure");
                     return;
@@ -126,7 +126,7 @@ namespace KomaxApp.UI_Design
                 isPollSelected = true;
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
                 InitializePollingTimer();
-                    pollingTimer.Start();
+                pollingTimer.Start();
                 //}
                 //else
                 //{
@@ -144,7 +144,7 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                
+
 
                 pollingTimer = new Timer();
                 pollingTimer.Interval = 1000;
@@ -155,9 +155,9 @@ namespace KomaxApp.UI_Design
                 Utility.JIMessageBox.ErrorMessage(ex.Message);
             }
         }
-        public void PollingTimer_Tick(object sender, EventArgs e)
+        public async void PollingTimer_Tick(object sender, EventArgs e)
         {
-            
+
             #region Data Reading
             try
             {
@@ -189,40 +189,37 @@ namespace KomaxApp.UI_Design
                     switch (comPort)
                     {
                         case "COM4":
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
-                            portInitialized = true;
-                            break;
-
                         case "COM5":
-                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
-                            portInitialized = true;
-                            break;
                         case "COM6":
-                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                        //case "COM7":
+                        //    {
+                        //        string response = await InitializeSerialPortAsync(comPort, command);
+                        //        if (comPort == "COM4")
+                        //            serialResponse._serialResponseCOM4 = response;
+                        //        else if (comPort == "COM5")
+                        //            serialResponse._serialResponseCOM5 = response;
+                        //        else if (comPort == "COM6")
+                        //            serialResponse._serialResponseCOM6 = response;
+                        //        else if (comPort == "COM7")
+                        //        {
+                        //            double temp1 = LoadModbusData(comPort, 1);
+                        //            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                        //            double temp2 = LoadModbusData(comPort, 2);
+                        //            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
 
-                            portInitialized = true;
-                            break;
-                        case "COM7":
-                            double temp1 = LoadModbusData(comPort, 1);
-                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            double temp2 = LoadModbusData(comPort, 2);
-                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-                            portInitialized = true;
-                            break;
+                        //            portInitialized = true;
+                        //            break;
+                        //        }
+                        //    }
                         default:
-                            JIMessageBox.WarningMessage("No Ports Initlized");
+                            JIMessageBox.WarningMessage("No Ports Initialized");
                             return;
                     }
                 }
-
                 if (portInitialized)
                 {
                     ParseResponse(serialResponse);  // Handle the data after initialization
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -333,6 +330,94 @@ namespace KomaxApp.UI_Design
             }
             return serialResponse;
         }
+        private async Task<string> InitializeSerialPortAsync(string comPort, string command)
+        {
+            string serialResponse = null;
+            SerialPort serialPort;
+
+            try
+            {
+                // Check if the serial port is already initialized
+                if (!serialPorts.ContainsKey(comPort))
+                {
+                    serialPort = new SerialPort()
+                    {
+                        PortName = comPort,
+                        BaudRate = 9600,
+                        Parity = Parity.None,
+                        DataBits = 8,
+                        StopBits = StopBits.One,
+                        Handshake = Handshake.None,
+                        ReadTimeout = 5000  // Set an optional timeout
+                    };
+
+                    serialPorts[comPort] = serialPort;
+                }
+                else
+                {
+                    serialPort = serialPorts[comPort];
+                }
+
+                if (!serialPort.IsOpen)
+                {
+                    serialPort.Open();
+                }
+
+                var PortName = serialPort.PortName;
+
+                // Use Task.Run to offload the synchronous serial port operations
+                switch (PortName)
+                {
+                    case "COM4":
+                    case "COM5":
+                        {
+                            byte[] commandBytes = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                            serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
+                            await Task.Delay(100); // Non-blocking delay
+                            serialResponse = serialPort.ReadExisting();
+                            break;
+                        }
+                    case "COM6":
+                        {
+                            byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                            await Task.Delay(100); // Non-blocking delay
+                            serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
+                            serialResponse = serialPort.ReadLine();
+                            break;
+                        }
+                    case "COM7":
+                        {
+                            byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                            serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
+                            serialResponse = serialPort.ReadExisting();
+                            break;
+                        }
+                    default:
+                        return string.Empty; // Return empty string if no data is received
+                }
+            }
+            catch (Exception ex)
+            {
+                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                labelInfo.ForeColor = Color.Red;
+                if (serialPorts.ContainsKey(comPort))
+                {
+                    serialPorts[comPort].Close();
+                    serialPorts.Remove(comPort);
+                }
+            }
+            finally
+            {
+                CloseSerialPort(comPort);
+            }
+            return serialResponse;
+        }
+
+
+
+
+
+
 
         private void ParseResponse(DashboardModel.SerialResponseModel data)
         {
@@ -348,7 +433,7 @@ namespace KomaxApp.UI_Design
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM5, @".*\+(\d+\.\d+)", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbTorqueNm  = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM6))
             {
@@ -478,7 +563,7 @@ namespace KomaxApp.UI_Design
         #region Screenshot
         private async void buttonScreenshot_Click_1(object sender, EventArgs e)
         {
-           await CaptureMdiChildForm(this);
+            await CaptureMdiChildForm(this);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -531,7 +616,7 @@ namespace KomaxApp.UI_Design
                 }
             }
         }
-        public async Task  CaptureMdiChildForm(Form mdiChildForm)
+        public async Task CaptureMdiChildForm(Form mdiChildForm)
         {
             if (mdiChildForm != null && mdiChildForm.Visible)
             {
@@ -572,7 +657,7 @@ namespace KomaxApp.UI_Design
                 MessageBox.Show("The MDI child form is not visible.", "Capture Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-       
+
 
         #endregion
 
@@ -660,7 +745,7 @@ namespace KomaxApp.UI_Design
             }
         }
 
-        
+
     }
 
 
