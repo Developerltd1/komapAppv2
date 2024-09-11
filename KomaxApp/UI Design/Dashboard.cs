@@ -189,27 +189,21 @@ namespace KomaxApp.UI_Design
                     switch (comPort)
                     {
                         case "COM4":
+                            serialResponse._serialResponseCOM4 = await InitializeSerialPortAsync(comPort, command);
+                            break;
                         case "COM5":
+                            serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
+                            break;
                         case "COM6":
+                            serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
+                            break;
                         case "COM7":
-                            {
-                                string response = await InitializeSerialPortAsync(comPort, command);
-                                if (comPort == "COM4")
-                                    serialResponse._serialResponseCOM4 = response;
-                                else if (comPort == "COM5")
-                                    serialResponse._serialResponseCOM5 = response;
-                                else if (comPort == "COM6")
-                                    serialResponse._serialResponseCOM6 = response;
-                                else if (comPort == "COM7")
-                                {
                                     double temp1 = LoadModbusData(comPort, 1);
                                     serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
                                     double temp2 = LoadModbusData(comPort, 2);
                                     serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                                     portInitialized = true;
-                                }
                                 break;
-                            }
                         default:
                             JIMessageBox.WarningMessage("No Ports Initialized");
                             return;
@@ -407,7 +401,7 @@ namespace KomaxApp.UI_Design
             }
             finally
             {
-                CloseSerialPort(comPort);
+                //CloseSerialPort(comPort);
             }
             return serialResponse;
         }
