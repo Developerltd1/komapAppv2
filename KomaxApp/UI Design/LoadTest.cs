@@ -468,14 +468,14 @@ namespace KomaxApp.UI_Design
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM4, @".*?(-\d+\.\d+\.\d+).*", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbSpeedRPM  = dataParts.ElementAtOrDefault(0) ?? "N/A";
 
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM5))
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM5, @".*\+(\d+\.\d+)", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM6))
             {
