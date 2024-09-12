@@ -116,6 +116,13 @@ namespace KomaxApp.UI_Design
             #region Data Reading
             try
             {
+                ////////List<string> comPorts = new List<string>  //dynamic
+                ////////    {
+                ////////        "COM6",
+                ////////         "COM5"
+                ////////        , "COM4",
+                ////////         "COM7",
+                ////////    };
                 List<string> comPorts = new List<string>  //dynamic
                     {
                         _powerMeter,
@@ -134,9 +141,6 @@ namespace KomaxApp.UI_Design
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
                 bool portInitialized = false;
-
-                List<Task> tasks = new List<Task>();
-
 
                 for (int i = 0; i < comPorts.Count; i++)
                 {
@@ -159,16 +163,15 @@ namespace KomaxApp.UI_Design
                             // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM6":
-
                             // Call InitializeSerialPort in the thread and store the result
                             serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
                             //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
-                            //double temp1 = await LoadModbusDataAsync(comPort, 1);
-                            //serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            //double temp2 = await LoadModbusDataAsync(comPort, 2);
-                            //serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                            double temp1 =  LoadModbusData(comPort, 1);
+                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            double temp2 =  LoadModbusData(comPort, 2);
+                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                             portInitialized = true;
                             break;
                         default:
@@ -293,8 +296,9 @@ namespace KomaxApp.UI_Design
                 {
                     case "COM4":
                         byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                        serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
-                        serialResponse = serialPort.ReadExisting();
+                       serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse =  serialPort.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -304,7 +308,8 @@ namespace KomaxApp.UI_Design
                     case "COM6":
                         byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
                         serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                        serialResponse = "2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";// serialPort.ReadLine();
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse =  serialPort.ReadLine();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -315,22 +320,24 @@ namespace KomaxApp.UI_Design
 
                         byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
                         serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
-                        serialResponse = serialPort.ReadExisting();
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse = serialPort.ReadExisting(); // "\">+06.361\\r\"";
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
                             serialResponse = null;
                         break;
 
-                    //case "COM7":
-                    //    byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                    //    serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
-                    //    serialResponse = serialPort.ReadExisting();
-                    //    if (!string.IsNullOrEmpty(serialResponse))
-                    //        return serialResponse;
-                    //    else
-                    //        serialResponse = null;
-                    //    break;
+                    case "COM7":
+                        byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse = serialPort.ReadExisting();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                        break;
 
                     default:
                         return string.Empty; // Return empty string if no data is received
@@ -733,14 +740,10 @@ namespace KomaxApp.UI_Design
             double temp = 0;
             try
             {
-
                 InitializeModbusClient(PortName, slaveId);
-
-                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
-                temp = registerValuefrmSensor[0];
-                //infoMessages.Text = ("Reading Successful");
-
-
+                System.Threading.Thread.Sleep(100);
+               int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
+                temp =  registerValuefrmSensor[0]; //12;
             }
             catch (Exception ex)
             {
@@ -748,7 +751,6 @@ namespace KomaxApp.UI_Design
                 isModbusClientConnected = false;
                 JIMessageBox.ErrorMessage(ex.Message);
             }
-
             finally
             {
                 modbusClient.Disconnect();
