@@ -28,6 +28,7 @@ namespace KomaxApp.UI_Design
 {
     public partial class Dashboard : BaseForm//Form
     {
+        private BackgroundWorker backgroundWorker;
 
         private bool isPolling;
         private System.Windows.Forms.Timer minuteTimer;
@@ -48,15 +49,33 @@ namespace KomaxApp.UI_Design
         public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
         {
             InitializeComponent();
-            btnStartReadng.Click += buttonReading_Click;
 
             // Store the configuration values
             _powerMeter = powerMeter;
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
+
+            // Initialize BackgroundWorker
+            backgroundWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true, // Enable progress reporting
+                WorkerSupportsCancellation = true // Enable cancellation
+            };
+
+            // Handle the DoWork event to perform background operation
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+            // Handle the ProgressChanged event to update progress
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+
+            // Handle the RunWorkerCompleted event to handle completion
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+
         }
-        private void buttonReading_Click(object sender, EventArgs e)
+
+        #region BackgroudWorker
+        private void StartBackgroundWorkerButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -70,32 +89,30 @@ namespace KomaxApp.UI_Design
 
                 isPollSelected = true;
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
-                InitializePollingTimer();
-                pollingTimer.Start();
-
-            }
-            catch (Exception ex)
-            {
-                JIMessageBox.ErrorMessage(ex.Message);
-            }
-        }
-        private void InitializePollingTimer()
-        {
-            try
-            {
-
 
                 pollingTimer = new System.Windows.Forms.Timer();
                 pollingTimer.Interval = 1000;
                 pollingTimer.Tick += PollingTimer_Tick;
+                pollingTimer.Start();
+
+                // Start the background operation
+                if (!backgroundWorker.IsBusy)
+                {
+                    backgroundWorker.RunWorkerAsync();
+                }
+
             }
             catch (Exception ex)
             {
-                Utility.JIMessageBox.ErrorMessage(ex.Message);
+                infoMessages.Text = ex.Message;
             }
+
+
         }
-        public async void PollingTimer_Tick(object sender, EventArgs e)
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+
             #region Data Reading
             try
             {
@@ -125,30 +142,24 @@ namespace KomaxApp.UI_Design
                 {
                     string comPort = comPorts[i];
                     string command = commands[i]; // Corresponding command for the port
+                    backgroundWorker.ReportProgress(i);   // Report progress
                     switch (comPort)
                     {
                         case "COM4":
-                            tasks.Add(Task.Run(async () =>
-                            {
-                                // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM4 = await InitializeSerialPort(comPort, command);
-                            }));
+                            // Call InitializeSerialPort in the thread and store the result
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
                             //await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM5":
-                            tasks.Add(Task.Run(async () =>
-                            {
-                                // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM5 = await InitializeSerialPort(comPort, command);
-                            }));
+                            // Call InitializeSerialPort in the thread and store the result
+                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+
                             // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM6":
-                            tasks.Add(Task.Run(async () =>
-                            {
-                                // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM6 = await InitializeSerialPort(comPort, command);
-                            }));
+
+                            // Call InitializeSerialPort in the thread and store the result
+                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
                             //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
@@ -163,20 +174,71 @@ namespace KomaxApp.UI_Design
                             return;
                     }
                 }
-                if (portInitialized)
-                {
-                    ParseResponse(serialResponse);  // Handle the data after initialization
-                }
+                //if (portInitialized)
+                //{
+                //    ParseResponse(serialResponse);  // Handle the data after initialization
+                //}
             }
             catch (Exception ex)
             {
                 MessageBox.Show("PollingTimer error: " + ex.Message);
             }
             #endregion
+
+            // Perform the long-running operation here
+            if (backgroundWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+
+            // Simulate a long-running task
+            Thread.Sleep(50);
+        }
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            // Update UI with progress
+            //progressBar.Value = e.ProgressPercentage;
+            //statusLabel.Text = $"Progress: {e.ProgressPercentage}%";
+            infoMessages.Text = e.ProgressPercentage.ToString();
+
+
+        }
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Result is DashboardModel.SerialResponseModel serialResponse)
+            {
+                // Handle the data after initialization
+                ParseResponse(serialResponse);
+            }
+
+            if (e.Cancelled)
+            {
+                MessageBox.Show("Operation was cancelled.");
+            }
+            else if (e.Error != null)
+            {
+                MessageBox.Show("An error occurred: " + e.Error.Message);
+            }
+            else
+            {
+                MessageBox.Show("Operation completed successfully.");
+            }
+        }
+
+        #endregion
+
+
+
+
+        public async void PollingTimer_Tick(object sender, EventArgs e)
+        {
+
         }
 
         #region InitilizeSerialPortNew
-        private async Task<string>   InitializeSerialPort(string comPort, string command)
+        private string InitializeSerialPort(string comPort, string command)
         {
             string serialResponse = null;
             SerialPort serialPort;
@@ -202,7 +264,6 @@ namespace KomaxApp.UI_Design
                 {
                     serialPort = serialPorts[comPort];
                 }
-
                 if (!serialPort.IsOpen)
                 {
                     serialPort.Open();
@@ -214,8 +275,7 @@ namespace KomaxApp.UI_Design
                     case "COM4":
                         byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
                         serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
-                        await Task.Delay(100); // Async sleep
-                        serialResponse = await Task.Run(() =>  serialPort.ReadExisting());
+                        serialResponse = serialPort.ReadExisting();
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -224,9 +284,8 @@ namespace KomaxApp.UI_Design
 
                     case "COM6":
                         byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                        await Task.Delay(100); // Async sleep
                         serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                        serialResponse = await Task.Run(() => serialPort.ReadLine());
+                        serialResponse = serialPort.ReadLine();
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -237,8 +296,7 @@ namespace KomaxApp.UI_Design
 
                         byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
                         serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
-                        await Task.Delay(100); // Async sleep
-                        serialResponse = await Task.Run(() =>  serialPort.ReadExisting());
+                        serialResponse = serialPort.ReadExisting();
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -258,8 +316,6 @@ namespace KomaxApp.UI_Design
                     default:
                         return string.Empty; // Return empty string if no data is received
                 }
-
-
             }
             catch (Exception ex)
             {

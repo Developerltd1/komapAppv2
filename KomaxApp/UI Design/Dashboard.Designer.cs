@@ -964,7 +964,7 @@
             this.btnStartReadng.TabIndex = 50;
             this.btnStartReadng.Text = "Start Reading";
             this.btnStartReadng.UseVisualStyleBackColor = false;
-            this.btnStartReadng.Click += new System.EventHandler(this.buttonReading_Click);
+            this.btnStartReadng.Click += new System.EventHandler(this.StartBackgroundWorkerButton_Click);
             // 
             // panel12
             // 
