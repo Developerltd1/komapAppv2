@@ -55,7 +55,7 @@ namespace KomaxApp.UI_Design
             // Check if the clicked cell is in the button column
             if (e.RowIndex >= 0 && e.ColumnIndex == GridViewDisplay.Columns["Actions"].Index)
             {
-                // Get the selected row
+                // Get the selected rowconflicts Thread v1
                 DataGridViewRow row = GridViewDisplay.Rows[e.RowIndex];
 
                 // Check if the button text is "Start Test"
@@ -75,8 +75,15 @@ namespace KomaxApp.UI_Design
                         return;
                     }
                     #endregion
+
+                    LoadTest testForm = null;
+                    //if (testForm != null)
+                    //{
+                    //    testForm.Close();  // Close the dashboard form
+                    //    testForm = null;   // Set the dashboard instance to null
+                    //}
                     // Create and show TestForm with the collected data
-                    LoadTest testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature);
+                    testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed
                     testForm.Dock = DockStyle.Fill; // Adjust docking as needed
                     testForm.Show();

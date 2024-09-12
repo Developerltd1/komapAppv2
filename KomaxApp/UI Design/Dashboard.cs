@@ -296,7 +296,7 @@ namespace KomaxApp.UI_Design
 
 
 
-        
+
 
         #region InitilizeSerialPortNew
         private string InitializeSerialPort(string comPort, string command)
@@ -830,28 +830,70 @@ namespace KomaxApp.UI_Design
 
         private void btnStopReading_Click(object sender, EventArgs e)
         {
-            isPollSelected = false;
-            btnStartReadng.BackColor = System.Drawing.Color.Black;
-            btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
-            periodicTimer.Stop();
-            if (modbusClient != null)
+            try
             {
-                if (modbusClient.Connected)
+
+
+                isPollSelected = false;
+                btnStartReadng.BackColor = System.Drawing.Color.Black;
+                btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
+                if (periodicTimer != null)
+                    periodicTimer.Stop();
+                
+                if (modbusClient != null)
                 {
-                    modbusClient.Disconnect();
+                    if (modbusClient.Connected)
+                    {
+                        modbusClient.Disconnect();
+                    }
+                }
+                if (serialPort != null)
+                {
+                    if (serialPort.IsOpen)
+                    {
+                        serialPort.Close();
+                        serialPort.Dispose();
+                    }
                 }
             }
-            if (serialPort != null)
+            catch (Exception ex)
             {
-                if (serialPort.IsOpen)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    serialPort.Close();
-                    serialPort.Dispose();
-                }
+                    erroMessage.Text = "DoWork: " + ex.Message;
+                });
             }
         }
 
 
+        private void Dashboard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           
+        }
+
+        private void Dashboard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
+
+        private void Dashboard_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            // Disconnect Modbus client if connected
+            if (modbusClient != null && isModbusClientConnected)
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+            }
+
+            // Stop other ongoing operations (like timers, background workers, etc.)
+            periodicTimer?.Stop();
+
+            // Close all serial ports
+            foreach (var port in serialPorts.Keys.ToList()) // Use ToList() to avoid modification issues during iteration
+            {
+                CloseSerialPort(port);
+            }
+        }
     }
 
 

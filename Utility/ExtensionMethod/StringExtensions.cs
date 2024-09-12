@@ -107,13 +107,27 @@ namespace komaxApp.Utility.ExtensionMethod
         //    return result;
         //}
 
-
         public static double? ToDouble(this string str, NumberStyles numberStyles = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo cultureInfo = null)
         {
             // Return null if the string is null or empty
             if (string.IsNullOrWhiteSpace(str))
             {
                 return null;
+            }
+
+            // Handle special cases like '∞', '-∞', 'NaN'
+            str = str.Trim();
+            if (str == "∞" || str == "Infinity")
+            {
+                return null;  // Return null for infinity
+            }
+            if (str == "-∞" || str == "-Infinity")
+            {
+                return null;  // Return null for negative infinity
+            }
+            if (str.Equals("NaN", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;  // Return null for NaN
             }
 
             // Clean the string to handle multiple decimal points
@@ -123,10 +137,10 @@ namespace komaxApp.Utility.ExtensionMethod
             double result;
             bool success = double.TryParse(str, numberStyles, cultureInfo ?? CultureInfo.InvariantCulture, out result);
 
-            // Throw an exception if parsing fails
+            // If parsing fails, return null instead of throwing an exception
             if (!success)
             {
-                throw new FormatException($"The string '{str}' is not a valid double.");
+                return null;
             }
 
             return result;
@@ -144,6 +158,7 @@ namespace komaxApp.Utility.ExtensionMethod
 
             return str;
         }
+
 
 
 

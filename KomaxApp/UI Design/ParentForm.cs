@@ -53,7 +53,12 @@ namespace KomaxApp.UI_Design
         }
 
         private void pnBtnDashboard_Click(object sender, EventArgs e)
-        {
+        {   // Check if the Dashboard form is open and close it
+            if (dashboard != null)
+            {
+                dashboard.Close();
+                dashboard = null;   // Set the dashboard instance to null
+            }
             if (dashboard == null)
             {
                 //dashboard = new Dashboard(null);
@@ -80,6 +85,11 @@ namespace KomaxApp.UI_Design
 
         private void pnBtnMotorTestingCreate_Click(object sender, EventArgs e)
         {
+            if (create != null)
+            {
+                create.Close();  // Close the dashboard form
+                create = null;   // Set the dashboard instance to null
+            }
             if (create == null)
             {
                 create = new Create(null);
@@ -94,7 +104,12 @@ namespace KomaxApp.UI_Design
         }
 
         private void iconButtonDisplay_Click(object sender, EventArgs e)
-        {
+        {// Check if the Display form is open and close it
+            if (display != null)
+            {
+                display.Close();
+                display = null;   // Set the display instance to null
+            }
             if (display == null)
             {
                 display = new Display(
@@ -121,7 +136,11 @@ namespace KomaxApp.UI_Design
 
         private void pnBtnLogout_Click(object sender, EventArgs e)
         {
-
+            if (configurationForm != null)
+            {
+                configurationForm.Close();  // Close the dashboard form
+                configurationForm = null;   // Set the dashboard instance to null
+            }
             if (configurationForm == null)
             {
                 configurationForm = new ConfigurationForm();
@@ -137,6 +156,11 @@ namespace KomaxApp.UI_Design
 
         private void iconButtonReport_Click(object sender, EventArgs e)
         {
+            if (reportForm != null)
+            {
+                reportForm.Close();  // Close the dashboard form
+                reportForm = null;   // Set the dashboard instance to null
+            }
             if (reportForm == null)
             {
                 reportForm = new ReportForm();

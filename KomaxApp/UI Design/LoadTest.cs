@@ -995,5 +995,24 @@ namespace KomaxApp.UI_Design
         }
 
 
+        private void Display_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Disconnect Modbus client if connected
+            if (modbusClient != null && isModbusClientConnected)
+            {
+                modbusClient.Disconnect();
+                isModbusClientConnected = false;
+            }
+
+            // Stop other ongoing operations (like timers, background workers, etc.)
+            periodicTimer?.Stop();
+
+            // Close all serial ports
+            foreach (var port in serialPorts.Keys.ToList()) // Use ToList() to avoid modification issues during iteration
+            {
+                CloseSerialPort(port);
+            }
+        }
+
     }
 }
