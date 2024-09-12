@@ -116,7 +116,7 @@ namespace KomaxApp.UI_Design
                 {
 
                     //pollingTimer.Stop();
-                    JIMessageBox.WarningMessage("COM Ports are not Configure");
+                    infoMessages.Text = "COM Ports are not Configure";
                     return;
                 }
 
@@ -137,7 +137,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                JIMessageBox.ErrorMessage(ex.Message);
+                infoMessages.Text = ex.Message;
             }
         }
         private void InitializePollingTimer()
@@ -152,7 +152,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                Utility.JIMessageBox.ErrorMessage(ex.Message);
+                infoMessages.Text = ex.Message;
             }
         }
         public async void PollingTimer_Tick(object sender, EventArgs e)
@@ -205,7 +205,8 @@ namespace KomaxApp.UI_Design
                             portInitialized = true;
                             break;
                     default:
-                            JIMessageBox.WarningMessage("No Ports Initialized");
+                            infoMessages.Text = comPort+ " Ports Initialized";
+
                     return;
                 }
             }
@@ -349,7 +350,8 @@ private async Task<string> InitializeSerialPortAsync(string comPort, string comm
         else
         {
             serialPort = serialPorts[comPort];
-        }
+                    
+                }
 
         if (!serialPort.IsOpen)
         {
@@ -361,31 +363,38 @@ private async Task<string> InitializeSerialPortAsync(string comPort, string comm
         // Use Task.Run to offload the synchronous serial port operations
         switch (PortName)
         {
-            case "COM4":
-            case "COM5":
-                {
-                    byte[] commandBytes = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                    serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
-                    await Task.Delay(100); // Non-blocking delay
-                    serialResponse = serialPort.ReadExisting();
-                    break;
-                }
+                    case "COM4":
+                        byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                        await Task.Delay(100); // Non-blocking delay
+                        serialResponse = serialPort.ReadExisting();
+                        //CloseSerialPort(comPort);
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                        break;
+                    case "COM5":
+                        byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
+                        await Task.Delay(100); // Non-blocking delay
+                        serialResponse = serialPort.ReadExisting();
+                      //  CloseSerialPort(comPort);
+                        break;
             case "COM6":
-                {
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                    byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
                     await Task.Delay(100); // Non-blocking delay
-                    serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
-                    serialResponse = serialPort.ReadLine();
-                    break;
-                }
-            case "COM7":
-                {
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                    await Task.Delay(100); // Non-blocking delay
-                    serialPort.Write(commandBytes, 0, commandBytes.Length); // dynamic
+                    serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
                     serialResponse = serialPort.ReadExisting();
-                    break;
-                }
+                       // CloseSerialPort(comPort);
+                        break;
+            case "COM7":
+                    byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                    await Task.Delay(100); // Non-blocking delay
+                    serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
+                    serialResponse = serialPort.ReadExisting();
+                        //CloseSerialPort(comPort);
+                        break;
             default:
                 return string.Empty; // Return empty string if no data is received
         }
@@ -496,8 +505,8 @@ private void ParseResponse(DashboardModel.SerialResponseModel data)
         //      }); 
         #endregion
         #region Default
-        this.Invoke((MethodInvoker)delegate
-              {
+        //this.Invoke((MethodInvoker)delegate
+        //      {
 
                   labelV1.Text = returnModel.labelV1;
                   labelV2.Text = returnModel.labelV2;
@@ -523,7 +532,7 @@ private void ParseResponse(DashboardModel.SerialResponseModel data)
                   tbShaftPawerKw.Text = (tbTorqueNm.Text.ToDoble() * 0.00010472).ToString();
                   tbLoadingFactorPercentage.Text = (tbShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
                   textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
-              });
+              //});
         #endregion
     }
     catch (Exception ex)
@@ -704,7 +713,7 @@ public double LoadModbusData(string PortName, Int32 slaveId)
     {
         modbusClient.Disconnect();
         isModbusClientConnected = false;
-        JIMessageBox.ErrorMessage(ex.Message);
+                infoMessages.Text = ex.Message;
     }
 
     finally
@@ -732,7 +741,7 @@ public async Task<double> LoadModbusDataAsync(string PortName, Int32 slaveId)
     {
         modbusClient.Disconnect();
         isModbusClientConnected = false;
-        JIMessageBox.ErrorMessage(ex.Message);
+        infoMessages.Text = ex.Message;  
     }
 
     finally
