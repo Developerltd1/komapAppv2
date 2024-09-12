@@ -83,7 +83,7 @@ namespace KomaxApp.UI_Design
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
                     pollingTimer.Stop();
-                    JIMessageBox.WarningMessage("COM Ports are not Configure");
+                    erroMessage.Text = "COM Ports are not Configure";
                     return;
                 }
 
@@ -175,17 +175,20 @@ namespace KomaxApp.UI_Design
                         case "COM4":
                             // Call InitializeSerialPort in the thread and store the result
                             serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
                             //await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM5":
                             // Call InitializeSerialPort in the thread and store the result
                             serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
 
                             // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM6":
                             // Call InitializeSerialPort in the thread and store the result
                             serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
                             //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
@@ -224,49 +227,67 @@ namespace KomaxApp.UI_Design
         }
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            // Use Invoke to ensure that the code runs on the UI thread
-            this.Invoke((MethodInvoker)delegate
+            try
             {
-                // Extract information from the user state
-                var progressInfo = e.UserState as dynamic;
-                if (progressInfo != null)
+
+
+                // Use Invoke to ensure that the code runs on the UI thread
+                this.Invoke((MethodInvoker)delegate
                 {
-                    string comPort = progressInfo.Port;
-                    string command = progressInfo.Command;
+                    // Extract information from the user state
+                    var progressInfo = e.UserState as dynamic;
+                    if (progressInfo != null)
+                    {
+                        string comPort = progressInfo.Port;
+                        string command = progressInfo.Command;
 
-                    // Update the UI with progress information
-                    infoMessages.Text = $"Processing {comPort} with command: {command}";
-                    // Or update other UI elements if needed
-                }
-            });
+                        // Update the UI with progress information
+                        infoMessages.Text = $"Processing {comPort} with command: {command}";
+                        // Or update other UI elements if needed
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
 
+                erroMessage.Text = ex.Message;
+            }
 
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled)
+            try
             {
-                MessageBox.Show("Operation was cancelled.");
-            }
-            else if (e.Error != null)
-            {
-                MessageBox.Show("An error occurred: " + e.Error.Message);
-            }
-            else
-            {
-                if (e.Result is DashboardModel.SerialResponseModel serialResponse)
+
+
+                if (e.Cancelled)
                 {
-                    // Handle the data after initialization
-                    ParseResponse(serialResponse);
+                    MessageBox.Show("Operation was cancelled.");
                 }
-                else if (e.Result is Exception ex)
+                else if (e.Error != null)
                 {
-                    MessageBox.Show("An error occurred during background work: " + ex.Message);
+                    MessageBox.Show("An error occurred: " + e.Error.Message);
                 }
                 else
                 {
-                    MessageBox.Show("Operation completed with unexpected result.");
+                    if (e.Result is DashboardModel.SerialResponseModel serialResponse)
+                    {
+                        // Handle the data after initialization
+                        ParseResponse(serialResponse);
+                    }
+                    else if (e.Result is Exception ex)
+                    {
+                        MessageBox.Show("An error occurred during background work: " + ex.Message);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operation completed with unexpected result.");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                erroMessage.Text = ex.Message;
             }
         }
 
@@ -275,10 +296,7 @@ namespace KomaxApp.UI_Design
 
 
 
-        public async void PollingTimer_Tick(object sender, EventArgs e)
-        {
-
-        }
+        
 
         #region InitilizeSerialPortNew
         private string InitializeSerialPort(string comPort, string command)

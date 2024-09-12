@@ -15,6 +15,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Utility;
@@ -23,14 +24,14 @@ namespace KomaxApp.UI_Design
 {
     public partial class LoadTest : BaseForm
     {
+        private BackgroundWorker backgroundWorker;
+        private System.Windows.Forms.Timer periodicTimer;  // Timer for periodic execution
+
         private SerialPortManager serialPortManager;
-        private Timer pollingTimer;
         public string _powerMeter;
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
-        private bool isPollingEnabled = false;
-        public static bool isPollSelected = false;
         private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
 
         private ModbusClient modbusClient;
@@ -41,24 +42,11 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                //isPollingEnabled = !isPollingEnabled;
-                //if (isPollingEnabled)
-                //{
-              
-
-                isPollSelected = true;
                 InitializePollingTimer();
-                StartPolling();
-                //}
-                //else
-                //{
-                //    isPollSelected = false;
-                //    StopPolling();
-                //}
             }
             catch (Exception ex)
             {
-                JIMessageBox.ErrorMessage(ex.Message);
+                erroMessage.Text = ex.Message;
             }
         }
 
@@ -78,7 +66,185 @@ namespace KomaxApp.UI_Design
             this.Load += LoadTest_Load;
 
 
+
+
+            // Initialize BackgroundWorker
+            backgroundWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true, // Enable progress reporting
+                WorkerSupportsCancellation = true // Enable cancellation
+            };
+
+            // Handle the DoWork event to perform background operation
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+            // Handle the ProgressChanged event to update progress
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+
+            // Handle the RunWorkerCompleted event to handle completion
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+
         }
+
+        #region BackgroudWorker
+        
+        private void PeriodicTimer_Tick(object sender, EventArgs e)
+        {
+            // Check if the background worker is not busy before starting a new task
+            if (!backgroundWorker.IsBusy)
+            {
+                backgroundWorker.RunWorkerAsync();
+            }
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+            #region Data Reading
+            try
+            {
+                List<string> comPorts = new List<string>  //dynamic
+                    {
+                        _powerMeter,
+                        _torqueMeter
+                        ,_rpm,
+                        _temperature,
+                    };
+
+                List<string> commands = new List<string>
+                {
+                    Model.PortsAndCommands.COM6_MEAS,                          // Command for _powerMeter (COM6)
+                    Model.PortsAndCommands.COM5_x23x30x30x30x0d,    // Command for _torqueMeter (COM5)
+                    Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA // Command for _rpm (COM4)
+                    ,Model.PortsAndCommands.COM7_Empty// null                               // No command for _temperature (COM7)  //Modbus Data
+                };
+
+                DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
+                bool portInitialized = false;
+
+                for (int i = 0; i < comPorts.Count; i++)
+                {
+                    string comPort = comPorts[i];
+                    string command = commands[i]; // Corresponding command for the port
+                                                  // Report progress with the current index and port
+                    backgroundWorker.ReportProgress(i, new { Port = comPort, Command = command });
+
+                    switch (comPort)
+                    {
+                        case "COM4":
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
+                            break;
+                        case "COM5":
+                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
+                            break;
+                        case "COM6":
+                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                            portInitialized = true;
+                            break;
+                        case "COM7":
+                            double temp1 = LoadModbusData(comPort, 1);
+                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            double temp2 = LoadModbusData(comPort, 2);
+                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                            portInitialized = true;
+                            break;
+                        default:
+                            JIMessageBox.WarningMessage("No Ports Initialized");
+                            return;
+                    }
+                }
+                if (portInitialized)
+                {
+                    e.Result = serialResponse; // Store the result in the Result property
+                }
+            }
+            catch (Exception ex)
+            {
+                erroMessage.Text = "DoWork: "+ex.Message;
+            }
+            #endregion
+
+            // Perform the long-running operation here
+            if (backgroundWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+
+            // Simulate a long-running task
+            Thread.Sleep(50);
+        }
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+
+
+                // Use Invoke to ensure that the code runs on the UI thread
+                this.Invoke((MethodInvoker)delegate
+                {
+                    // Extract information from the user state
+                    var progressInfo = e.UserState as dynamic;
+                    if (progressInfo != null)
+                    {
+                        string comPort = progressInfo.Port;
+                        string command = progressInfo.Command;
+
+                        // Update the UI with progress information
+                        infoMessages.Text = $"Processing {comPort} with command: {command}";
+                        // Or update other UI elements if needed
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                erroMessage.Text = "Progress: " + ex.Message;
+            }
+
+        }
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+
+
+                if (e.Cancelled)
+                {
+                    MessageBox.Show("Operation was cancelled.");
+                }
+                else if (e.Error != null)
+                {
+                    MessageBox.Show("An error occurred: " + e.Error.Message);
+                }
+                else
+                {
+                    if (e.Result is DashboardModel.SerialResponseModel serialResponse)
+                    {
+                        // Handle the data after initialization
+                        ParseResponse(serialResponse);
+                    }
+                    else if (e.Result is Exception ex)
+                    {
+                        MessageBox.Show("An error occurred during background work: " + ex.Message);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operation completed with unexpected result.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                erroMessage.Text = "Completed: " + ex.Message;
+            }
+        }
+
+        #endregion
+
+
 
         #region InitilizeSerialPortNew
         // Method to initialize a single serial port
@@ -105,8 +271,7 @@ namespace KomaxApp.UI_Design
                     }
                     catch (Exception ex)
                     {
-                        labelInfo.Text = $"Error opening serial port {comPort}: {ex.Message}" + Environment.NewLine;
-                        labelInfo.ForeColor = System.Drawing.Color.Red;
+                        erroMessage.Text = "InitializeSerialPort: " + ex.Message + " serial port: "+ comPort;
                         return;  // Exit if the port couldn't be opened
                     }
 
@@ -121,8 +286,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
-                labelInfo.ForeColor = System.Drawing.Color.Red;
+                erroMessage.Text = "InitializeSerialPort- : " + ex.Message + " serial port: " + comPort;
 
                 // Close and remove the port from the dictionary if initialization fails
                 if (serialPorts.ContainsKey(comPort))
@@ -164,6 +328,7 @@ namespace KomaxApp.UI_Design
             {
                 this.Invoke((MethodInvoker)delegate
                 {
+                    erroMessage.Text = "InitializeSerialPort- : " + ex.Message ;
                     infoMessages.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
                 });
             }
@@ -258,7 +423,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                MessageBox.Show("PollingTimer error: " + ex.Message);
+                erroMessage.Text = "PollingTimer: " + ex.Message;
             }
             #endregion
         }
@@ -268,31 +433,46 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                pollingTimer = new Timer();
-                pollingTimer.Interval = 1000;
-                pollingTimer.Tick += PollingTimer_Tick;
+                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+                {
+                    periodicTimer.Stop();
+                    erroMessage.Text = "COM Ports are not Configure";
+                    return;
+                }
+
+                // Initialize and start the periodic timer
+                if (periodicTimer == null)
+                {
+                    periodicTimer = new System.Windows.Forms.Timer();
+                    periodicTimer.Interval = 1000; // 1 second interval
+                    periodicTimer.Tick += PeriodicTimer_Tick;
+                    periodicTimer.Start();
+                }
+                else
+                {
+                    periodicTimer.Start();  // Ensure the timer is started
+                }
+
+                // Start the background operation if not already running
+                if (!backgroundWorker.IsBusy)
+                {
+                    backgroundWorker.RunWorkerAsync();
+                }
+
+                // Start the background operation
+                if (!backgroundWorker.IsBusy)
+                {
+                    backgroundWorker.RunWorkerAsync();
+                }
+
             }
             catch (Exception ex)
             {
-                Utility.JIMessageBox.ErrorMessage(ex.Message);
+                erroMessage.Text = "InitializePollingTimer: " + ex.Message;
             }
         }
-        private void StopPolling()
-        {
-            try
-            {
-                pollingTimer.Stop();
-            }
-            catch (Exception ex)
-            {
-                //labelInfo.Text = "StopPolling Time: " + ex.Message;
-                //labelInfo.ForeColor = Color.Red;
-            }
-        }
-        private void StartPolling()
-        {
-            pollingTimer.Start();
-        }
+     
+      
 
         #region InitilizeSerialPortNew
 
@@ -322,7 +502,8 @@ namespace KomaxApp.UI_Design
                 string port = parts.Length > 1 ? parts[1] : string.Empty; // Get the second part (COM4)
 
                 Console.WriteLine(port); // Outputs: COM4
-                infoMessages.Text = ("Error reading: " + "+ port: " + port + ex.Message);
+                erroMessage.Text = "InitializeModbusClient: " + ex.Message;
+
             }
         }
 
@@ -344,7 +525,7 @@ namespace KomaxApp.UI_Design
             {
                 modbusClient.Disconnect();
                 isModbusClientConnected = false;
-                JIMessageBox.ErrorMessage(ex.Message);
+                erroMessage.Text = "LoadModbusData: " + ex.Message;
             }
 
             finally
@@ -446,7 +627,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                erroMessage.Text = "InitializeSerialPort: " + ex.Message;
                 labelInfo.ForeColor = Color.Red;
                 if (serialPorts.ContainsKey(comPort))
                 {
@@ -548,6 +729,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
+                erroMessage.Text = ex.Message;
             }
             // Convert the class to JSON
             //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
@@ -664,17 +846,13 @@ namespace KomaxApp.UI_Design
                     labelPower0.Text = deserializedResponse.labelPower0;
                 });
 
-                // Optionally append the raw response to the RichTextBox
-                infoMessages.Invoke((MethodInvoker)delegate
-                {
-                    infoMessages.AppendText(data + Environment.NewLine);
-                });
+              
             }
             catch (Exception ex)
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    infoMessages.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
+                    erroMessage.Text = ex.Message;
                 });
             }
 

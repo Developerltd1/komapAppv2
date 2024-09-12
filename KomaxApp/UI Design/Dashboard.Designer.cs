@@ -101,6 +101,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.infoMessages = new System.Windows.Forms.TextBox();
+            this.erroMessage = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -1035,13 +1036,22 @@
             // 
             // infoMessages
             // 
-            this.infoMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.infoMessages.Enabled = false;
-            this.infoMessages.Location = new System.Drawing.Point(0, 601);
+            this.infoMessages.Location = new System.Drawing.Point(0, 600);
             this.infoMessages.Name = "infoMessages";
-            this.infoMessages.Size = new System.Drawing.Size(1122, 20);
+            this.infoMessages.Size = new System.Drawing.Size(485, 20);
             this.infoMessages.TabIndex = 68;
+            // 
+            // erroMessage
+            // 
+            this.erroMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.erroMessage.Enabled = false;
+            this.erroMessage.Location = new System.Drawing.Point(491, 600);
+            this.erroMessage.Name = "erroMessage";
+            this.erroMessage.Size = new System.Drawing.Size(631, 20);
+            this.erroMessage.TabIndex = 70;
             // 
             // Dashboard
             // 
@@ -1049,6 +1059,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(240)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(1122, 621);
+            this.Controls.Add(this.erroMessage);
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.infoMessages);
             this.Controls.Add(this.panel12);
@@ -1168,5 +1179,6 @@
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.TextBox infoMessages;
         private System.Windows.Forms.Button btnStopReading;
+        private System.Windows.Forms.TextBox erroMessage;
     }
 }
