@@ -22,6 +22,7 @@ using System.Xml;
 using Utility;
 using System.Threading;
 using static KomaxApp.Model.Dashboard.DashboardModel.Manupulation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace KomaxApp.UI_Design
 {
@@ -117,7 +118,8 @@ namespace KomaxApp.UI_Design
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
                 bool portInitialized = false;
 
-                System.Threading.Thread t = null;
+                List<Task> tasks = new List<Task>();
+
 
                 for (int i = 0; i < comPorts.Count; i++)
                 {
@@ -126,33 +128,27 @@ namespace KomaxApp.UI_Design
                     switch (comPort)
                     {
                         case "COM4":
-                            t = new System.Threading.Thread(() =>
+                            tasks.Add(Task.Run(async () =>
                             {
                                 // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
-                            });
-                            t.IsBackground = true;
-                            t.Start();
+                                serialResponse._serialResponseCOM4 = await InitializeSerialPort(comPort, command);
+                            }));
                             //await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM5":
-                            t = new System.Threading.Thread(() =>
+                            tasks.Add(Task.Run(async () =>
                             {
                                 // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
-                            });
-                            t.IsBackground = true;
-                            t.Start();
-                           // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
+                                serialResponse._serialResponseCOM5 = await InitializeSerialPort(comPort, command);
+                            }));
+                            // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM6":
-                            t = new System.Threading.Thread(() =>
+                            tasks.Add(Task.Run(async () =>
                             {
                                 // Call InitializeSerialPort in the thread and store the result
-                                serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
-                            });
-                            t.IsBackground = true;
-                            t.Start();
+                                serialResponse._serialResponseCOM6 = await InitializeSerialPort(comPort, command);
+                            }));
                             //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
