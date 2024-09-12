@@ -142,7 +142,9 @@ namespace KomaxApp.UI_Design
                 {
                     string comPort = comPorts[i];
                     string command = commands[i]; // Corresponding command for the port
-                    backgroundWorker.ReportProgress(i);   // Report progress
+                                                  // Report progress with the current index and port
+                    backgroundWorker.ReportProgress(i, new { Port = comPort, Command = command });
+
                     switch (comPort)
                     {
                         case "COM4":
@@ -174,10 +176,10 @@ namespace KomaxApp.UI_Design
                             return;
                     }
                 }
-                //if (portInitialized)
-                //{
-                //    ParseResponse(serialResponse);  // Handle the data after initialization
-                //}
+                if (portInitialized)
+                {
+                    e.Result = serialResponse; // Store the result in the Result property
+                }
             }
             catch (Exception ex)
             {
@@ -198,21 +200,26 @@ namespace KomaxApp.UI_Design
         }
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            // Update UI with progress
-            //progressBar.Value = e.ProgressPercentage;
-            //statusLabel.Text = $"Progress: {e.ProgressPercentage}%";
-            infoMessages.Text = e.ProgressPercentage.ToString();
+            // Use Invoke to ensure that the code runs on the UI thread
+            this.Invoke((MethodInvoker)delegate
+            {
+                // Extract information from the user state
+                var progressInfo = e.UserState as dynamic;
+                if (progressInfo != null)
+                {
+                    string comPort = progressInfo.Port;
+                    string command = progressInfo.Command;
+
+                    // Update the UI with progress information
+                    infoMessages.Text = $"Processing {comPort} with command: {command}";
+                    // Or update other UI elements if needed
+                }
+            });
 
 
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Result is DashboardModel.SerialResponseModel serialResponse)
-            {
-                // Handle the data after initialization
-                ParseResponse(serialResponse);
-            }
-
             if (e.Cancelled)
             {
                 MessageBox.Show("Operation was cancelled.");
@@ -223,7 +230,19 @@ namespace KomaxApp.UI_Design
             }
             else
             {
-                MessageBox.Show("Operation completed successfully.");
+                if (e.Result is DashboardModel.SerialResponseModel serialResponse)
+                {
+                    // Handle the data after initialization
+                    ParseResponse(serialResponse);
+                }
+                else if (e.Result is Exception ex)
+                {
+                    MessageBox.Show("An error occurred during background work: " + ex.Message);
+                }
+                else
+                {
+                    MessageBox.Show("Operation completed with unexpected result.");
+                }
             }
         }
 
@@ -319,8 +338,21 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
-                labelInfo.ForeColor = Color.Red;
+                // Use Invoke to update the UI from the main thread
+                if (this.InvokeRequired)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                        labelInfo.ForeColor = Color.Red;
+                    });
+                }
+                else
+                {
+                    labelInfo.Text = $"Error initializing serial port {comPort}: {ex.Message}" + Environment.NewLine;
+                    labelInfo.ForeColor = Color.Red;
+                }
+
                 if (serialPorts.ContainsKey(comPort))
                 {
                     serialPorts[comPort].Close();
