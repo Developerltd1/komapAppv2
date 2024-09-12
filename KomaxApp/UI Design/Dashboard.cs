@@ -75,25 +75,38 @@ namespace KomaxApp.UI_Design
         }
 
         #region BackgroudWorker
+        private System.Windows.Forms.Timer periodicTimer;  // Timer for periodic execution
         private void StartBackgroundWorkerButton_Click(object sender, EventArgs e)
         {
             try
             {
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
-
-                    //pollingTimer.Stop();
+                    pollingTimer.Stop();
                     JIMessageBox.WarningMessage("COM Ports are not Configure");
                     return;
                 }
 
                 isPollSelected = true;
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
+                // Initialize and start the periodic timer
+                if (periodicTimer == null)
+                {
+                    periodicTimer = new System.Windows.Forms.Timer();
+                    periodicTimer.Interval = 1000; // 1 second interval
+                    periodicTimer.Tick += PeriodicTimer_Tick;
+                    periodicTimer.Start();
+                }
+                else
+                {
+                    periodicTimer.Start();  // Ensure the timer is started
+                }
 
-                pollingTimer = new System.Windows.Forms.Timer();
-                pollingTimer.Interval = 1000;
-                pollingTimer.Tick += PollingTimer_Tick;
-                pollingTimer.Start();
+                // Start the background operation if not already running
+                if (!backgroundWorker.IsBusy)
+                {
+                    backgroundWorker.RunWorkerAsync();
+                }
 
                 // Start the background operation
                 if (!backgroundWorker.IsBusy)
@@ -108,6 +121,14 @@ namespace KomaxApp.UI_Design
             }
 
 
+        }
+        private void PeriodicTimer_Tick(object sender, EventArgs e)
+        {
+            // Check if the background worker is not busy before starting a new task
+            if (!backgroundWorker.IsBusy)
+            {
+                backgroundWorker.RunWorkerAsync();
+            }
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -168,9 +189,9 @@ namespace KomaxApp.UI_Design
                             //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
-                            double temp1 =  LoadModbusData(comPort, 1);
+                            double temp1 = LoadModbusData(comPort, 1);
                             serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            double temp2 =  LoadModbusData(comPort, 2);
+                            double temp2 = LoadModbusData(comPort, 2);
                             serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                             portInitialized = true;
                             break;
@@ -296,9 +317,9 @@ namespace KomaxApp.UI_Design
                 {
                     case "COM4":
                         byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                       serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                        serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
                         System.Threading.Thread.Sleep(100);
-                        serialResponse =  serialPort.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
+                        serialResponse = serialPort.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -308,8 +329,8 @@ namespace KomaxApp.UI_Design
                     case "COM6":
                         byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
                         serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                        System.Threading.Thread.Sleep(100);
-                        serialResponse =  serialPort.ReadLine();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
+                        System.Threading.Thread.Sleep(300);
+                        serialResponse = serialPort.ReadExisting();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
                         if (!string.IsNullOrEmpty(serialResponse))
                             return serialResponse;
                         else
@@ -742,8 +763,8 @@ namespace KomaxApp.UI_Design
             {
                 InitializeModbusClient(PortName, slaveId);
                 System.Threading.Thread.Sleep(100);
-               int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
-                temp =  registerValuefrmSensor[0]; //12;
+                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
+                temp = registerValuefrmSensor[0]; //12;
             }
             catch (Exception ex)
             {
@@ -794,7 +815,7 @@ namespace KomaxApp.UI_Design
             isPollSelected = false;
             btnStartReadng.BackColor = System.Drawing.Color.Black;
             btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 99);
-            pollingTimer.Stop();
+            periodicTimer.Stop();
             if (modbusClient != null)
             {
                 if (modbusClient.Connected)
