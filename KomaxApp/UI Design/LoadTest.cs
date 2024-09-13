@@ -52,7 +52,7 @@ namespace KomaxApp.UI_Design
             }
         }
 
-        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature , ParentForm _parentForm)
+        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature, ParentForm _parentForm)
         {
             // Store the configuration values
             _powerMeter = powerMeter;
@@ -67,7 +67,7 @@ namespace KomaxApp.UI_Design
 
             this.Load += LoadTest_Load;
 
-          
+
 
 
             // Initialize BackgroundWorker
@@ -89,7 +89,7 @@ namespace KomaxApp.UI_Design
         }
 
         #region BackgroudWorker
-        
+
         private void PeriodicTimer_Tick(object sender, EventArgs e)
         {
             // Check if the background worker is not busy before starting a new task
@@ -108,46 +108,47 @@ namespace KomaxApp.UI_Design
 
                 // Get all open serial ports
                 Dictionary<string, SerialPort> openPorts = parentForm.GetAllOpenSerialPorts();
+                 
+                    DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
+                    bool portInitialized = false;
 
-                DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
-                bool portInitialized = false;
-
-                foreach (var portEntry in openPorts)
-                {
-                    string comPort = portEntry.Key;
-                    //backgroundWorker.ReportProgress(0, new { Port = comPort});
-
-                    switch (comPort)
+                    foreach (var portEntry in openPorts)
                     {
-                        case "COM4":
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA);
-                            portInitialized = true;
-                            break;
-                        case "COM5":
-                            serialResponse._serialResponseCOM5 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM5_x23x30x30x30x0d);
-                            portInitialized = true;
+                        string comPort = portEntry.Key;
+                        //backgroundWorker.ReportProgress(0, new { Port = comPort});
 
-                            break;
-                        case "COM6":
-                            serialResponse._serialResponseCOM6 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM6_MEAS);
-                            portInitialized = true;
-                            break;
-                        case "COM7":
-                            //double temp1 = LoadModbusData(comPort, 1);
-                            //serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            //double temp2 = LoadModbusData(comPort, 2);
-                            //serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-                            //portInitialized = true;
-                            break;
-                        default:
-                            JIMessageBox.WarningMessage("No Ports Initialized");
-                            return;
+                        switch (comPort)
+                        {
+                            case "COM4":
+                                serialResponse._serialResponseCOM4 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA);
+                                portInitialized = true;
+                                break;
+                            case "COM5":
+                                serialResponse._serialResponseCOM5 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM5_x23x30x30x30x0d);
+                                portInitialized = true;
+
+                                break;
+                            case "COM6":
+                                serialResponse._serialResponseCOM6 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM6_MEAS);
+                                portInitialized = true;
+                                break;
+                            case "COM7":
+                                //double temp1 = LoadModbusData(comPort, 1);
+                                //serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                                //double temp2 = LoadModbusData(comPort, 2);
+                                //serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                                //portInitialized = true;
+                                break;
+                            default:
+                                JIMessageBox.WarningMessage("No Ports Initialized");
+                                return;
+                        }
                     }
-                }
-                if (portInitialized)
-                {
-                    e.Result = serialResponse; // Store the result in the Result property
-                }
+                    if (portInitialized)
+                    {
+                        e.Result = serialResponse; // Store the result in the Result property
+                    }
+               
             }
             catch (Exception ex)
             {
@@ -173,12 +174,19 @@ namespace KomaxApp.UI_Design
             if (erroMessage.InvokeRequired)
             {
                 erroMessage.Invoke((MethodInvoker)delegate {
-                    erroMessage.Text = _msg + ex.Message;  // Safely update the control
+
+                    if (ex == null)
+                        erroMessage.Text = _msg;  // Safely update the control
+                    else
+                        erroMessage.Text = _msg + ex.Message;
                 });
             }
             else
             {
-                erroMessage.Text = _msg + ex.Message; ;  // Update directly if already on the UI thread
+                if (ex == null)
+                    erroMessage.Text = _msg;   // Update directly if already on the UI thread
+                else
+                    erroMessage.Text = _msg + ex.Message;
             }
         }
 
@@ -206,7 +214,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                errorMesageEx("Progress: " , ex);
+                errorMesageEx("Progress: ", ex);
             }
 
         }
@@ -223,7 +231,7 @@ namespace KomaxApp.UI_Design
                 }
                 else if (e.Error != null)
                 {
-                   // MessageBox.Show("An error occurred: " + e.Error.Message);
+                    // MessageBox.Show("An error occurred: " + e.Error.Message);
                     errorMesageEx("An error occurred: ", null);
                 }
                 else
@@ -378,7 +386,7 @@ namespace KomaxApp.UI_Design
                 foreach (var portEntry in openPorts)
                 {
                     string comPort = portEntry.Key;
-                    //backgroundWorker.ReportProgress(0, new { Port = comPort});
+                    backgroundWorker.ReportProgress(0, new { Port = comPort });
 
                     switch (comPort)
                     {
@@ -396,14 +404,14 @@ namespace KomaxApp.UI_Design
                             portInitialized = true;
                             break;
                         case "COM7":
-                            //double temp1 = LoadModbusData(comPort, 1);
-                            //serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            //double temp2 = LoadModbusData(comPort, 2);
-                            //serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-                            //portInitialized = true;
+                            double temp1 = LoadModbusData(comPort, 1);
+                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            double temp2 = LoadModbusData(comPort, 2);
+                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                            portInitialized = true;
                             break;
                         default:
-                            JIMessageBox.WarningMessage("No Ports Initialized");
+                            errorMesageEx("No Ports Initialized", null);
                             return;
                     }
                 }
@@ -428,9 +436,16 @@ namespace KomaxApp.UI_Design
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
                 {
                     periodicTimer.Stop();
-                    erroMessage.Text = "COM Ports are not Configure";
+                    errorMesageEx("COM Ports are not Configure", null);
                     return;
                 }
+                Dictionary<string, SerialPort> openPorts = parentForm.GetAllOpenSerialPorts();
+                if (openPorts.Count() <= 0)
+                {
+                    errorMesageEx("Ports are not Open", null);
+                    return;
+                }
+
 
                 // Initialize and start the periodic timer
                 if (periodicTimer == null)
@@ -463,8 +478,8 @@ namespace KomaxApp.UI_Design
                 errorMesageEx("InitializePollingTimer: ", ex);
             }
         }
-     
-      
+
+
 
         #region InitilizeSerialPortNew
 
@@ -555,7 +570,7 @@ namespace KomaxApp.UI_Design
                         case "COM6":
                             byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
                             portEntry.Value.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                            System.Threading.Thread.Sleep(300);
+                            System.Threading.Thread.Sleep(400);
                             serialResponse = portEntry.Value.ReadExisting();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
                             if (!string.IsNullOrEmpty(serialResponse))
                                 return serialResponse;
@@ -629,7 +644,7 @@ namespace KomaxApp.UI_Design
             {
                 string cleanedData = Regex.Replace(data._serialResponseCOM4, @".*?(-\d+\.\d+\.\d+).*", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
-                returnModel._tbSpeedRPM  = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(0) ?? "N/A";
 
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM5))
@@ -824,12 +839,12 @@ namespace KomaxApp.UI_Design
                     labelPower0.Text = deserializedResponse.labelPower0;
                 });
 
-              
+
             }
             catch (Exception ex)
             {
                 errorMesageEx(": ", ex);
-                
+
             }
 
         }
@@ -950,7 +965,7 @@ namespace KomaxApp.UI_Design
                     RequestLoadTestModel.Response response = new InsertBL().InsertRecordNoLoadPointBL(testModel);
                     if (response.LabelStatus == "Completed")
                     {
-                        Display display = new Display(null, null, null, null,null);
+                        Display display = new Display(null, null, null, null, null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();
