@@ -206,8 +206,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-
-                erroMessage.Text = ex.Message;
+                errorMesageEx("Progress: ", ex);
             }
 
         }
@@ -219,11 +218,13 @@ namespace KomaxApp.UI_Design
 
                 if (e.Cancelled)
                 {
-                    MessageBox.Show("Operation was cancelled.");
+                    //MessageBox.Show("Operation was cancelled.");
+                    errorMesageEx("Operation was cancelled.: ", null);
                 }
                 else if (e.Error != null)
                 {
-                    MessageBox.Show("An error occurred: " + e.Error.Message);
+                    // MessageBox.Show("An error occurred: " + e.Error.Message);
+                    errorMesageEx("An error occurred: ", null);
                 }
                 else
                 {
@@ -234,17 +235,17 @@ namespace KomaxApp.UI_Design
                     }
                     else if (e.Result is Exception ex)
                     {
-                        MessageBox.Show("An error occurred during background work: " + ex.Message);
+                        errorMesageEx("An error occurred during background work:: ", ex);
                     }
                     else
                     {
-                        MessageBox.Show("Operation completed with unexpected result.");
+                        errorMesageEx("Operation completed with unexpected result. ", null);
                     }
                 }
             }
             catch (Exception ex)
             {
-                erroMessage.Text = ex.Message;
+                errorMesageEx("DoWork: ", ex);
             }
         }
 
@@ -827,6 +828,19 @@ namespace KomaxApp.UI_Design
             foreach (var port in serialPorts.Keys.ToList()) // Use ToList() to avoid modification issues during iteration
             {
                 CloseSerialPort(port);
+            }
+        }
+        private void errorMesageEx(string _msg, Exception ex)
+        {
+            if (erroMessage.InvokeRequired)
+            {
+                erroMessage.Invoke((MethodInvoker)delegate {
+                    erroMessage.Text = _msg + ex.Message;  // Safely update the control
+                });
+            }
+            else
+            {
+                erroMessage.Text = _msg + ex.Message; ;  // Update directly if already on the UI thread
             }
         }
     }
