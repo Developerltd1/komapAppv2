@@ -15,16 +15,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Utility;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace KomaxApp.UI_Design
 {
     public partial class Display : BaseForm//Form
     {
+        private ParentForm parentForm;
         public string _powerMeter;
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
-        public Display(string powerMeter, string torqueMeter, string rpm, string temperature)
+        public Display(string powerMeter, string torqueMeter, string rpm, string temperature,ParentForm parent)
         {
             InitializeComponent();
             _powerMeter = powerMeter;
@@ -32,6 +34,7 @@ namespace KomaxApp.UI_Design
             _rpm = rpm;
             _temperature = temperature;
 
+            parentForm = parent;
         }
 
         private void Display_Load(object sender, EventArgs e)
@@ -83,7 +86,7 @@ namespace KomaxApp.UI_Design
                     //    testForm = null;   // Set the dashboard instance to null
                     //}
                     // Create and show TestForm with the collected data
-                    testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature);
+                    testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature, parentForm);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed
                     testForm.Dock = DockStyle.Fill; // Adjust docking as needed
                     testForm.Show();

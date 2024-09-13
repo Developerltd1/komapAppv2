@@ -25,6 +25,8 @@ namespace KomaxApp.UI_Design
 {
     public partial class LoadTest : BaseForm
     {
+        private ParentForm parentForm;
+
         private BackgroundWorker backgroundWorker;
         private System.Windows.Forms.Timer periodicTimer;  // Timer for periodic execution
 
@@ -38,7 +40,6 @@ namespace KomaxApp.UI_Design
         private ModbusClient modbusClient;
 
         private string ReportNo;
-
         private void LoadTest_Load(object sender, EventArgs e)
         {
             try
@@ -51,14 +52,14 @@ namespace KomaxApp.UI_Design
             }
         }
 
-        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
+        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature , ParentForm _parentForm)
         {
             // Store the configuration values
             _powerMeter = powerMeter;
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
-
+            parentForm = _parentForm;
             InitializeComponent();
             this.ReportNo = ReportNo;
             LoadData();
@@ -66,7 +67,7 @@ namespace KomaxApp.UI_Design
 
             this.Load += LoadTest_Load;
 
-
+          
 
 
             // Initialize BackgroundWorker
@@ -128,7 +129,7 @@ namespace KomaxApp.UI_Design
                     string comPort = comPorts[i];
                     string command = commands[i]; // Corresponding command for the port
                                                   // Report progress with the current index and port
-                    backgroundWorker.ReportProgress(i, new { Port = comPort, Command = command });
+                   // backgroundWorker.ReportProgress(i, new { Port = comPort, Command = command });
 
                     switch (comPort)
                     {
@@ -391,6 +392,9 @@ namespace KomaxApp.UI_Design
                     Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA // Command for _rpm (COM4)
                     ,Model.PortsAndCommands.COM7_Empty// null                               // No command for _temperature (COM7)  //Modbus Data
                 };
+                // Get all open serial ports
+                Dictionary<string, SerialPort> openPorts = parentForm.GetAllOpenSerialPorts();
+
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
                 bool portInitialized = false;
@@ -987,7 +991,7 @@ namespace KomaxApp.UI_Design
                     RequestLoadTestModel.Response response = new InsertBL().InsertRecordNoLoadPointBL(testModel);
                     if (response.LabelStatus == "Completed")
                     {
-                        Display display = new Display(null, null, null, null);
+                        Display display = new Display(null, null, null, null,null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();

@@ -131,31 +131,29 @@ namespace KomaxApp.UI_Design
                 foreach (var portEntry in openPorts)
                 {
                     string comPort = portEntry.Key;
-                    backgroundWorker.ReportProgress(0, new { Port = comPort});
+                    //backgroundWorker.ReportProgress(0, new { Port = comPort});
 
                     switch (comPort)
                     {
                         case "COM4":
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM6_MEAS);
-
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM6_MEAS);
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(openPorts, comPort, Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA);
                             portInitialized = true;
                             break;
                         case "COM5":
-                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM5_x23x30x30x30x0d);
+                            serialResponse._serialResponseCOM5 = InitializeSerialPort(openPorts,comPort, Model.PortsAndCommands.COM5_x23x30x30x30x0d);
                             portInitialized = true;
 
                             break;
                         case "COM6":
-                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA);
+                            serialResponse._serialResponseCOM6 = InitializeSerialPort(openPorts,comPort, Model.PortsAndCommands.COM6_MEAS);
                             portInitialized = true;
                             break;
                         case "COM7":
-                            double temp1 = LoadModbusData(comPort, 1);
-                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            double temp2 = LoadModbusData(comPort, 2);
-                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
-                            portInitialized = true;
+                            //double temp1 = LoadModbusData(comPort, 1);
+                            //serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            //double temp2 = LoadModbusData(comPort, 2);
+                            //serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                            //portInitialized = true;
                             break;
                         default:
                             JIMessageBox.WarningMessage("No Ports Initialized");
@@ -258,67 +256,65 @@ namespace KomaxApp.UI_Design
 
 
         #region InitilizeSerialPortNew
-        private string InitializeSerialPort(string comPort, string command)
+        private string InitializeSerialPort(Dictionary<string, SerialPort> openPorts,string comPort, string command)
         {
             string serialResponse = null;
             try
             {
-                // Check if the serial port is already initialized
-                if (!serialPorts.ContainsKey(comPort))
+                foreach (var portEntry in openPorts)
                 {
-                    serialPorts[comPort] = serialPort;
-                }
+                    var PortName = portEntry.Key;
+                    switch (PortName)//command)  //COnversion
+                    {
+                        case "COM4":
+                            byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                            portEntry.Value.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
+                            System.Threading.Thread.Sleep(100);
+                            serialResponse = portEntry.Value.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
+                            if (!string.IsNullOrEmpty(serialResponse))
+                                return serialResponse;
+                            else
+                                serialResponse = null;
+                            break;
 
-                var PortName = serialPort.PortName;
-                switch (PortName)//command)  //COnversion
-                {
-                    case "COM4":
-                        byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                        serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
-                        System.Threading.Thread.Sleep(100);
-                        serialResponse = serialPort.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
-                        if (!string.IsNullOrEmpty(serialResponse))
-                            return serialResponse;
-                        else
-                            serialResponse = null;
-                        break;
+                        case "COM6":
+                            byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                            portEntry.Value.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
+                            System.Threading.Thread.Sleep(300);
+                            serialResponse = portEntry.Value.ReadExisting();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
+                            if (!string.IsNullOrEmpty(serialResponse))
+                                return serialResponse;
+                            else
+                                serialResponse = null;
+                            break;
 
-                    case "COM6":
-                        byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                        serialPort.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                        System.Threading.Thread.Sleep(300);
-                        serialResponse = serialPort.ReadExisting();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
-                        if (!string.IsNullOrEmpty(serialResponse))
-                            return serialResponse;
-                        else
-                            serialResponse = null;
-                        break;
+                        case "COM5":
 
-                    case "COM5":
+                            byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                            portEntry.Value.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
+                            System.Threading.Thread.Sleep(100);
+                            serialResponse = portEntry.Value.ReadExisting(); // "\">+06.361\\r\"";
+                            if (!string.IsNullOrEmpty(serialResponse))
+                                return serialResponse;
+                            else
+                                serialResponse = null;
+                            break;
 
-                        byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                        serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
-                        System.Threading.Thread.Sleep(100);
-                        serialResponse = serialPort.ReadExisting(); // "\">+06.361\\r\"";
-                        if (!string.IsNullOrEmpty(serialResponse))
-                            return serialResponse;
-                        else
-                            serialResponse = null;
-                        break;
+                        //case "COM7":
+                        //    //byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        //    //serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
+                        //    //System.Threading.Thread.Sleep(100);
+                        //    //serialResponse = serialPort.ReadExisting();
+                        //    //if (!string.IsNullOrEmpty(serialResponse))
+                        //    //    return serialResponse;
+                        //    //else
+                        //    //    serialResponse = null;
+                        //    break;
 
-                    case "COM7":
-                        byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                        serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
-                        System.Threading.Thread.Sleep(100);
-                        serialResponse = serialPort.ReadExisting();
-                        if (!string.IsNullOrEmpty(serialResponse))
-                            return serialResponse;
-                        else
-                            serialResponse = null;
-                        break;
+                        default:
+                            return string.Empty; // Return empty string if no data is received
+                    }
 
-                    default:
-                        return string.Empty; // Return empty string if no data is received
                 }
             }
             catch (Exception ex)

@@ -43,6 +43,10 @@ namespace KomaxApp.UI_Design
         {
             try
             {
+                _powerMeter = ConfigurationForm.ddPowerMeter;
+                _torqueMeter = ConfigurationForm.ddTorqueMeter; // Access static field using the class name
+                _rpm = ConfigurationForm.ddRPM;       // Access static field using the class name
+                _temperature = ConfigurationForm.ddTemperature; // Access static field using the class name
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
 
                 if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
@@ -62,7 +66,7 @@ namespace KomaxApp.UI_Design
                     };
 
 
-
+                string ComPortNames = null;
                 #region Logic
                 foreach (string portName in comPorts)
                 {
@@ -76,10 +80,11 @@ namespace KomaxApp.UI_Design
                             DataBits = 8,
                             StopBits = StopBits.One,
                             Handshake = Handshake.None,
-                            ReadTimeout = 5000
+                            ReadTimeout = -1
                         };
 
                         serialPorts[portName] = serialPort;
+                        ComPortNames += portName +",";
                     }
 
                     if (!serialPorts[portName].IsOpen)
@@ -89,6 +94,7 @@ namespace KomaxApp.UI_Design
                 }
                 #endregion
 
+                JIMessageBox.InformationMessage(ComPortNames+ " are Opened.");
             }
             catch (Exception ex)
             {
@@ -200,7 +206,7 @@ namespace KomaxApp.UI_Design
                                     ConfigurationForm.ddTorqueMeter, // Access static field using the class name
                                     ConfigurationForm.ddRPM,         // Access static field using the class name
                                     ConfigurationForm.ddTemperature  // Access static field using the class name
-                                   );
+                                   , this);
 
                 display.MdiParent = this;
                 display.Dock = DockStyle.Fill;
