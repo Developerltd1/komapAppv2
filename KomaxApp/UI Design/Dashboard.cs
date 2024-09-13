@@ -28,6 +28,10 @@ namespace KomaxApp.UI_Design
 {
     public partial class Dashboard : BaseForm//Form
     {
+        private ParentForm parentForm;
+
+
+
         private BackgroundWorker backgroundWorker;
 
         private bool isPolling;
@@ -46,7 +50,7 @@ namespace KomaxApp.UI_Design
         // Dictionary to store SerialPort objects for each COM port
         private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
 
-        public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature)
+        public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature, ParentForm parent)
         {
             InitializeComponent();
 
@@ -55,6 +59,8 @@ namespace KomaxApp.UI_Design
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
+
+            parentForm = parent;
 
             // Initialize BackgroundWorker
             backgroundWorker = new BackgroundWorker
@@ -80,16 +86,7 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
-                {
-                    pollingTimer.Stop();
-                    erroMessage.Text = "COM Ports are not Configure";
-                    return;
-                }
-
-                isPollSelected = true;
                 btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
-                // Initialize and start the periodic timer
                 if (periodicTimer == null)
                 {
                     periodicTimer = new System.Windows.Forms.Timer();
@@ -101,19 +98,6 @@ namespace KomaxApp.UI_Design
                 {
                     periodicTimer.Start();  // Ensure the timer is started
                 }
-
-                // Start the background operation if not already running
-                if (!backgroundWorker.IsBusy)
-                {
-                    backgroundWorker.RunWorkerAsync();
-                }
-
-                // Start the background operation
-                if (!backgroundWorker.IsBusy)
-                {
-                    backgroundWorker.RunWorkerAsync();
-                }
-
             }
             catch (Exception ex)
             {
@@ -137,59 +121,34 @@ namespace KomaxApp.UI_Design
             #region Data Reading
             try
             {
-                ////////List<string> comPorts = new List<string>  //dynamic
-                ////////    {
-                ////////        "COM6",
-                ////////         "COM5"
-                ////////        , "COM4",
-                ////////         "COM7",
-                ////////    };
-                List<string> comPorts = new List<string>  //dynamic
-                    {
-                        _powerMeter,
-                        _torqueMeter
-                        ,_rpm,
-                        _temperature,
-                    };
 
-                List<string> commands = new List<string>
-                {
-                    Model.PortsAndCommands.COM6_MEAS,                          // Command for _powerMeter (COM6)
-                    Model.PortsAndCommands.COM5_x23x30x30x30x0d,    // Command for _torqueMeter (COM5)
-                    Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA // Command for _rpm (COM4)
-                    ,Model.PortsAndCommands.COM7_Empty// null                               // No command for _temperature (COM7)  //Modbus Data
-                };
+                // Get all open serial ports
+                Dictionary<string, SerialPort> openPorts = parentForm.GetAllOpenSerialPorts();
 
                 DashboardModel.SerialResponseModel serialResponse = new DashboardModel.SerialResponseModel();
                 bool portInitialized = false;
 
-                for (int i = 0; i < comPorts.Count; i++)
+                foreach (var portEntry in openPorts)
                 {
-                    string comPort = comPorts[i];
-                    string command = commands[i]; // Corresponding command for the port
-                                                  // Report progress with the current index and port
-                    backgroundWorker.ReportProgress(i, new { Port = comPort, Command = command });
+                    string comPort = portEntry.Key;
+                    backgroundWorker.ReportProgress(0, new { Port = comPort});
 
                     switch (comPort)
                     {
                         case "COM4":
-                            // Call InitializeSerialPort in the thread and store the result
-                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, command);
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM6_MEAS);
+
+                            serialResponse._serialResponseCOM4 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM6_MEAS);
                             portInitialized = true;
-                            //await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM5":
-                            // Call InitializeSerialPort in the thread and store the result
-                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, command);
+                            serialResponse._serialResponseCOM5 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM5_x23x30x30x30x0d);
                             portInitialized = true;
 
-                            // serialResponse._serialResponseCOM5 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM6":
-                            // Call InitializeSerialPort in the thread and store the result
-                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, command);
+                            serialResponse._serialResponseCOM6 = InitializeSerialPort(comPort, Model.PortsAndCommands.COM4_x05x01x00x00x00x00x06xAA);
                             portInitialized = true;
-                            //serialResponse._serialResponseCOM6 = await InitializeSerialPortAsync(comPort, command);
                             break;
                         case "COM7":
                             double temp1 = LoadModbusData(comPort, 1);
@@ -302,32 +261,12 @@ namespace KomaxApp.UI_Design
         private string InitializeSerialPort(string comPort, string command)
         {
             string serialResponse = null;
-            SerialPort serialPort;
             try
             {
                 // Check if the serial port is already initialized
                 if (!serialPorts.ContainsKey(comPort))
                 {
-                    serialPort = new SerialPort()
-                    {
-                        PortName = comPort,
-                        BaudRate = 9600,
-                        Parity = Parity.None,
-                        DataBits = 8,
-                        StopBits = StopBits.One,
-                        Handshake = Handshake.None,
-                        ReadTimeout = 5000  // Set an optional timeout
-                    };
-
                     serialPorts[comPort] = serialPort;
-                }
-                else
-                {
-                    serialPort = serialPorts[comPort];
-                }
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
                 }
 
                 var PortName = serialPort.PortName;
@@ -402,13 +341,13 @@ namespace KomaxApp.UI_Design
                 if (serialPorts.ContainsKey(comPort))
                 {
                     serialPorts[comPort].Close();
-                    serialPorts.Remove(comPort);
+                    //serialPorts.Remove(comPort);
                 }
             }
-            finally
-            {
-                CloseSerialPort(comPort);
-            }
+            //finally
+            //{
+            //    CloseSerialPort(comPort);
+            //}
             return serialResponse;
         }
         private async Task<string> InitializeSerialPortAsync(string comPort, string command)

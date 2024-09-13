@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Utility;
 
 namespace KomaxApp.UI_Design
 {
@@ -18,6 +20,87 @@ namespace KomaxApp.UI_Design
         Display display;
         ReportForm reportForm;
         ConfigurationForm configurationForm;
+
+        private System.Windows.Forms.Timer pollingTimer;
+        public string _powerMeter;
+        public string _torqueMeter;
+        public string _rpm;
+        public string _temperature;
+        private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
+        private SerialPort serialPort;
+
+        public ParentForm(string powerMeter, string torqueMeter, string rpm, string temperature)
+        {
+            InitializeComponent();
+            _powerMeter = powerMeter;
+            _torqueMeter = torqueMeter;
+            _rpm = rpm;
+            _temperature = temperature;
+        }
+
+
+        private void btnStartReadng_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnStartReadng.BackColor = System.Drawing.Color.FromArgb(38, 166, 66);
+
+                if (_powerMeter == null && _torqueMeter == null && _rpm == null && _temperature == null)
+                {
+                    JIMessageBox.WarningMessage("COM Ports are not Configure");
+                    return;
+                }
+
+              
+
+                List<string> comPorts = new List<string>  //dynamic
+                    {
+                        _powerMeter,
+                        _torqueMeter
+                        ,_rpm,
+                        _temperature,
+                    };
+
+
+
+                #region Logic
+                foreach (string portName in comPorts)
+                {
+                    if (!serialPorts.ContainsKey(portName))
+                    {
+                        SerialPort serialPort = new SerialPort()
+                        {
+                            PortName = portName,
+                            BaudRate = 9600,
+                            Parity = Parity.None,
+                            DataBits = 8,
+                            StopBits = StopBits.One,
+                            Handshake = Handshake.None,
+                            ReadTimeout = 5000
+                        };
+
+                        serialPorts[portName] = serialPort;
+                    }
+
+                    if (!serialPorts[portName].IsOpen)
+                    {
+                        serialPorts[portName].Open();
+                    }
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                JIMessageBox.WarningMessage("Exception: " + ex.Message);
+            }
+        }
+
+
+
+
+
+
         public ParentForm()
         {
             InitializeComponent();
@@ -49,7 +132,7 @@ namespace KomaxApp.UI_Design
                 configurationForm.Activate();
             }
 
-            
+
         }
 
         private void pnBtnDashboard_Click(object sender, EventArgs e)
@@ -68,7 +151,7 @@ namespace KomaxApp.UI_Design
                                           ConfigurationForm.ddTorqueMeter, // Access static field using the class name
                                           ConfigurationForm.ddRPM,         // Access static field using the class name
                                           ConfigurationForm.ddTemperature  // Access static field using the class name
-                                         );
+                                        , this );
                 dashboard.MdiParent = this;
                 dashboard.Dock = DockStyle.Fill;
                 dashboard.Show();
@@ -174,6 +257,33 @@ namespace KomaxApp.UI_Design
             }
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            // Close all serial ports
+            foreach (var serialPort in serialPorts.Values)
+            {
+                if (serialPort.IsOpen)
+                {
+                    serialPort.Close();
+                }
+            }
+        }
+
+        // Method to provide access to open serial ports
+        //public SerialPort GetSerialPort(string portName)
+        //{
+        //    if (serialPorts.ContainsKey(portName) && serialPorts[portName].IsOpen)
+        //    {
+        //        return serialPorts[portName];
+        //    }
+        //    return null;
+        //}
+
+        // Method to return all open serial ports
+        public Dictionary<string, SerialPort> GetAllOpenSerialPorts()
+        {
+            return serialPorts.Where(sp => sp.Value.IsOpen).ToDictionary(sp => sp.Key, sp => sp.Value);
+        }
 
     }
 }

@@ -37,6 +37,8 @@
             this.iconButtonDisplay = new FontAwesome.Sharp.IconButton();
             this.iconButtonReport = new FontAwesome.Sharp.IconButton();
             this.pnBtnLogout = new FontAwesome.Sharp.IconButton();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnStartReadng = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.sidebarPanel.SuspendLayout();
             this.SuspendLayout();
@@ -44,10 +46,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.panel1.Controls.Add(this.btnClose);
+            this.panel1.Controls.Add(this.btnStartReadng);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1304, 40);
             this.panel1.TabIndex = 1;
@@ -75,7 +79,7 @@
             this.sidebarPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidebarPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.sidebarPanel.Location = new System.Drawing.Point(0, 40);
-            this.sidebarPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.sidebarPanel.Margin = new System.Windows.Forms.Padding(2);
             this.sidebarPanel.Name = "sidebarPanel";
             this.sidebarPanel.Size = new System.Drawing.Size(166, 661);
             this.sidebarPanel.TabIndex = 2;
@@ -92,7 +96,7 @@
             this.pnBtnDashboard.IconSize = 32;
             this.pnBtnDashboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.pnBtnDashboard.Location = new System.Drawing.Point(2, 2);
-            this.pnBtnDashboard.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnBtnDashboard.Margin = new System.Windows.Forms.Padding(2);
             this.pnBtnDashboard.Name = "pnBtnDashboard";
             this.pnBtnDashboard.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.pnBtnDashboard.Size = new System.Drawing.Size(179, 48);
@@ -113,7 +117,7 @@
             this.pnBtnMotorTestingCreate.IconSize = 32;
             this.pnBtnMotorTestingCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.pnBtnMotorTestingCreate.Location = new System.Drawing.Point(2, 54);
-            this.pnBtnMotorTestingCreate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnBtnMotorTestingCreate.Margin = new System.Windows.Forms.Padding(2);
             this.pnBtnMotorTestingCreate.Name = "pnBtnMotorTestingCreate";
             this.pnBtnMotorTestingCreate.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.pnBtnMotorTestingCreate.Size = new System.Drawing.Size(179, 48);
@@ -134,7 +138,7 @@
             this.iconButtonDisplay.IconSize = 32;
             this.iconButtonDisplay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconButtonDisplay.Location = new System.Drawing.Point(2, 106);
-            this.iconButtonDisplay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.iconButtonDisplay.Margin = new System.Windows.Forms.Padding(2);
             this.iconButtonDisplay.Name = "iconButtonDisplay";
             this.iconButtonDisplay.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.iconButtonDisplay.Size = new System.Drawing.Size(179, 48);
@@ -155,7 +159,7 @@
             this.iconButtonReport.IconSize = 32;
             this.iconButtonReport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconButtonReport.Location = new System.Drawing.Point(2, 158);
-            this.iconButtonReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.iconButtonReport.Margin = new System.Windows.Forms.Padding(2);
             this.iconButtonReport.Name = "iconButtonReport";
             this.iconButtonReport.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.iconButtonReport.Size = new System.Drawing.Size(179, 48);
@@ -176,7 +180,7 @@
             this.pnBtnLogout.IconSize = 32;
             this.pnBtnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.pnBtnLogout.Location = new System.Drawing.Point(2, 210);
-            this.pnBtnLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnBtnLogout.Margin = new System.Windows.Forms.Padding(2);
             this.pnBtnLogout.Name = "pnBtnLogout";
             this.pnBtnLogout.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.pnBtnLogout.Size = new System.Drawing.Size(179, 48);
@@ -184,6 +188,36 @@
             this.pnBtnLogout.Text = "Configuration";
             this.pnBtnLogout.UseVisualStyleBackColor = false;
             this.pnBtnLogout.Click += new System.EventHandler(this.pnBtnLogout_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnClose.BackColor = System.Drawing.Color.Brown;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(1202, 6);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(90, 28);
+            this.btnClose.TabIndex = 60;
+            this.btnClose.Text = "Stop Reading";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnStartReadng
+            // 
+            this.btnStartReadng.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnStartReadng.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(99)))));
+            this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartReadng.ForeColor = System.Drawing.Color.White;
+            this.btnStartReadng.Location = new System.Drawing.Point(1106, 5);
+            this.btnStartReadng.Name = "btnStartReadng";
+            this.btnStartReadng.Size = new System.Drawing.Size(90, 28);
+            this.btnStartReadng.TabIndex = 59;
+            this.btnStartReadng.Text = "Start Reading";
+            this.btnStartReadng.UseVisualStyleBackColor = false;
+            this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
             // ParentForm
             // 
@@ -215,5 +249,7 @@
         private System.Windows.Forms.Label label1;
         private FontAwesome.Sharp.IconButton iconButtonDisplay;
         private FontAwesome.Sharp.IconButton iconButtonReport;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnStartReadng;
     }
 }
