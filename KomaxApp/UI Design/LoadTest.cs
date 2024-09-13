@@ -13,6 +13,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -46,7 +47,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = ex.Message;
+                errorMesageEx("LoadTest_Load: ", ex);
             }
         }
 
@@ -162,7 +163,8 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "DoWork: "+ex.Message;
+                errorMesageEx("DoWork: ", ex);
+                
             }
             #endregion
 
@@ -177,6 +179,21 @@ namespace KomaxApp.UI_Design
             // Simulate a long-running task
             Thread.Sleep(50);
         }
+
+        private void errorMesageEx(string _msg, Exception ex)
+        {
+            if (erroMessage.InvokeRequired)
+            {
+                erroMessage.Invoke((MethodInvoker)delegate {
+                    erroMessage.Text = _msg + ex.Message;  // Safely update the control
+                });
+            }
+            else
+            {
+                erroMessage.Text = _msg + ex.Message; ;  // Update directly if already on the UI thread
+            }
+        }
+
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             try
@@ -201,7 +218,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "Progress: " + ex.Message;
+                errorMesageEx("Progress: " , ex);
             }
 
         }
@@ -213,11 +230,13 @@ namespace KomaxApp.UI_Design
 
                 if (e.Cancelled)
                 {
-                    MessageBox.Show("Operation was cancelled.");
+                    //MessageBox.Show("Operation was cancelled.");
+                    errorMesageEx("Operation was cancelled.: ", null);
                 }
                 else if (e.Error != null)
                 {
-                    MessageBox.Show("An error occurred: " + e.Error.Message);
+                   // MessageBox.Show("An error occurred: " + e.Error.Message);
+                    errorMesageEx("An error occurred: ", null);
                 }
                 else
                 {
@@ -228,17 +247,17 @@ namespace KomaxApp.UI_Design
                     }
                     else if (e.Result is Exception ex)
                     {
-                        MessageBox.Show("An error occurred during background work: " + ex.Message);
+                        errorMesageEx("An error occurred during background work:: ", ex);
                     }
                     else
                     {
-                        MessageBox.Show("Operation completed with unexpected result.");
+                        errorMesageEx("Operation completed with unexpected result. ", null);
                     }
                 }
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "Completed: " + ex.Message;
+                errorMesageEx("DoWork: ", ex);
             }
         }
 
@@ -271,7 +290,7 @@ namespace KomaxApp.UI_Design
                     }
                     catch (Exception ex)
                     {
-                        erroMessage.Text = "InitializeSerialPort: " + ex.Message + " serial port: "+ comPort;
+                        errorMesageEx("InitializeSerialPort: ", ex);
                         return;  // Exit if the port couldn't be opened
                     }
 
@@ -286,8 +305,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "InitializeSerialPort- : " + ex.Message + " serial port: " + comPort;
-
+                errorMesageEx("InitializeSerialPort-: ", ex);
                 // Close and remove the port from the dictionary if initialization fails
                 if (serialPorts.ContainsKey(comPort))
                 {
@@ -326,11 +344,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    erroMessage.Text = "InitializeSerialPort- : " + ex.Message ;
-                    infoMessages.AppendText("An error occurred while processing data: " + ex.Message + Environment.NewLine);
-                });
+                errorMesageEx("InitializeSerialPort-: ", ex);
             }
             finally
             {
@@ -423,7 +437,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "PollingTimer: " + ex.Message;
+                errorMesageEx("PollingTimer: ", ex);
             }
             #endregion
         }
@@ -468,7 +482,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "InitializePollingTimer: " + ex.Message;
+                errorMesageEx("InitializePollingTimer: ", ex);
             }
         }
      
@@ -502,7 +516,7 @@ namespace KomaxApp.UI_Design
                 string port = parts.Length > 1 ? parts[1] : string.Empty; // Get the second part (COM4)
 
                 Console.WriteLine(port); // Outputs: COM4
-                erroMessage.Text = "InitializeModbusClient: " + ex.Message;
+                errorMesageEx("InitializeModbusClient: ", ex);
 
             }
         }
@@ -525,7 +539,7 @@ namespace KomaxApp.UI_Design
             {
                 modbusClient.Disconnect();
                 isModbusClientConnected = false;
-                erroMessage.Text = "LoadModbusData: " + ex.Message;
+                errorMesageEx("LoadModbusData: ", ex);
             }
 
             finally
@@ -575,7 +589,7 @@ namespace KomaxApp.UI_Design
                 switch (PortName)//command)  //COnversion
                 {
                     case "COM4":
-                        byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        byte[] commandBytes4 = HexStringToByteArray(command);
                         serialPort.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
                         System.Threading.Thread.Sleep(100);
                         serialResponse = serialPort.ReadExisting();
@@ -598,7 +612,7 @@ namespace KomaxApp.UI_Design
 
                     case "COM5":
 
-                        byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        byte[] commandBytes5 = HexStringToByteArray(command);
                         serialPort.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
                         System.Threading.Thread.Sleep(100);
                         serialResponse = serialPort.ReadExisting();
@@ -627,7 +641,8 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = "InitializeSerialPort: " + ex.Message;
+             
+                errorMesageEx("InitializeSerialPort: ", ex);
                 labelInfo.ForeColor = Color.Red;
                 if (serialPorts.ContainsKey(comPort))
                 {
@@ -729,7 +744,7 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                erroMessage.Text = ex.Message;
+                errorMesageEx(" ", ex);
             }
             // Convert the class to JSON
             //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
@@ -850,10 +865,8 @@ namespace KomaxApp.UI_Design
             }
             catch (Exception ex)
             {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    erroMessage.Text = ex.Message;
-                });
+                errorMesageEx(": ", ex);
+                
             }
 
         }
@@ -1012,6 +1025,23 @@ namespace KomaxApp.UI_Design
             {
                 CloseSerialPort(port);
             }
+        }
+
+        public byte[] HexStringToByteArray(string hex)
+        {
+            // Remove spaces and convert to upper case
+            hex = hex.Replace(" ", "").Replace("x", "").ToUpper();
+            if (hex.Length % 2 != 0)
+            {
+                errorMesageEx("Invalid length of hex string.", null);
+            }
+
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
         }
 
     }
