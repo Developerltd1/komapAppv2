@@ -80,7 +80,7 @@ namespace KomaxApp.UI_Design
                             DataBits = 8,
                             StopBits = StopBits.One,
                             Handshake = Handshake.None,
-                            ReadTimeout = -1
+                            ReadTimeout = -1,
                         };
 
                         serialPorts[portName] = serialPort;

@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParentForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnStartReadng = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.sidebarPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.pnBtnDashboard = new FontAwesome.Sharp.IconButton();
@@ -37,8 +39,6 @@
             this.iconButtonDisplay = new FontAwesome.Sharp.IconButton();
             this.iconButtonReport = new FontAwesome.Sharp.IconButton();
             this.pnBtnLogout = new FontAwesome.Sharp.IconButton();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnStartReadng = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.sidebarPanel.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +55,36 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1304, 40);
             this.panel1.TabIndex = 1;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnClose.BackColor = System.Drawing.Color.Brown;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(1202, 6);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(90, 28);
+            this.btnClose.TabIndex = 60;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnStartReadng
+            // 
+            this.btnStartReadng.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnStartReadng.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(99)))));
+            this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartReadng.ForeColor = System.Drawing.Color.White;
+            this.btnStartReadng.Location = new System.Drawing.Point(1106, 5);
+            this.btnStartReadng.Name = "btnStartReadng";
+            this.btnStartReadng.Size = new System.Drawing.Size(90, 28);
+            this.btnStartReadng.TabIndex = 59;
+            this.btnStartReadng.Text = "Open";
+            this.btnStartReadng.UseVisualStyleBackColor = false;
+            this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
             // label1
             // 
@@ -188,36 +218,6 @@
             this.pnBtnLogout.Text = "Configuration";
             this.pnBtnLogout.UseVisualStyleBackColor = false;
             this.pnBtnLogout.Click += new System.EventHandler(this.pnBtnLogout_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnClose.BackColor = System.Drawing.Color.Brown;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(1202, 6);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(90, 28);
-            this.btnClose.TabIndex = 60;
-            this.btnClose.Text = "Stop Reading";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnStartReadng
-            // 
-            this.btnStartReadng.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnStartReadng.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(99)))));
-            this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartReadng.ForeColor = System.Drawing.Color.White;
-            this.btnStartReadng.Location = new System.Drawing.Point(1106, 5);
-            this.btnStartReadng.Name = "btnStartReadng";
-            this.btnStartReadng.Size = new System.Drawing.Size(90, 28);
-            this.btnStartReadng.TabIndex = 59;
-            this.btnStartReadng.Text = "Start Reading";
-            this.btnStartReadng.UseVisualStyleBackColor = false;
-            this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
             // ParentForm
             // 

@@ -188,6 +188,7 @@ namespace KomaxApp.UI_Design
                 else
                     erroMessage.Text = _msg + ex.Message;
             }
+
         }
 
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
