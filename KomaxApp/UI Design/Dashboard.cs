@@ -161,10 +161,10 @@ namespace KomaxApp.UI_Design
                             portInitialized = true;
                             break;
                         case "COM7":
-                            //////////double temp1 = LoadModbusData(comPort, 1);
-                            //////////serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
-                            //////////double temp2 = LoadModbusData(comPort, 2);
-                            //////////serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
+                            double temp1 = LoadModbusData(comPort, 1);
+                            serialResponse._serialResponseCOM7Temp1 = temp1.ToString();
+                            double temp2 = LoadModbusData(comPort, 2);
+                            serialResponse._serialResponseCOM7Temp2 = temp2.ToString();
                             portInitialized = true;
                             break;
                         default:

@@ -41,6 +41,10 @@ namespace KomaxApp.UI_Design
 
         private void btnStartReadng_Click(object sender, EventArgs e)
         {
+            // Add a black border to btnStartReading
+            btnStartReadng.FlatAppearance.BorderColor = Color.Black;
+            btnStartReadng.FlatAppearance.BorderSize = 1; // You can adjust the border width as
+            btnClose.FlatAppearance.BorderSize = 0;
             try
             {
                 _powerMeter = ConfigurationForm.ddPowerMeter;
@@ -86,7 +90,10 @@ namespace KomaxApp.UI_Design
                         serialPorts[portName] = serialPort;
                         ComPortNames += portName +",";
                     }
-
+                    else
+                    {
+                        ComPortNames = "Already Ports";
+                    }
                     if (!serialPorts[portName].IsOpen)
                     {
                         serialPorts[portName].Open();
@@ -265,6 +272,14 @@ namespace KomaxApp.UI_Design
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            // Remove the border from btnStartReading
+            //btnStartReadng.FlatAppearance.BorderColor = Color.Transparent;
+            btnStartReadng.FlatAppearance.BorderSize = 0;
+
+            // Add a border to btnClose (if desired)
+            btnClose.FlatAppearance.BorderColor = Color.Black;
+            btnClose.FlatAppearance.BorderSize = 1;
+
             // Close all serial ports
             foreach (var serialPort in serialPorts.Values)
             {
