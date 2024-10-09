@@ -63,11 +63,11 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(1202, 6);
+            this.btnClose.Location = new System.Drawing.Point(1186, 6);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(90, 28);
+            this.btnClose.Size = new System.Drawing.Size(101, 28);
             this.btnClose.TabIndex = 60;
-            this.btnClose.Text = "Close";
+            this.btnClose.Text = "Port Close";
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -78,11 +78,11 @@
             this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStartReadng.ForeColor = System.Drawing.Color.White;
-            this.btnStartReadng.Location = new System.Drawing.Point(1106, 5);
+            this.btnStartReadng.Location = new System.Drawing.Point(1081, 6);
             this.btnStartReadng.Name = "btnStartReadng";
-            this.btnStartReadng.Size = new System.Drawing.Size(90, 28);
+            this.btnStartReadng.Size = new System.Drawing.Size(101, 28);
             this.btnStartReadng.TabIndex = 59;
-            this.btnStartReadng.Text = "Open";
+            this.btnStartReadng.Text = "Port Open";
             this.btnStartReadng.UseVisualStyleBackColor = false;
             this.btnStartReadng.Click += new System.EventHandler(this.btnStartReadng_Click);
             // 
