@@ -90,10 +90,10 @@ namespace KomaxApp.UI_Design
                         serialPorts[portName] = serialPort;
                         ComPortNames += portName +",";
                     }
-                    else
-                    {
-                        ComPortNames = "Already Ports";
-                    }
+                    //else
+                    //{
+                    //    ComPortNames = "Already Ports";
+                    //}
                     if (!serialPorts[portName].IsOpen)
                     {
                         serialPorts[portName].Open();
