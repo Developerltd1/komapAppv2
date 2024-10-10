@@ -103,7 +103,7 @@ namespace KomaxApp.UI_Design
             {
                 DataGridViewRow selectedRow = GridViewDisplay.CurrentRow;
                 string reportNo = selectedRow.Cells["ReportNo"].Value.ToString();
-                Create _form = new Create(reportNo);
+                Create _form = new Create(reportNo, parentForm);
                 _form.MdiParent = this.MdiParent;
                 _form.Dock = DockStyle.Fill;
                 _form.Show();

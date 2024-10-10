@@ -364,6 +364,7 @@ namespace KomaxApp.UI_Design
             }
         }
 
+
         #endregion
 
 
@@ -466,12 +467,7 @@ namespace KomaxApp.UI_Design
                 {
                     backgroundWorker.RunWorkerAsync();
                 }
-
-                // Start the background operation
-                if (!backgroundWorker.IsBusy)
-                {
-                    backgroundWorker.RunWorkerAsync();
-                }
+               
 
             }
             catch (Exception ex)
@@ -523,7 +519,7 @@ namespace KomaxApp.UI_Design
 
                 InitializeModbusClient(PortName, slaveId);
 
-                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, 1);    //uncomment
+                int[] registerValuefrmSensor = modbusClient.ReadInputRegisters(1000, slaveId);    //uncomment
                 temp = registerValuefrmSensor[0];
                 //infoMessages.Text = ("Reading Successful");
 
@@ -552,58 +548,92 @@ namespace KomaxApp.UI_Design
             string serialResponse = null;
             try
             {
+
+                // Open all COM ports before the foreach loop
                 foreach (var portEntry in openPorts)
                 {
-                    var PortName = portEntry.Key;
-                    switch (PortName)//command)  //COnversion
+                    // Check if the port is not already open
+                    if (!portEntry.Value.IsOpen)
                     {
-                        case "COM4":
-                            byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                            portEntry.Value.Write(commandBytes4, 0, commandBytes4.Length); // dynamic
-                            System.Threading.Thread.Sleep(100);
-                            serialResponse = portEntry.Value.ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
-                            if (!string.IsNullOrEmpty(serialResponse))
-                                return serialResponse;
-                            else
-                                serialResponse = null;
-                            break;
+                        portEntry.Value.Open(); // Open the port
+                    }
+                }
 
-                        case "COM6":
-                            byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                            portEntry.Value.Write(commandBytes6, 0, commandBytes6.Length); // dynamic
-                            System.Threading.Thread.Sleep(400);
-                            serialResponse = portEntry.Value.ReadExisting();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
-                            if (!string.IsNullOrEmpty(serialResponse))
-                                return serialResponse;
-                            else
-                                serialResponse = null;
-                            break;
+                if (openPorts.ContainsKey(comPort))
+                {
+                    var PortName = comPort; //portEntry.Key;
 
-                        case "COM5":
+                    if (PortName == "COM4")
+                    {
+                        byte[] commandBytes4 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        openPorts[comPort].Write(commandBytes4, 0, commandBytes4.Length); // dynamic
 
-                            byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
-                            portEntry.Value.Write(commandBytes5, 0, commandBytes5.Length); // dynamic
-                            System.Threading.Thread.Sleep(100);
-                            serialResponse = portEntry.Value.ReadExisting(); // "\">+06.361\\r\"";
-                            if (!string.IsNullOrEmpty(serialResponse))
-                                return serialResponse;
-                            else
-                                serialResponse = null;
-                            break;
+                        Thread.Sleep(300);
+                        serialResponse = openPorts[comPort].ReadExisting();  //"\u0005\u0001-2059.50.0000~f2?";//
+                        //openPorts[comPort].DiscardInBuffer();
+                        //openPorts[comPort].DiscardOutBuffer();
+                        //openPorts[comPort].Dispose();
+                        //openPorts[comPort].Close();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                    }
+                    else if (PortName == "COM6")
+                    {
+                        //portEntry.Value.WriteTimeout = 2048;
+                        byte[] commandBytes6 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        openPorts[comPort].Write(commandBytes6, 0, commandBytes6.Length); // dynamic
+                        //openPorts[comPort].Handshake = Handshake.RequestToSend;
+                        Thread.Sleep(600);
+                        //openPorts[comPort].DiscardInBuffer();
+                        if (openPorts[comPort].BytesToRead > 0)
+                        {
+                            serialResponse = openPorts[comPort].ReadLine();//"2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n2024/09/12,20:06:17,00000:00:00,0000000000,+417.21E+00,+419.21E+00,+419.16E+00,+418.53E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+50.241E+00,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000.00E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000000E+99,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000.000E+03,-000.000E+03,+000000E+99,+000000E+99,+000000E+99,+000000E+99,----/--/--,--:--:--,+417.11E+00,+000.32E+00,+002.18E+00,+003.75E+00,+000.21E+00,+001.54E+00,+000.66E+00,+001.13E+00,+000.00E+00,+000.00E+00,+000.00E+00,+000.01E+00,+000.00E+00,+000.00E+00,+000.00E+00,+098.42E+00,+000.00E+03,+000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,-000.00E+03,+000.00E+03\r\n";
+                        }
+                        //openPorts[comPort].DiscardInBuffer();
+                        //openPorts[comPort].DiscardOutBuffer();
+                        //openPorts[comPort].Dispose();
+                        //openPorts[comPort].Close();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                    }
+                    else if (PortName == "COM5")
+                    {
 
-                        //case "COM7":
-                        //    //byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
-                        //    //serialPort.Write(commandBytes7, 0, commandBytes7.Length); // dynamic
-                        //    //System.Threading.Thread.Sleep(100);
-                        //    //serialResponse = serialPort.ReadExisting();
-                        //    //if (!string.IsNullOrEmpty(serialResponse))
-                        //    //    return serialResponse;
-                        //    //else
-                        //    //    serialResponse = null;
-                        //    break;
 
-                        default:
-                            return string.Empty; // Return empty string if no data is received
+
+                        byte[] commandBytes5 = new GenericCode.SerialPortManager().HexStringToByteArray(command);
+                        openPorts[comPort].Write(commandBytes5, 0, commandBytes5.Length); // dynamic
+                        Thread.Sleep(200);
+                        serialResponse = openPorts[comPort].ReadExisting(); // "\">+06.361\\r\"";
+                        //openPorts[comPort].DiscardInBuffer();
+                        //openPorts[comPort].DiscardOutBuffer();
+                        //openPorts[comPort].Dispose();
+
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                    }
+                    else if (PortName == "COM5")
+                    {
+                        byte[] commandBytes7 = Encoding.ASCII.GetBytes(command + "\r\n");  // Add CRLF
+                        openPorts[comPort].Write(commandBytes7, 0, commandBytes7.Length); // dynamic
+                        System.Threading.Thread.Sleep(100);
+                        serialResponse = openPorts[comPort].ReadExisting();
+                        if (!string.IsNullOrEmpty(serialResponse))
+                            return serialResponse;
+                        else
+                            serialResponse = null;
+                        //openPorts[comPort].DiscardInBuffer();
+                        //openPorts[comPort].DiscardOutBuffer();
+                        //openPorts[comPort].Dispose();
+
+                        //default:
+                        //    return string.Empty; // Return empty string if no data is received
                     }
 
                 }
@@ -637,6 +667,7 @@ namespace KomaxApp.UI_Design
             //}
             return serialResponse;
         }
+
 
         private void ParseResponse(DashboardModel.SerialResponseModel data)
         {
@@ -694,8 +725,36 @@ namespace KomaxApp.UI_Design
             try
             {
                 // Update the labels on the UI thread
+                #region Default
+                //this.Invoke((MethodInvoker)delegate
+                //      {
+                //          labelV1.Text = returnModel.labelV1;
+                //          labelV2.Text = returnModel.labelV2;
+                //          labelV3.Text = returnModel.labelV3;
+                //          labelV0.Text = returnModel.labelV0;
+                //          labelA1.Text = returnModel.labelA1;
+                //          labelA2.Text = returnModel.labelA2;
+                //          labelA3.Text = returnModel.labelA3;
+                //          labelA0.Text = returnModel.labelA0;
+                //          labelPf1.Text = returnModel.labelPf1;
+                //          labelPf2.Text = returnModel.labelPf2;
+                //          labelPf3.Text = returnModel.labelPf3;
+                //          labelPf0.Text = returnModel.labelPf0;
+                //          labelHertz.Text = returnModel.labelHertz;
+                //          labelPower1.Text = returnModel.labelPower1;
+                //          labelPower2.Text = returnModel.labelPower2;
+                //          labelPower3.Text = returnModel.labelPower3;
+                //          labelPower0.Text = returnModel.labelPower0;
+                //          tbTorqueNm.Text = returnModel._tbTorqueNm;
+                //          tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                //          tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                //          tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                //      }); 
+                #endregion
+                #region Default
                 this.Invoke((MethodInvoker)delegate
                 {
+
                     labelV1.Text = returnModel.labelV1;
                     labelV2.Text = returnModel.labelV2;
                     labelV3.Text = returnModel.labelV3;
@@ -713,24 +772,24 @@ namespace KomaxApp.UI_Design
                     labelPower2.Text = returnModel.labelPower2;
                     labelPower3.Text = returnModel.labelPower3;
                     labelPower0.Text = returnModel.labelPower0;
-                    textBoxTorqueNm.Text = returnModel._tbTorqueNm;
-                    textBoxSpeedRPM.Text = returnModel._tbSpeedRPM;
-                    textBoxAmbientTempC.Text = returnModel._tbserialResponseCOM7Temp1;
-                    textBoxmotorTempC.Text = returnModel.__tbserialResponseCOM7Temp2;
-
-                    textBoxShaftPawerKw.Text = (textBoxTorqueNm.Text.ToDoble() * 0.00010472).ToString();
-                    textBoxLoadingFactor.Text = (textBoxShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
+                    tbTorqueNm.Text = returnModel._tbTorqueNm;
+                    tbSpeedRPM.Text = returnModel._tbSpeedRPM;
+                    tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
+                    tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
+                    tbShaftPawerKw.Text = (tbTorqueNm.Text.ToDoble() * 0.00010472).ToString();
+                    tbLoadingFactorPercentage.Text = (tbShaftPawerKw.Text.ToDoble() * 100 / (textBoxMotorSizeHP.Text.ToDoble() * 0.746)).ToString();
                     textBoxEstimitedEfficency.Text = "0";//(textBoxShaftPawerKw.Text.ToDoble() * 100 / labelPower0.Text.ToDoble()+).ToString();
                 });
+                #endregion
             }
             catch (Exception ex)
             {
-                errorMesageEx(" ", ex);
             }
             // Convert the class to JSON
             //string jsonResult = JsonConvert.SerializeObject(fromModel, Newtonsoft.Json.Formatting.Indented);
             //var deserializedResponse = JsonConvert.DeserializeObject<DashboardModel.Manupulation>(jsonResult);
         }
+
 
         #endregion
 
@@ -892,10 +951,10 @@ namespace KomaxApp.UI_Design
 
             #region Actual Value From Sensor
             testModel.ReportNo = Convert.ToInt32(ReportNo);
-            testModel.TorqueNm = textBoxTorqueNm.Text.ToDouble();
-            testModel.SpeedRPM = textBoxSpeedRPM.Text.ToDouble();
-            testModel.ShaftPowerkW = textBoxShaftPawerKw.Text.ToDouble();
-            testModel.LoadingFactor = textBoxLoadingFactor.Text.ToDouble();
+            testModel.TorqueNm = tbTorqueNm.Text.ToDouble();
+            testModel.SpeedRPM = tbSpeedRPM.Text.ToDouble();
+            testModel.ShaftPowerkW = tbShaftPawerKw.Text.ToDouble();
+            testModel.LoadingFactor = tbLoadingFactorPercentage.Text.ToDouble();
             testModel.MotorSize = textBoxMotorSizeHP.Text.ToDouble();
 
             testModel.VoltageV_Value1 = labelV0.Text.ToDouble();
@@ -916,12 +975,12 @@ namespace KomaxApp.UI_Design
             testModel.ActivePower_Value4 = labelPower3.Text.ToDouble();
             testModel.FrequencyHZ = labelHertz.Text.ToDouble();
 
-            testModel.AmbientTemperature = textBoxAmbientTempC.Text.ToDouble();
-            testModel.MotorTemperature = textBoxmotorTempC.Text.ToDouble();
+            testModel.AmbientTemperature = tbTemp1.Text.ToDouble();
+            testModel.MotorTemperature = tbTemp2.Text.ToDouble();
             testModel.EstimitedEfficiency = textBoxEstimitedEfficency.Text.ToDouble();
 
-            testModel.Pt100_Temp1 = textBoxAmbientTempC.Text.ToDouble();
-            testModel.Pt100_Temp2 = textBoxmotorTempC.Text.ToDouble();
+            testModel.Pt100_Temp1 = tbTemp1.Text.ToDouble();
+            testModel.Pt100_Temp2 = tbTemp2.Text.ToDouble();
             #endregion
             #region Value From DummyData
             //testModel.ReportNo = Convert.ToInt32(ReportNo);//DummyData.btnRecordNoLoadPoint_Click.GetReportNo();

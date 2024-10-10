@@ -188,7 +188,7 @@ namespace KomaxApp.UI_Design
             }
             if (create == null)
             {
-                create = new Create(null);
+                create = new Create(null, this);
                 create.MdiParent = this;
                 create.Dock = DockStyle.Fill;
                 create.Show();
@@ -197,6 +197,7 @@ namespace KomaxApp.UI_Design
             {
                 create.Activate();
             }
+
         }
 
         private void iconButtonDisplay_Click(object sender, EventArgs e)

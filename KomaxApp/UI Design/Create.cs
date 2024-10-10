@@ -26,11 +26,34 @@ namespace KomaxApp.UI_Design
     public partial class Create : BaseForm
     {
         string reportNo;
-        public Create(string reportNo)
+        ParentForm parent;
+        public Create(string reportNo, ParentForm parent)
         {
             InitializeComponent();
             this.reportNo = reportNo;
+            this.parent = parent;
         }
+
+        //private ParentForm parentForm;
+        //public string _powerMeter;
+        //public string _torqueMeter;
+        //public string _rpm;
+        //public string _temperature;
+
+        //public Create(string powerMeter, string torqueMeter, string rpm, string temperature, ParentForm parent)
+        //{
+        //    InitializeComponent();
+        //    _powerMeter = powerMeter;
+        //    _torqueMeter = torqueMeter;
+        //    _rpm = rpm;
+        //    _temperature = temperature;
+
+        //    parentForm = parent;
+        //}
+
+
+
+
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
@@ -41,8 +64,8 @@ namespace KomaxApp.UI_Design
         {
             try
             {
-                
-                // KomaxApp.Model.Create.CreateModel.Rqeuest rqeuest = new Model.Create.CreateModel.Rqeuest();
+
+                #region coment
                 VmCreateMotor vmCreate = new VmCreateMotor();
                 vmCreate.createModel.ReportNo = tbReportNo.Text.ToInt32();
                 if (buttonSave.Text != "Edit")
@@ -273,14 +296,21 @@ namespace KomaxApp.UI_Design
 
                 #endregion
                 CreateModel.Response response = new InsertBL().InsertRecordsBL(vmCreate, buttonSave.Text);
-              
+
+                #endregion
 
                 if (response.StatusCode == 1)
                 {
                     if (buttonSave.Text == "Edit")
                     {
                         JIMessageBox.InformationMessage("Record Updates Successfully!");
-                        Display display = new Display(null,null,null,null,null);
+                        Display display = display = new Display(
+                                                                ConfigurationForm.ddPowerMeter,
+                                                                ConfigurationForm.ddTorqueMeter,
+                                                                ConfigurationForm.ddRPM,
+                                                                ConfigurationForm.ddTemperature
+                                                                , parent);
+
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();
@@ -288,15 +318,20 @@ namespace KomaxApp.UI_Design
                     else
                     {
                         JIMessageBox.InformationMessage("Record Saved Successfully!");
-                        Display display = new Display(null, null, null, null,null);
+                        Display display = display = new Display(
+                                                                ConfigurationForm.ddPowerMeter,
+                                                                ConfigurationForm.ddTorqueMeter,
+                                                                ConfigurationForm.ddRPM,
+                                                                ConfigurationForm.ddTemperature
+                                                                , parent);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();
-                    }
+            }
                 }
 
 
-            }
+    }
             catch (Exception ex)
             {
                 JIMessageBox.ErrorMessage("Record Not Saved,  Error: " + ex.Message);
