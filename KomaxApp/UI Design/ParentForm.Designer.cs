@@ -223,6 +223,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(117)))), ((int)(((byte)(207)))));
             this.ClientSize = new System.Drawing.Size(1304, 701);
             this.Controls.Add(this.sidebarPanel);
             this.Controls.Add(this.panel1);

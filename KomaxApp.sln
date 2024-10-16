@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35013.160
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34931.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KomaxApp", "KomaxApp\KomaxApp.csproj", "{C85A45B5-5E46-4218-9BC7-31F3D9A788E7}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "komaxApp.DatabaseLayer", "komaxApp.DatabaseLayer\komaxApp.DatabaseLayer.csproj", "{7F7BE98B-D11C-4A4A-A7F8-E9B9832CC7F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{392A91C0-DE54-4178-89E7-9B230ECB1318}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "KomaxSetup", "KomaxSetup\KomaxSetup.vdproj", "{4D2070C9-483A-432E-A318-D5A377B7AA41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,8 @@ Global
 		{392A91C0-DE54-4178-89E7-9B230ECB1318}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{392A91C0-DE54-4178-89E7-9B230ECB1318}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{392A91C0-DE54-4178-89E7-9B230ECB1318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D2070C9-483A-432E-A318-D5A377B7AA41}.Debug|Any CPU.ActiveCfg = Debug
+		{4D2070C9-483A-432E-A318-D5A377B7AA41}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

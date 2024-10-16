@@ -202,7 +202,7 @@
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(245)))));
             this.panel3.Controls.Add(this.cbPowerMeter);
             this.panel3.Controls.Add(this.cbTorqueMeter);
             this.panel3.Controls.Add(this.cbRPM);
@@ -222,6 +222,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(120)))), ((int)(((byte)(209)))));
             this.ClientSize = new System.Drawing.Size(1122, 621);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.labelInfo);
