@@ -96,14 +96,14 @@
             this.label41 = new System.Windows.Forms.Label();
             this.btnStartReadng = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.labelTorqueNmConfigured = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.btnStopReading = new System.Windows.Forms.Button();
             this.buttonScreenshot = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.infoMessages = new System.Windows.Forms.TextBox();
             this.erroMessage = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.labelTorqueNmConfigured = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -988,6 +988,31 @@
             this.panel12.Size = new System.Drawing.Size(1111, 194);
             this.panel12.TabIndex = 51;
             // 
+            // labelTorqueNmConfigured
+            // 
+            this.labelTorqueNmConfigured.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelTorqueNmConfigured.AutoSize = true;
+            this.labelTorqueNmConfigured.BackColor = System.Drawing.Color.Transparent;
+            this.labelTorqueNmConfigured.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTorqueNmConfigured.ForeColor = System.Drawing.Color.Black;
+            this.labelTorqueNmConfigured.Location = new System.Drawing.Point(232, 167);
+            this.labelTorqueNmConfigured.Name = "labelTorqueNmConfigured";
+            this.labelTorqueNmConfigured.Size = new System.Drawing.Size(0, 17);
+            this.labelTorqueNmConfigured.TabIndex = 60;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Black;
+            this.label11.Location = new System.Drawing.Point(71, 167);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(158, 17);
+            this.label11.TabIndex = 59;
+            this.label11.Text = " Torque Calibration Value:";
+            // 
             // btnStopReading
             // 
             this.btnStopReading.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1056,31 +1081,6 @@
             this.erroMessage.Name = "erroMessage";
             this.erroMessage.Size = new System.Drawing.Size(631, 20);
             this.erroMessage.TabIndex = 70;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(55, 167);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(177, 17);
-            this.label11.TabIndex = 59;
-            this.label11.Text = "TorqueNm Configured Value:";
-            // 
-            // labelTorqueNmConfigured
-            // 
-            this.labelTorqueNmConfigured.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelTorqueNmConfigured.AutoSize = true;
-            this.labelTorqueNmConfigured.BackColor = System.Drawing.Color.Transparent;
-            this.labelTorqueNmConfigured.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTorqueNmConfigured.ForeColor = System.Drawing.Color.Black;
-            this.labelTorqueNmConfigured.Location = new System.Drawing.Point(232, 167);
-            this.labelTorqueNmConfigured.Name = "labelTorqueNmConfigured";
-            this.labelTorqueNmConfigured.Size = new System.Drawing.Size(0, 17);
-            this.labelTorqueNmConfigured.TabIndex = 60;
             // 
             // Dashboard
             // 

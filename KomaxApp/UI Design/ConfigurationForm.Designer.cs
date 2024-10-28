@@ -240,11 +240,11 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label5.Location = new System.Drawing.Point(164, 108);
+            this.label5.Location = new System.Drawing.Point(141, 111);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(160, 21);
+            this.label5.Size = new System.Drawing.Size(183, 21);
             this.label5.TabIndex = 66;
-            this.label5.Text = "Torque Nm Configure";
+            this.label5.Text = " Torque Calibration Value";
             // 
             // ConfigurationForm
             // 
