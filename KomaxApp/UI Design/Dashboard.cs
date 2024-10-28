@@ -47,10 +47,11 @@ namespace KomaxApp.UI_Design
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
+        public string _TorqueNmConfiguration;
         // Dictionary to store SerialPort objects for each COM port
         private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
-
-        public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature, ParentForm parent)
+        //labelTorqueNmConfigured
+        public Dashboard(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature, string TorqueNmConfiguration, ParentForm parent)
         {
             InitializeComponent();
 
@@ -59,6 +60,9 @@ namespace KomaxApp.UI_Design
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
+            _TorqueNmConfiguration = TorqueNmConfiguration;
+
+            labelTorqueNmConfigured.Text = _TorqueNmConfiguration;
 
             parentForm = parent;
 

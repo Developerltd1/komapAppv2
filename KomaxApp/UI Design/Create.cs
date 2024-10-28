@@ -308,7 +308,8 @@ namespace KomaxApp.UI_Design
                                                                 ConfigurationForm.ddPowerMeter,
                                                                 ConfigurationForm.ddTorqueMeter,
                                                                 ConfigurationForm.ddRPM,
-                                                                ConfigurationForm.ddTemperature
+                                                                ConfigurationForm.ddTemperature,
+                                                                ConfigurationForm.ddTorqueNmConfiguration
                                                                 , parent);
 
                         display.MdiParent = this.MdiParent;
@@ -322,7 +323,8 @@ namespace KomaxApp.UI_Design
                                                                 ConfigurationForm.ddPowerMeter,
                                                                 ConfigurationForm.ddTorqueMeter,
                                                                 ConfigurationForm.ddRPM,
-                                                                ConfigurationForm.ddTemperature
+                                                                ConfigurationForm.ddTemperature,
+                                                                ConfigurationForm.ddTorqueNmConfiguration
                                                                 , parent);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;

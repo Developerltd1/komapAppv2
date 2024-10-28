@@ -22,15 +22,16 @@ namespace KomaxApp.UI_Design
             btnComportRefresh_Click(null, null);
         }
 
-        public static  string ddPowerMeter;
+        public static string ddPowerMeter;
         public static string ddTorqueMeter;
         public static string ddRPM;
         public static string ddTemperature;
+        public static string ddTorqueNmConfiguration;
         private void ConfigurationForm_Load(object sender, EventArgs e)
         {
             infoMessages.Clear();
-            (string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort) = new GetListDL().GetLastComboPortsOrFetchFromSerialPort();
-            if(!string.IsNullOrEmpty(PowerMeterPort))
+            (string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort, string _tbTorqueNmConfiguration) = new GetListDL().GetLastComboPortsOrFetchFromSerialPort();
+            if (!string.IsNullOrEmpty(PowerMeterPort))
             {
                 cbPowerMeter.Text = PowerMeterPort;
                 infoMessages.Text = "PowerMeterPort, ";
@@ -62,6 +63,11 @@ namespace KomaxApp.UI_Design
                 cbTemperature.Text = TemperaturePort;
                 infoMessages.Text += "TemperaturePort.";
             }
+            if (!string.IsNullOrEmpty(_tbTorqueNmConfiguration))
+            {
+                tbTorqueNmConfiguration.Text = _tbTorqueNmConfiguration;
+            }
+
             else
             {
                 genericRepo.RefreshPortList(cbTemperature, labelInfo);
@@ -70,6 +76,7 @@ namespace KomaxApp.UI_Design
             ddTorqueMeter = cbTorqueMeter.Text;
             ddRPM = cbRPM.Text;
             ddTemperature = cbTemperature.Text;
+            ddTorqueNmConfiguration = tbTorqueNmConfiguration.Text;
         }
 
         private void btnComportRefresh_Click(object sender, EventArgs e)
@@ -82,15 +89,36 @@ namespace KomaxApp.UI_Design
 
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
+            string _tbTorqueNmConfiguration = tbTorqueNmConfiguration.Text;
+            if(_tbTorqueNmConfiguration == null)
+            {
+                MessageBox.Show("TorqueNm is Null, Please assgin Value");
+                return;
+            }
+            // Check if the value is numeric
+            if (!int.TryParse(_tbTorqueNmConfiguration, out _))
+            {
+                MessageBox.Show("Please enter a valid numeric value for TorqueNm");
+                return;
+            }
+
             string _cbPowerMeter = cbPowerMeter.Text;
             string _cbTorqueMeter = cbTorqueMeter.Text;
             string _cbRPM = cbRPM.Text;
             string _cbTemperature = cbTemperature.Text;
-            new InsertBL().InsertComboPortsBL(_cbPowerMeter, _cbTorqueMeter, _cbRPM, _cbTemperature);
+            new InsertBL().InsertComboPortsBL(_cbPowerMeter, _cbTorqueMeter, _cbRPM, _cbTemperature, _tbTorqueNmConfiguration);
             ddPowerMeter = _cbPowerMeter;
             ddTorqueMeter = _cbTorqueMeter;
             ddRPM = _cbRPM;
             ddTemperature = _cbTemperature;
+            ddTorqueNmConfiguration = _tbTorqueNmConfiguration;
+
+            MessageBox.Show("Record Save Successfully !");
+        }
+
+        private void tbTorqueNmConfiguration_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -13,9 +13,9 @@ namespace komaxApp.BusinessLayer
 {
     public class InsertBL
     {
-        public void InsertComboPortsBL(string _cbPowerMeter, string _cbTorqueMeter, string _cbRPM, string _cbTemperature)
+        public void InsertComboPortsBL(string _cbPowerMeter, string _cbTorqueMeter, string _cbRPM, string _cbTemperature, string _tbTorqueNmConfiguration)
         {
-            new InsertDL().InsertComboPortsDL(_cbPowerMeter, _cbTorqueMeter, _cbRPM, _cbTemperature);
+            new InsertDL().InsertComboPortsDL(_cbPowerMeter, _cbTorqueMeter, _cbRPM, _cbTemperature, _tbTorqueNmConfiguration);
         }
             public CreateModel.Response InsertRecordsBL(VmCreateMotor v, string IsEdit)
         {

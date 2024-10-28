@@ -1582,17 +1582,17 @@ namespace komaxApp.DatabaseLayer
             return data;
 
         }
-        public (string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort) GetLastComboPortsOrFetchFromSerialPort()
+        public (string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort, string tbTorqueNmConfiguration) GetLastComboPortsOrFetchFromSerialPort()
         {
             try
             {
                 // SQL query to get the last record from tblComboBox
-                var sql = @"SELECT TOP 1 PowerMeterPort, TorqueMeterPort, RPMPort, TemperaturePort
+                var sql = @"SELECT TOP 1 PowerMeterPort, TorqueMeterPort, RPMPort, TemperaturePort,TorqueNmConfiguration
                         FROM [dbo].[tblComboBox]
                         ORDER BY ID DESC;";  // Replace 'ID' with the appropriate column if needed
 
                 // Attempt to retrieve the last record using the SQL query with CommandType.Text
-                var lastRecord = db.QueryFirstOrDefault<(string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort)>(
+                var lastRecord = db.QueryFirstOrDefault<(string PowerMeterPort, string TorqueMeterPort, string RPMPort, string TemperaturePort, string tbTorqueNmConfiguration)>(
                 sql, commandType: CommandType.Text);
 
                 return lastRecord;
@@ -1605,7 +1605,7 @@ namespace komaxApp.DatabaseLayer
             }
 
             // If no record was found or an exception occurred, return default empty strings
-            return (string.Empty, string.Empty, string.Empty, string.Empty);
+            return (string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
         }
 
 

@@ -42,6 +42,8 @@
             this.infoMessages = new System.Windows.Forms.TextBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.tbTorqueNmConfiguration = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +52,7 @@
             this.cbPowerMeter.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbPowerMeter.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.cbPowerMeter.FormattingEnabled = true;
-            this.cbPowerMeter.Location = new System.Drawing.Point(456, 103);
+            this.cbPowerMeter.Location = new System.Drawing.Point(330, 151);
             this.cbPowerMeter.Name = "cbPowerMeter";
             this.cbPowerMeter.Size = new System.Drawing.Size(210, 38);
             this.cbPowerMeter.TabIndex = 55;
@@ -60,7 +62,7 @@
             this.cbTorqueMeter.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbTorqueMeter.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.cbTorqueMeter.FormattingEnabled = true;
-            this.cbTorqueMeter.Location = new System.Drawing.Point(456, 158);
+            this.cbTorqueMeter.Location = new System.Drawing.Point(330, 206);
             this.cbTorqueMeter.Name = "cbTorqueMeter";
             this.cbTorqueMeter.Size = new System.Drawing.Size(210, 38);
             this.cbTorqueMeter.TabIndex = 56;
@@ -70,7 +72,7 @@
             this.cbRPM.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbRPM.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.cbRPM.FormattingEnabled = true;
-            this.cbRPM.Location = new System.Drawing.Point(456, 213);
+            this.cbRPM.Location = new System.Drawing.Point(330, 261);
             this.cbRPM.Name = "cbRPM";
             this.cbRPM.Size = new System.Drawing.Size(210, 38);
             this.cbRPM.TabIndex = 57;
@@ -80,7 +82,7 @@
             this.cbTemperature.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbTemperature.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.cbTemperature.FormattingEnabled = true;
-            this.cbTemperature.Location = new System.Drawing.Point(456, 269);
+            this.cbTemperature.Location = new System.Drawing.Point(330, 317);
             this.cbTemperature.Name = "cbTemperature";
             this.cbTemperature.Size = new System.Drawing.Size(210, 38);
             this.cbTemperature.TabIndex = 58;
@@ -92,7 +94,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label3.Location = new System.Drawing.Point(358, 110);
+            this.label3.Location = new System.Drawing.Point(232, 158);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 21);
             this.label3.TabIndex = 59;
@@ -105,7 +107,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label1.Location = new System.Drawing.Point(348, 168);
+            this.label1.Location = new System.Drawing.Point(222, 216);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(102, 21);
             this.label1.TabIndex = 60;
@@ -118,7 +120,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label2.Location = new System.Drawing.Point(407, 219);
+            this.label2.Location = new System.Drawing.Point(281, 267);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 21);
             this.label2.TabIndex = 61;
@@ -131,7 +133,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label4.Location = new System.Drawing.Point(367, 277);
+            this.label4.Location = new System.Drawing.Point(241, 325);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 21);
             this.label4.TabIndex = 62;
@@ -144,7 +146,7 @@
             this.btnSaveSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveSettings.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSaveSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSaveSettings.Location = new System.Drawing.Point(709, 188);
+            this.btnSaveSettings.Location = new System.Drawing.Point(645, 158);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(198, 52);
             this.btnSaveSettings.TabIndex = 63;
@@ -159,7 +161,7 @@
             this.btnComportRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComportRefresh.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnComportRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnComportRefresh.Location = new System.Drawing.Point(709, 254);
+            this.btnComportRefresh.Location = new System.Drawing.Point(645, 219);
             this.btnComportRefresh.Name = "btnComportRefresh";
             this.btnComportRefresh.Size = new System.Drawing.Size(198, 52);
             this.btnComportRefresh.TabIndex = 64;
@@ -203,6 +205,8 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(245)))));
+            this.panel3.Controls.Add(this.tbTorqueNmConfiguration);
+            this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.cbPowerMeter);
             this.panel3.Controls.Add(this.cbTorqueMeter);
             this.panel3.Controls.Add(this.cbRPM);
@@ -217,6 +221,30 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1043, 427);
             this.panel3.TabIndex = 68;
+            // 
+            // tbTorqueNmConfiguration
+            // 
+            this.tbTorqueNmConfiguration.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tbTorqueNmConfiguration.BackColor = System.Drawing.Color.White;
+            this.tbTorqueNmConfiguration.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTorqueNmConfiguration.Location = new System.Drawing.Point(330, 101);
+            this.tbTorqueNmConfiguration.Name = "tbTorqueNmConfiguration";
+            this.tbTorqueNmConfiguration.Size = new System.Drawing.Size(210, 35);
+            this.tbTorqueNmConfiguration.TabIndex = 67;
+            this.tbTorqueNmConfiguration.TextChanged += new System.EventHandler(this.tbTorqueNmConfiguration_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.label5.Location = new System.Drawing.Point(164, 108);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(160, 21);
+            this.label5.TabIndex = 66;
+            this.label5.Text = "Torque Nm Configure";
             // 
             // ConfigurationForm
             // 
@@ -255,5 +283,7 @@
         private System.Windows.Forms.TextBox infoMessages;
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbTorqueNmConfiguration;
     }
 }

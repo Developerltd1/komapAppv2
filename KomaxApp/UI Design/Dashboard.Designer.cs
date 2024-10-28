@@ -102,6 +102,8 @@
             this.labelInfo = new System.Windows.Forms.Label();
             this.infoMessages = new System.Windows.Forms.TextBox();
             this.erroMessage = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.labelTorqueNmConfigured = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -821,7 +823,7 @@
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox3.Location = new System.Drawing.Point(40, 7);
+            this.groupBox3.Location = new System.Drawing.Point(57, 7);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(635, 96);
             this.groupBox3.TabIndex = 42;
@@ -883,7 +885,7 @@
             this.groupBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox4.Location = new System.Drawing.Point(681, 7);
+            this.groupBox4.Location = new System.Drawing.Point(698, 7);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(373, 96);
             this.groupBox4.TabIndex = 43;
@@ -920,7 +922,7 @@
             this.label14.BackColor = System.Drawing.Color.Transparent;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.Black;
-            this.label14.Location = new System.Drawing.Point(37, 149);
+            this.label14.Location = new System.Drawing.Point(54, 146);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(412, 17);
             this.label14.TabIndex = 49;
@@ -933,7 +935,7 @@
             this.label40.BackColor = System.Drawing.Color.Transparent;
             this.label40.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label40.ForeColor = System.Drawing.Color.Black;
-            this.label40.Location = new System.Drawing.Point(37, 130);
+            this.label40.Location = new System.Drawing.Point(54, 127);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(412, 17);
             this.label40.TabIndex = 48;
@@ -946,7 +948,7 @@
             this.label41.BackColor = System.Drawing.Color.Transparent;
             this.label41.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label41.ForeColor = System.Drawing.Color.Black;
-            this.label41.Location = new System.Drawing.Point(37, 110);
+            this.label41.Location = new System.Drawing.Point(54, 107);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(412, 17);
             this.label41.TabIndex = 47;
@@ -959,7 +961,7 @@
             this.btnStartReadng.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartReadng.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStartReadng.ForeColor = System.Drawing.Color.White;
-            this.btnStartReadng.Location = new System.Drawing.Point(734, 109);
+            this.btnStartReadng.Location = new System.Drawing.Point(751, 119);
             this.btnStartReadng.Name = "btnStartReadng";
             this.btnStartReadng.Size = new System.Drawing.Size(90, 61);
             this.btnStartReadng.TabIndex = 50;
@@ -971,6 +973,8 @@
             // 
             this.panel12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel12.Controls.Add(this.labelTorqueNmConfigured);
+            this.panel12.Controls.Add(this.label11);
             this.panel12.Controls.Add(this.btnStopReading);
             this.panel12.Controls.Add(this.buttonScreenshot);
             this.panel12.Controls.Add(this.btnStartReadng);
@@ -979,9 +983,9 @@
             this.panel12.Controls.Add(this.label14);
             this.panel12.Controls.Add(this.label41);
             this.panel12.Controls.Add(this.label40);
-            this.panel12.Location = new System.Drawing.Point(36, 400);
+            this.panel12.Location = new System.Drawing.Point(2, 400);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(1077, 175);
+            this.panel12.Size = new System.Drawing.Size(1111, 194);
             this.panel12.TabIndex = 51;
             // 
             // btnStopReading
@@ -991,7 +995,7 @@
             this.btnStopReading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStopReading.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStopReading.ForeColor = System.Drawing.Color.White;
-            this.btnStopReading.Location = new System.Drawing.Point(830, 110);
+            this.btnStopReading.Location = new System.Drawing.Point(847, 120);
             this.btnStopReading.Name = "btnStopReading";
             this.btnStopReading.Size = new System.Drawing.Size(90, 61);
             this.btnStopReading.TabIndex = 58;
@@ -1006,7 +1010,7 @@
             this.buttonScreenshot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonScreenshot.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonScreenshot.ForeColor = System.Drawing.Color.White;
-            this.buttonScreenshot.Location = new System.Drawing.Point(924, 110);
+            this.buttonScreenshot.Location = new System.Drawing.Point(941, 120);
             this.buttonScreenshot.Name = "buttonScreenshot";
             this.buttonScreenshot.Size = new System.Drawing.Size(130, 61);
             this.buttonScreenshot.TabIndex = 57;
@@ -1053,6 +1057,31 @@
             this.erroMessage.Size = new System.Drawing.Size(631, 20);
             this.erroMessage.TabIndex = 70;
             // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Black;
+            this.label11.Location = new System.Drawing.Point(55, 167);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(177, 17);
+            this.label11.TabIndex = 59;
+            this.label11.Text = "TorqueNm Configured Value:";
+            // 
+            // labelTorqueNmConfigured
+            // 
+            this.labelTorqueNmConfigured.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelTorqueNmConfigured.AutoSize = true;
+            this.labelTorqueNmConfigured.BackColor = System.Drawing.Color.Transparent;
+            this.labelTorqueNmConfigured.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTorqueNmConfigured.ForeColor = System.Drawing.Color.Black;
+            this.labelTorqueNmConfigured.Location = new System.Drawing.Point(232, 167);
+            this.labelTorqueNmConfigured.Name = "labelTorqueNmConfigured";
+            this.labelTorqueNmConfigured.Size = new System.Drawing.Size(0, 17);
+            this.labelTorqueNmConfigured.TabIndex = 60;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1066,7 +1095,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Dashboard";
             this.Text = "Dashboard";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Dashboard_FormClosing_1);
@@ -1182,5 +1211,7 @@
         private System.Windows.Forms.TextBox infoMessages;
         private System.Windows.Forms.Button btnStopReading;
         private System.Windows.Forms.TextBox erroMessage;
+        private System.Windows.Forms.Label labelTorqueNmConfigured;
+        private System.Windows.Forms.Label label11;
     }
 }

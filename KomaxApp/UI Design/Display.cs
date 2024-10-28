@@ -26,14 +26,15 @@ namespace KomaxApp.UI_Design
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
-        public Display(string powerMeter, string torqueMeter, string rpm, string temperature,ParentForm parent)
+        public string _TorqueNmConfiguration;
+        public Display(string powerMeter, string torqueMeter, string rpm, string temperature, string TorqueNmConfiguration, ParentForm parent)
         {
             InitializeComponent();
             _powerMeter = powerMeter;
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
-
+            _TorqueNmConfiguration = TorqueNmConfiguration;
             parentForm = parent;
         }
 
@@ -86,7 +87,7 @@ namespace KomaxApp.UI_Design
                     //    testForm = null;   // Set the dashboard instance to null
                     //}
                     // Create and show TestForm with the collected data
-                    testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature, parentForm);
+                    testForm = new LoadTest(ReportNo, _powerMeter, _torqueMeter, _rpm, _temperature, _TorqueNmConfiguration, parentForm);
                     testForm.MdiParent = this.MdiParent; // Set MDI parent if needed
                     testForm.Dock = DockStyle.Fill; // Adjust docking as needed
                     testForm.Show();

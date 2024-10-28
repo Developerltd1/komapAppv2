@@ -35,6 +35,7 @@ namespace KomaxApp.UI_Design
         public string _torqueMeter;
         public string _rpm;
         public string _temperature;
+        public string _TorqueNmConfiguration;
         private Dictionary<string, SerialPort> serialPorts = new Dictionary<string, SerialPort>();
 
         private ModbusClient modbusClient;
@@ -52,13 +53,16 @@ namespace KomaxApp.UI_Design
             }
         }
 
-        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature, ParentForm _parentForm)
+        public LoadTest(string ReportNo, string powerMeter, string torqueMeter, string rpm, string temperature,string TorqueNmConfiguration, ParentForm _parentForm)
         {
             // Store the configuration values
             _powerMeter = powerMeter;
             _torqueMeter = torqueMeter;
             _rpm = rpm;
             _temperature = temperature;
+            _TorqueNmConfiguration = TorqueNmConfiguration;
+            labelTorqueNmConfigured.Text = _TorqueNmConfiguration;
+
             parentForm = _parentForm;
             InitializeComponent();
             this.ReportNo = ReportNo;
@@ -1027,7 +1031,7 @@ namespace KomaxApp.UI_Design
                     RequestLoadTestModel.Response response = new InsertBL().InsertRecordNoLoadPointBL(testModel);
                     if (response.LabelStatus == "Completed")
                     {
-                        Display display = new Display(null, null, null, null, null);
+                        Display display = new Display(null, null, null, null, null,null);
                         display.MdiParent = this.MdiParent;
                         display.Dock = DockStyle.Fill;
                         display.Show();

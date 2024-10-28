@@ -199,7 +199,7 @@ namespace komaxApp.DatabaseLayer
         }
 
 
-        public void InsertComboPortsDL(string _cbPowerMeter, string _cbTorqueMeter, string _cbRPM, string _cbTemperature)
+        public void InsertComboPortsDL(string _cbPowerMeter, string _cbTorqueMeter, string _cbRPM, string _cbTemperature, string _tbTorqueNmConfiguration)
         {
             try
             {
@@ -212,7 +212,8 @@ namespace komaxApp.DatabaseLayer
                     PowerMeterPort = _cbPowerMeter,
                     TorqueMeterPort = _cbTorqueMeter,
                     RPMPort = _cbRPM,
-                    TemperaturePort = _cbTemperature
+                    TemperaturePort = _cbTemperature,
+                    TorqueNmConfiguration = _tbTorqueNmConfiguration
                 }, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)

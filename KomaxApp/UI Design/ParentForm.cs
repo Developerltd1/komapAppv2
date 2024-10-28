@@ -163,7 +163,8 @@ namespace KomaxApp.UI_Design
                                           ConfigurationForm.ddPowerMeter,  // Access static field using the class name
                                           ConfigurationForm.ddTorqueMeter, // Access static field using the class name
                                           ConfigurationForm.ddRPM,         // Access static field using the class name
-                                          ConfigurationForm.ddTemperature  // Access static field using the class name
+                                          ConfigurationForm.ddTemperature,  // Access static field using the class name
+                                          ConfigurationForm.ddTorqueNmConfiguration
                                         , this );
                 dashboard.MdiParent = this;
                 dashboard.Dock = DockStyle.Fill;
@@ -175,6 +176,7 @@ namespace KomaxApp.UI_Design
                 dashboard._torqueMeter = ConfigurationForm.ddTorqueMeter;
                 dashboard._rpm = ConfigurationForm.ddRPM;
                 dashboard._temperature = ConfigurationForm.ddTemperature;
+                dashboard._TorqueNmConfiguration  = ConfigurationForm.ddTorqueNmConfiguration;
                 dashboard.Activate();
             }
         }
@@ -213,8 +215,9 @@ namespace KomaxApp.UI_Design
                                     ConfigurationForm.ddPowerMeter,  // Access static field using the class name
                                     ConfigurationForm.ddTorqueMeter, // Access static field using the class name
                                     ConfigurationForm.ddRPM,         // Access static field using the class name
-                                    ConfigurationForm.ddTemperature  // Access static field using the class name
-                                   , this);
+                                    ConfigurationForm.ddTemperature,  // Access static field using the class name
+                                   ConfigurationForm.ddTorqueNmConfiguration,
+                                    this);
 
                 display.MdiParent = this;
                 display.Dock = DockStyle.Fill;
@@ -226,6 +229,8 @@ namespace KomaxApp.UI_Design
                 display._torqueMeter = ConfigurationForm.ddTorqueMeter;
                 display._rpm = ConfigurationForm.ddRPM;
                 display._temperature = ConfigurationForm.ddTemperature;
+                display._torqueMeter = ConfigurationForm.ddTorqueNmConfiguration;
+
                 display.displayGridView();
                 display.Activate();
             }
