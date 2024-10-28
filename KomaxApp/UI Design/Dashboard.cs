@@ -96,7 +96,7 @@ namespace KomaxApp.UI_Design
                 if (periodicTimer == null)
                 {
                     periodicTimer = new System.Windows.Forms.Timer();
-                    periodicTimer.Interval = 1000; // 1 second interval
+                    periodicTimer.Interval = 2000; // 1 second interval
                     periodicTimer.Tick += PeriodicTimer_Tick;
                     periodicTimer.Start();
                 }
@@ -571,7 +571,7 @@ namespace KomaxApp.UI_Design
                 //      }); 
                 #endregion
                 #region Default
-                this.Invoke((MethodInvoker)delegate
+                _ = this.Invoke((MethodInvoker)delegate
                       {
 
                           labelV1.Text = returnModel.labelV1;
@@ -592,6 +592,8 @@ namespace KomaxApp.UI_Design
                           labelPower3.Text = returnModel.labelPower3;
                           labelPower0.Text = returnModel.labelPower0;
                           tbTorqueNm.Text = returnModel._tbTorqueNm;
+                          double tmp = (double)(tbTorqueNm.Text.ToDouble() * 192.5634);
+                          tbTorqueNm.Text = tmp.ToString();
                           tbSpeedRPM.Text = returnModel._tbSpeedRPM;
                           tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
                           tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
