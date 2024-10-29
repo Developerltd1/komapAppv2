@@ -96,7 +96,7 @@ namespace KomaxApp.UI_Design
                 return;
             }
             // Check if the value is numeric
-            if (!int.TryParse(_tbTorqueNmConfiguration, out _))
+            if (!double.TryParse(_tbTorqueNmConfiguration, out _))
             {
                 MessageBox.Show("Please enter a valid numeric value for TorqueNm");
                 return;

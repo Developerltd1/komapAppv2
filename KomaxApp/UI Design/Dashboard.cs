@@ -500,6 +500,8 @@ namespace KomaxApp.UI_Design
                 string cleanedData = Regex.Replace(data._serialResponseCOM4, @".*?(-\d+\.\d+\.\d+).*", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
                 returnModel._tbSpeedRPM = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                string result = Regex.Replace(returnModel._tbSpeedRPM, @"^[^.]*\.", "");
+                returnModel._tbSpeedRPM = result.Substring(1);
 
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM5))
@@ -507,6 +509,7 @@ namespace KomaxApp.UI_Design
                 string cleanedData = Regex.Replace(data._serialResponseCOM5, @".*\+(\d+\.\d+)", "$1").Trim();  //CleanExtraCharacter
                 var dataParts = cleanedData.Split(',');    // Split the string by commas
                 returnModel._tbTorqueNm = dataParts.ElementAtOrDefault(0) ?? "N/A";
+                returnModel._tbTorqueNm = (Convert.ToDouble(returnModel._tbTorqueNm) * Convert.ToDouble(_TorqueNmConfiguration)).ToString();
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM6))
             {
@@ -529,7 +532,7 @@ namespace KomaxApp.UI_Design
                 returnModel.labelPower1 = dataParts.ElementAtOrDefault(17) ?? "N/A";
                 returnModel.labelPower2 = dataParts.ElementAtOrDefault(18) ?? "N/A";
                 returnModel.labelPower3 = dataParts.ElementAtOrDefault(19) ?? "N/A";
-                returnModel.labelPower0 = dataParts.ElementAtOrDefault(20) ?? "N/A";
+                returnModel.labelPower0 = (Convert.ToDouble(returnModel.labelPower1) + Convert.ToDouble(returnModel.labelPower2) + Convert.ToDouble(returnModel.labelPower3)).ToString();//dataParts.ElementAtOrDefault(20) ?? "N/A";
             }
             if (!string.IsNullOrEmpty(data._serialResponseCOM7Temp1))
             {
@@ -596,8 +599,6 @@ namespace KomaxApp.UI_Design
                           labelPower3.Text = returnModel.labelPower3;
                           labelPower0.Text = returnModel.labelPower0;
                           tbTorqueNm.Text = returnModel._tbTorqueNm;
-                          double tmp = (double)(tbTorqueNm.Text.ToDouble() * 192.5634);
-                          tbTorqueNm.Text = tmp.ToString();
                           tbSpeedRPM.Text = returnModel._tbSpeedRPM;
                           tbTemp1.Text = returnModel._tbserialResponseCOM7Temp1;
                           tbTemp2.Text = returnModel.__tbserialResponseCOM7Temp2;
