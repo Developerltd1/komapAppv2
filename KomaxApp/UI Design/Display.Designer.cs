@@ -34,6 +34,7 @@
             this.panel11 = new System.Windows.Forms.Panel();
             this.label31 = new System.Windows.Forms.Label();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridViewDisplay)).BeginInit();
             this.panel11.SuspendLayout();
@@ -45,6 +46,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(225)))), ((int)(((byte)(250)))));
+            this.panel1.Controls.Add(this.reportViewer);
             this.panel1.Controls.Add(this.GridViewDisplay);
             this.panel1.Location = new System.Drawing.Point(9, 64);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -114,6 +116,16 @@
             this.textBoxSearch.TabIndex = 82;
             this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
+            // reportViewer
+            // 
+            this.reportViewer.LocalReport.ReportEmbeddedResource = "KomaxApp.Reports.FivePageReport.rdlc";
+            this.reportViewer.Location = new System.Drawing.Point(655, 233);
+            this.reportViewer.Name = "reportViewer";
+            this.reportViewer.ServerReport.BearerToken = null;
+            this.reportViewer.Size = new System.Drawing.Size(396, 246);
+            this.reportViewer.TabIndex = 1;
+            this.reportViewer.Visible = false;
+            // 
             // Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -139,5 +151,6 @@
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView GridViewDisplay;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
     }
 }

@@ -21,6 +21,7 @@ using KomaxApp.Model.Reporting.Model.Page2;
 using KomaxApp.Model.Reporting.Model.Page3;
 using KomaxApp.Model.Reporting.Model.Page4And5;
 using KomaxApp.Model.Page4And5.Entity;
+using System.IO;
 
 namespace KomaxApp.UI_Design
 {
@@ -37,14 +38,59 @@ namespace KomaxApp.UI_Design
             this.reportViewer.RefreshReport();
         }
 
+        private async void AutoCreatePDFFile(string ReportNo)
+        {
+            ReportingModel reportingModel = await new GetListBL().GetDataForReportBL0(ReportNo);
+            Reporting(reportingModel);
 
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+            reportViewer.LocalReport.EnableExternalImages = true;
 
+            // Render the PDF content into a byte array
+            byte[] bytes = reportViewer.LocalReport.Render(
+                "PDF",
+                null,
+                out mimeType,
+                out encoding,
+                out extension,
+                out streamIds,
+                out warnings);
+            string filename_ = "filename_" + DateTime.Now.ToString("yy-MM-dd hh-mm-ss tt");
+
+            // Use a SaveFileDialog to ask the user where to save the PDF
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveFileDialog.Title = "Save PDF File";
+                saveFileDialog.FileName = filename_ + ".pdf";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Write the byte array to the specified file path
+                    string filePath = saveFileDialog.FileName;
+                    try
+                    {
+                        File.WriteAllBytes(filePath, bytes);
+                        MessageBox.Show("PDF file saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error saving PDF file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
         private void textBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true;
-                SearchData(textBoxSearch.Text.Trim());
+                //SearchData(textBoxSearch.Text.Trim());
+                AutoCreatePDFFile("0");
             }
         }
 
@@ -91,5 +137,7 @@ namespace KomaxApp.UI_Design
 
 
         }
+    
+    
     }
 }

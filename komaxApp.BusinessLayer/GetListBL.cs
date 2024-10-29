@@ -40,11 +40,11 @@ namespace komaxApp.BusinessLayer
 
         public async Task<VmCreateMotor> GetDatausingReportBL(string ReportNo)
         {
-            return await  new GetListDL().GetDatausingReportDL(ReportNo);
+            return await new GetListDL().GetDatausingReportDL(ReportNo);
         }
-            public DataTable GetDisplayListBL(DataGridView dataGridView)
+        public async Task<DataTable> GetDisplayListBL(DataGridView dataGridView)
         {
-            DataTable dt = new Conversion().ListToDataTable(new GetListDL().GetDisplayList());
+            DataTable dt = await Task.Run(() => new Conversion().ListToDataTable(new GetListDL().GetDisplayList()));
 
             // Clear existing rows and columns in the DataGridView
             dataGridView.Rows.Clear();
@@ -81,14 +81,10 @@ namespace komaxApp.BusinessLayer
 
                 // Determine the button text and enabled state based on the isFilled condition
                 bool isFilled = r["IsFilled"].ToString().ToLower() == "true";
-                string buttonText = isFilled ? "Test Completed" : "Start Test";
+                string buttonText = isFilled ? "Download Report" : "Start Test";
                 bool isButtonEnabled = !isFilled;
 
 
-
-
-
-                 
                 int rowIndex = dataGridView.Rows.Add(
                     SerialNo0++, r["ReportNo"].ToString(), formattedTestDate, editButtonText, buttonText);
 
@@ -116,7 +112,7 @@ namespace komaxApp.BusinessLayer
         }
         public object GetDataFromDbUsingReportNoBL(string ReportNo)
         {
-           return new GetListDL().GetDataFromDbUsingReportNoDL(ReportNo);
+            return new GetListDL().GetDataFromDbUsingReportNoDL(ReportNo);
         }
         public RequestLoadTestModel.LabelCountModel CheckLoadTestRecordExistBL(string ReportNo)
         {
